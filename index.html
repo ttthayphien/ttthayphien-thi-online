@@ -21,6 +21,7 @@
       color: white;
       padding: 18px 24px;
       text-align: center;
+      position: relative;
     }
 
     header h1 {
@@ -31,6 +32,23 @@
     header p {
       margin: 6px 0 0;
       font-size: 14px;
+    }
+
+    .admin-top-button {
+      position: absolute;
+      right: 18px;
+      top: 18px;
+      background: white;
+      color: #2563eb;
+      padding: 9px 14px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .admin-top-button:hover {
+      background: #dbeafe;
     }
 
     .container {
@@ -47,13 +65,18 @@
       margin-bottom: 18px;
     }
 
-    input {
+    input, textarea, select {
       width: 100%;
       padding: 12px;
       margin: 8px 0 16px;
       border: 1px solid #d1d5db;
       border-radius: 8px;
       font-size: 16px;
+      font-family: Arial, sans-serif;
+    }
+
+    textarea {
+      min-height: 90px;
     }
 
     button {
@@ -81,6 +104,22 @@
 
     .secondary:hover {
       background: #475569;
+    }
+
+    .danger {
+      background: #dc2626;
+    }
+
+    .danger:hover {
+      background: #b91c1c;
+    }
+
+    .success {
+      background: #16a34a;
+    }
+
+    .success:hover {
+      background: #15803d;
     }
 
     .exam-list {
@@ -234,6 +273,73 @@
       margin-bottom: 12px;
     }
 
+    .admin-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    .admin-card {
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 18px;
+      background: #f8fafc;
+    }
+
+    .admin-card h3 {
+      margin-top: 0;
+    }
+
+    .admin-menu {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 16px 0;
+    }
+
+    .admin-section {
+      border-top: 1px solid #e5e7eb;
+      margin-top: 18px;
+      padding-top: 18px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 12px;
+      background: white;
+    }
+
+    th, td {
+      border: 1px solid #e5e7eb;
+      padding: 10px;
+      text-align: left;
+      font-size: 14px;
+    }
+
+    th {
+      background: #f1f5f9;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    .badge-open {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .badge-lock {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
     .notice {
       background: #fff7ed;
       border: 1px solid #fdba74;
@@ -251,6 +357,11 @@
       .answer-sheet {
         position: static;
       }
+
+      .admin-top-button {
+        position: static;
+        margin-top: 12px;
+      }
     }
   </style>
 </head>
@@ -258,6 +369,7 @@
   <header>
     <h1>TT Thầy Phiên - Thi Online</h1>
     <p>Hệ thống làm bài trắc nghiệm trực tuyến</p>
+    <button class="admin-top-button" onclick="openAdminLogin()">Giáo viên / Admin</button>
   </header>
 
   <div class="container">
@@ -283,12 +395,14 @@
           <h3>Đề thi thử Toán 12</h3>
           <p>Số câu: 10 câu</p>
           <p>Thời gian: 15 phút</p>
+          <p>Trạng thái: <span class="badge badge-open">Đang mở</span></p>
           <button onclick="startExam()">Vào làm bài</button>
         </div>
 
         <div class="exam-card">
           <h3>Đề thi đang khóa</h3>
           <p>Giáo viên chưa mở đề này.</p>
+          <p>Trạng thái: <span class="badge badge-lock">Đang khóa</span></p>
           <button class="secondary" disabled>Chưa mở</button>
         </div>
       </div>
@@ -327,6 +441,194 @@
       <div id="resultContent"></div>
       <button onclick="backToExamList()">Quay lại danh sách đề</button>
     </section>
+
+    <section id="adminLoginScreen" class="box hidden">
+      <h2>Đăng nhập giáo viên</h2>
+      <p>Nhập mật khẩu quản trị để vào trang giáo viên.</p>
+
+      <label>Mật khẩu admin</label>
+      <input id="adminPassword" type="password" placeholder="Nhập mật khẩu admin" />
+
+      <button onclick="loginAdmin()">Đăng nhập admin</button>
+      <button class="secondary" onclick="backToStudentLogin()">Quay lại trang học sinh</button>
+
+      <div class="notice">
+        Mật khẩu tạm thời hiện tại là: <b>123456</b>. Sau này ta sẽ đổi sang đăng nhập thật bằng Firebase.
+      </div>
+    </section>
+
+    <section id="adminDashboardScreen" class="box hidden">
+      <h2>Trang giáo viên / Admin</h2>
+      <p>Đây là khu vực giáo viên quản lý kỳ thi, ngân hàng câu hỏi và kết quả học sinh.</p>
+
+      <div class="admin-menu">
+        <button onclick="showAdminSection('examManagement')">Quản lý kỳ thi</button>
+        <button onclick="showAdminSection('questionBank')">Ngân hàng câu hỏi</button>
+        <button onclick="showAdminSection('studentResults')">Kết quả học sinh</button>
+        <button class="secondary" onclick="backToStudentLogin()">Về trang học sinh</button>
+      </div>
+
+      <div class="admin-grid">
+        <div class="admin-card">
+          <h3>Kỳ thi</h3>
+          <p>Đang có 2 kỳ thi mẫu.</p>
+          <p><span class="badge badge-open">1 đề đang mở</span></p>
+          <p><span class="badge badge-lock">1 đề đang khóa</span></p>
+        </div>
+
+        <div class="admin-card">
+          <h3>Ngân hàng câu hỏi</h3>
+          <p>Đang có 10 câu hỏi mẫu.</p>
+          <p>Sau này giáo viên sẽ nhập câu hỏi thật tại đây.</p>
+        </div>
+
+        <div class="admin-card">
+          <h3>Kết quả học sinh</h3>
+          <p>Hiện mới là dữ liệu mẫu.</p>
+          <p>Bước sau ta sẽ lưu kết quả thật bằng Firebase.</p>
+        </div>
+      </div>
+
+      <div id="examManagement" class="admin-section">
+        <h3>Quản lý kỳ thi</h3>
+
+        <label>Tên kỳ thi</label>
+        <input type="text" value="Đề thi thử Toán 12" />
+
+        <label>Thời gian làm bài, tính bằng phút</label>
+        <input type="number" value="15" />
+
+        <label>Trạng thái</label>
+        <select>
+          <option>Đang mở</option>
+          <option>Đang khóa</option>
+        </select>
+
+        <button class="success" onclick="alert('Bản mẫu: chức năng lưu kỳ thi sẽ làm ở bước sau.')">Lưu kỳ thi</button>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Tên kỳ thi</th>
+              <th>Số câu</th>
+              <th>Thời gian</th>
+              <th>Trạng thái</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Đề thi thử Toán 12</td>
+              <td>10</td>
+              <td>15 phút</td>
+              <td><span class="badge badge-open">Đang mở</span></td>
+            </tr>
+            <tr>
+              <td>Đề thi đang khóa</td>
+              <td>0</td>
+              <td>45 phút</td>
+              <td><span class="badge badge-lock">Đang khóa</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div id="questionBank" class="admin-section hidden">
+        <h3>Ngân hàng câu hỏi</h3>
+
+        <label>Nội dung câu hỏi</label>
+        <textarea placeholder="Nhập nội dung câu hỏi..."></textarea>
+
+        <label>Đáp án A</label>
+        <input type="text" placeholder="Nhập đáp án A" />
+
+        <label>Đáp án B</label>
+        <input type="text" placeholder="Nhập đáp án B" />
+
+        <label>Đáp án C</label>
+        <input type="text" placeholder="Nhập đáp án C" />
+
+        <label>Đáp án D</label>
+        <input type="text" placeholder="Nhập đáp án D" />
+
+        <label>Đáp án đúng</label>
+        <select>
+          <option>A</option>
+          <option>B</option>
+          <option>C</option>
+          <option>D</option>
+        </select>
+
+        <label>Mức độ</label>
+        <select>
+          <option>Nhận biết</option>
+          <option>Thông hiểu</option>
+          <option>Vận dụng</option>
+          <option>Vận dụng cao</option>
+        </select>
+
+        <label>Dạng câu</label>
+        <select>
+          <option>Dạng 1</option>
+          <option>Dạng 2</option>
+          <option>Dạng 3</option>
+          <option>Dạng 4</option>
+        </select>
+
+        <button class="success" onclick="alert('Bản mẫu: chức năng thêm câu hỏi sẽ làm ở bước sau.')">Thêm câu hỏi</button>
+
+        <table>
+          <thead>
+            <tr>
+              <th>STT</th>
+              <th>Nội dung</th>
+              <th>Đáp án đúng</th>
+              <th>Mức độ</th>
+              <th>Dạng</th>
+            </tr>
+          </thead>
+          <tbody id="adminQuestionTable"></tbody>
+        </table>
+      </div>
+
+      <div id="studentResults" class="admin-section hidden">
+        <h3>Kết quả học sinh</h3>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Học sinh</th>
+              <th>Lớp</th>
+              <th>Kỳ thi</th>
+              <th>Số câu đúng</th>
+              <th>Điểm</th>
+              <th>Thời gian</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Nguyễn Văn A</td>
+              <td>12A1</td>
+              <td>Đề thi thử Toán 12</td>
+              <td>10/10</td>
+              <td>10.00</td>
+              <td>2 phút 15 giây</td>
+            </tr>
+            <tr>
+              <td>Trần Thị B</td>
+              <td>12A2</td>
+              <td>Đề thi thử Toán 12</td>
+              <td>8/10</td>
+              <td>8.00</td>
+              <td>6 phút 40 giây</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="notice">
+          Hiện tại bảng này là dữ liệu mẫu. Ở bước 5, ta sẽ lưu kết quả học sinh thật vào Firebase để giáo viên xem lại.
+        </div>
+      </div>
+    </section>
   </div>
 
   <script>
@@ -335,6 +637,7 @@
       className: ""
     };
 
+    const adminPassword = "123456";
     const examDurationMinutes = 15;
     let timeLeftSeconds = examDurationMinutes * 60;
     let timerInterval = null;
@@ -349,7 +652,9 @@
           C: "6",
           D: "7"
         },
-        answer: "B"
+        answer: "B",
+        level: "Nhận biết",
+        type: "Dạng 1"
       },
       {
         content: "Thủ đô của Việt Nam là?",
@@ -359,7 +664,9 @@
           C: "Hà Nội",
           D: "Huế"
         },
-        answer: "C"
+        answer: "C",
+        level: "Nhận biết",
+        type: "Dạng 1"
       },
       {
         content: "Số nào là số chẵn?",
@@ -369,7 +676,9 @@
           C: "7",
           D: "8"
         },
-        answer: "D"
+        answer: "D",
+        level: "Thông hiểu",
+        type: "Dạng 2"
       },
       {
         content: "Kết quả của 10 - 4 là?",
@@ -379,7 +688,9 @@
           C: "7",
           D: "8"
         },
-        answer: "B"
+        answer: "B",
+        level: "Thông hiểu",
+        type: "Dạng 2"
       },
       {
         content: "Hình vuông có mấy cạnh?",
@@ -389,7 +700,9 @@
           C: "5",
           D: "6"
         },
-        answer: "B"
+        answer: "B",
+        level: "Vận dụng",
+        type: "Dạng 3"
       },
       {
         content: "Một giờ có bao nhiêu phút?",
@@ -399,7 +712,9 @@
           C: "60",
           D: "90"
         },
-        answer: "C"
+        answer: "C",
+        level: "Vận dụng",
+        type: "Dạng 3"
       },
       {
         content: "Kết quả của 3 × 4 là?",
@@ -409,7 +724,9 @@
           C: "12",
           D: "14"
         },
-        answer: "C"
+        answer: "C",
+        level: "Vận dụng",
+        type: "Dạng 3"
       },
       {
         content: "Nước có công thức hóa học là gì?",
@@ -419,7 +736,9 @@
           C: "O2",
           D: "NaCl"
         },
-        answer: "B"
+        answer: "B",
+        level: "Vận dụng cao",
+        type: "Dạng 4"
       },
       {
         content: "Từ nào sau đây là danh từ?",
@@ -429,7 +748,9 @@
           C: "Cái bàn",
           D: "Nhanh"
         },
-        answer: "C"
+        answer: "C",
+        level: "Vận dụng cao",
+        type: "Dạng 4"
       },
       {
         content: "Kết quả của 100 : 10 là?",
@@ -439,7 +760,9 @@
           C: "20",
           D: "50"
         },
-        answer: "B"
+        answer: "B",
+        level: "Vận dụng cao",
+        type: "Dạng 4"
       }
     ];
 
@@ -450,6 +773,8 @@
       document.getElementById("examSelectScreen").classList.add("hidden");
       document.getElementById("examScreen").classList.add("hidden");
       document.getElementById("resultScreen").classList.add("hidden");
+      document.getElementById("adminLoginScreen").classList.add("hidden");
+      document.getElementById("adminDashboardScreen").classList.add("hidden");
 
       document.getElementById(screenId).classList.remove("hidden");
     }
@@ -641,6 +966,56 @@
     function backToExamList() {
       clearInterval(timerInterval);
       showScreen("examSelectScreen");
+    }
+
+    function openAdminLogin() {
+      clearInterval(timerInterval);
+      showScreen("adminLoginScreen");
+    }
+
+    function loginAdmin() {
+      const password = document.getElementById("adminPassword").value;
+
+      if (password !== adminPassword) {
+        alert("Mật khẩu admin chưa đúng.");
+        return;
+      }
+
+      renderAdminQuestionTable();
+      showScreen("adminDashboardScreen");
+      showAdminSection("examManagement");
+    }
+
+    function backToStudentLogin() {
+      clearInterval(timerInterval);
+      showScreen("loginScreen");
+    }
+
+    function showAdminSection(sectionId) {
+      document.getElementById("examManagement").classList.add("hidden");
+      document.getElementById("questionBank").classList.add("hidden");
+      document.getElementById("studentResults").classList.add("hidden");
+
+      document.getElementById(sectionId).classList.remove("hidden");
+    }
+
+    function renderAdminQuestionTable() {
+      const tableBody = document.getElementById("adminQuestionTable");
+      tableBody.innerHTML = "";
+
+      questions.forEach((question, index) => {
+        const row = document.createElement("tr");
+
+        row.innerHTML = `
+          <td>${index + 1}</td>
+          <td>${question.content}</td>
+          <td>${question.answer}</td>
+          <td>${question.level}</td>
+          <td>${question.type}</td>
+        `;
+
+        tableBody.appendChild(row);
+      });
     }
   </script>
 </body>
