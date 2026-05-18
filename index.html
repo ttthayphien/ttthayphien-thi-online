@@ -70,6 +70,11 @@
       background: #1d4ed8;
     }
 
+    button:disabled {
+      background: #94a3b8;
+      cursor: not-allowed;
+    }
+
     .secondary {
       background: #64748b;
     }
@@ -141,6 +146,45 @@
       margin-top: 0;
     }
 
+    .timer-box {
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      padding: 12px;
+      border-radius: 10px;
+      margin-bottom: 14px;
+      text-align: center;
+    }
+
+    .timer-label {
+      font-size: 14px;
+      color: #475569;
+      margin-bottom: 4px;
+    }
+
+    .timer {
+      font-size: 30px;
+      font-weight: bold;
+      color: #2563eb;
+    }
+
+    .timer-warning {
+      background: #fff7ed;
+      border-color: #fdba74;
+    }
+
+    .timer-warning .timer {
+      color: #ea580c;
+    }
+
+    .timer-danger {
+      background: #fef2f2;
+      border-color: #fca5a5;
+    }
+
+    .timer-danger .timer {
+      color: #dc2626;
+    }
+
     .answer-grid {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
@@ -157,6 +201,11 @@
       text-align: center;
       font-weight: bold;
       font-size: 14px;
+      cursor: pointer;
+    }
+
+    .answer-number:hover {
+      background: #e0f2fe;
     }
 
     .answered {
@@ -183,6 +232,15 @@
       font-size: 14px;
       color: #475569;
       margin-bottom: 12px;
+    }
+
+    .notice {
+      background: #fff7ed;
+      border: 1px solid #fdba74;
+      color: #9a3412;
+      padding: 12px;
+      border-radius: 10px;
+      margin-top: 12px;
     }
 
     @media (max-width: 850px) {
@@ -242,7 +300,7 @@
           <div class="box">
             <h2>Đề thi thử Toán 12</h2>
             <div class="student-info" id="studentInfoExam"></div>
-            <p><b>Hướng dẫn:</b> Chọn một đáp án đúng nhất cho mỗi câu rồi bấm nộp bài.</p>
+            <p><b>Hướng dẫn:</b> Chọn một đáp án đúng nhất cho mỗi câu. Khi hết giờ, hệ thống sẽ tự nộp bài.</p>
           </div>
 
           <div id="questionList"></div>
@@ -250,9 +308,15 @@
 
         <aside class="answer-sheet">
           <h3>Phiếu trả lời</h3>
+
+          <div id="timerBox" class="timer-box">
+            <div class="timer-label">Thời gian còn lại</div>
+            <div id="timer" class="timer">15:00</div>
+          </div>
+
           <p id="progressText">Đã làm 0/10 câu</p>
           <div id="answerGrid" class="answer-grid"></div>
-          <button onclick="submitExam()">Nộp bài</button>
+          <button id="submitButton" onclick="submitExam(false)">Nộp bài</button>
           <button class="secondary" onclick="backToExamList()" style="margin-top: 8px;">Quay lại</button>
         </aside>
       </div>
@@ -270,6 +334,11 @@
       name: "",
       className: ""
     };
+
+    const examDurationMinutes = 15;
+    let timeLeftSeconds = examDurationMinutes * 60;
+    let timerInterval = null;
+    let isSubmitted = false;
 
     const questions = [
       {
@@ -405,11 +474,55 @@
 
     function startExam() {
       studentAnswers = {};
+      isSubmitted = false;
+      timeLeftSeconds = examDurationMinutes * 60;
+
       renderQuestions();
       renderAnswerSheet();
+      updateTimerDisplay();
+      startTimer();
+
       document.getElementById("studentInfoExam").innerText =
         "Học sinh: " + student.name + " - Lớp: " + student.className;
+
+      document.getElementById("submitButton").disabled = false;
       showScreen("examScreen");
+    }
+
+    function startTimer() {
+      clearInterval(timerInterval);
+
+      timerInterval = setInterval(function() {
+        timeLeftSeconds--;
+        updateTimerDisplay();
+
+        if (timeLeftSeconds <= 0) {
+          clearInterval(timerInterval);
+          timeLeftSeconds = 0;
+          updateTimerDisplay();
+          submitExam(true);
+        }
+      }, 1000);
+    }
+
+    function updateTimerDisplay() {
+      const minutes = Math.floor(timeLeftSeconds / 60);
+      const seconds = timeLeftSeconds % 60;
+
+      const minuteText = String(minutes).padStart(2, "0");
+      const secondText = String(seconds).padStart(2, "0");
+
+      document.getElementById("timer").innerText = minuteText + ":" + secondText;
+
+      const timerBox = document.getElementById("timerBox");
+      timerBox.classList.remove("timer-warning");
+      timerBox.classList.remove("timer-danger");
+
+      if (timeLeftSeconds <= 60) {
+        timerBox.classList.add("timer-danger");
+      } else if (timeLeftSeconds <= 300) {
+        timerBox.classList.add("timer-warning");
+      }
     }
 
     function renderQuestions() {
@@ -471,10 +584,14 @@
         "Đã làm " + answeredCount + "/" + questions.length + " câu";
     }
 
-    function submitExam() {
+    function submitExam(autoSubmit) {
+      if (isSubmitted) {
+        return;
+      }
+
       const answeredCount = Object.keys(studentAnswers).length;
 
-      if (answeredCount < questions.length) {
+      if (!autoSubmit && answeredCount < questions.length) {
         const confirmSubmit = confirm(
           "Bạn mới làm " + answeredCount + "/" + questions.length + " câu. Bạn có chắc muốn nộp bài không?"
         );
@@ -483,6 +600,10 @@
           return;
         }
       }
+
+      isSubmitted = true;
+      clearInterval(timerInterval);
+      document.getElementById("submitButton").disabled = true;
 
       let correctCount = 0;
 
@@ -494,13 +615,23 @@
       });
 
       const score = (correctCount / questions.length) * 10;
+      const usedSeconds = examDurationMinutes * 60 - timeLeftSeconds;
+      const usedMinutes = Math.floor(usedSeconds / 60);
+      const remainingSeconds = usedSeconds % 60;
+
+      let submitMessage = "Nộp bài thành công.";
+      if (autoSubmit) {
+        submitMessage = "Hết giờ, hệ thống đã tự động nộp bài.";
+      }
 
       document.getElementById("resultContent").innerHTML = `
         <div class="result-box">
+          <p><b>${submitMessage}</b></p>
           <p><b>Học sinh:</b> ${student.name}</p>
           <p><b>Lớp:</b> ${student.className}</p>
           <p><b>Số câu đúng:</b> ${correctCount}/${questions.length}</p>
           <p><b>Điểm:</b> ${score.toFixed(2)}</p>
+          <p><b>Thời gian làm bài:</b> ${usedMinutes} phút ${remainingSeconds} giây</p>
         </div>
       `;
 
@@ -508,6 +639,7 @@
     }
 
     function backToExamList() {
+      clearInterval(timerInterval);
       showScreen("examSelectScreen");
     }
   </script>
