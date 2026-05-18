@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>TT Thầy Phiên - Thi Online</title>
+
   <style>
     * {
       box-sizing: border-box;
@@ -106,14 +107,6 @@
       background: #475569;
     }
 
-    .danger {
-      background: #dc2626;
-    }
-
-    .danger:hover {
-      background: #b91c1c;
-    }
-
     .success {
       background: #16a34a;
     }
@@ -181,10 +174,6 @@
       box-shadow: 0 8px 24px rgba(0,0,0,0.08);
     }
 
-    .answer-sheet h3 {
-      margin-top: 0;
-    }
-
     .timer-box {
       background: #eff6ff;
       border: 1px solid #bfdbfe;
@@ -243,10 +232,6 @@
       cursor: pointer;
     }
 
-    .answer-number:hover {
-      background: #e0f2fe;
-    }
-
     .answered {
       background: #22c55e;
       color: white;
@@ -261,6 +246,15 @@
       border-radius: 12px;
       font-size: 18px;
       margin-top: 16px;
+    }
+
+    .error-box {
+      background: #fef2f2;
+      border: 1px solid #fca5a5;
+      color: #991b1b;
+      padding: 12px;
+      border-radius: 10px;
+      margin-top: 12px;
     }
 
     .hidden {
@@ -365,6 +359,7 @@
     }
   </style>
 </head>
+
 <body>
   <header>
     <h1>TT Thầy Phiên - Thi Online</h1>
@@ -453,7 +448,7 @@
       <button class="secondary" onclick="backToStudentLogin()">Quay lại trang học sinh</button>
 
       <div class="notice">
-        Mật khẩu tạm thời hiện tại là: <b>123456</b>. Sau này ta sẽ đổi sang đăng nhập thật bằng Firebase.
+        Mật khẩu tạm thời hiện tại là: <b>123456</b>. Sau này ta sẽ đổi sang đăng nhập thật.
       </div>
     </section>
 
@@ -484,8 +479,8 @@
 
         <div class="admin-card">
           <h3>Kết quả học sinh</h3>
-          <p>Hiện mới là dữ liệu mẫu.</p>
-          <p>Bước sau ta sẽ lưu kết quả thật bằng Firebase.</p>
+          <p>Kết quả thật sẽ được đọc từ Firebase.</p>
+          <p>Bấm mục <b>Kết quả học sinh</b> để tải dữ liệu.</p>
         </div>
       </div>
 
@@ -593,52 +588,67 @@
       <div id="studentResults" class="admin-section hidden">
         <h3>Kết quả học sinh</h3>
 
+        <button onclick="loadStudentResults()">Tải lại kết quả từ Firebase</button>
+
         <table>
           <thead>
             <tr>
+              <th>Thời gian nộp</th>
               <th>Học sinh</th>
               <th>Lớp</th>
               <th>Kỳ thi</th>
               <th>Số câu đúng</th>
               <th>Điểm</th>
-              <th>Thời gian</th>
+              <th>Thời gian làm bài</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody id="studentResultsTable">
             <tr>
-              <td>Nguyễn Văn A</td>
-              <td>12A1</td>
-              <td>Đề thi thử Toán 12</td>
-              <td>10/10</td>
-              <td>10.00</td>
-              <td>2 phút 15 giây</td>
-            </tr>
-            <tr>
-              <td>Trần Thị B</td>
-              <td>12A2</td>
-              <td>Đề thi thử Toán 12</td>
-              <td>8/10</td>
-              <td>8.00</td>
-              <td>6 phút 40 giây</td>
+              <td colspan="7">Bấm “Tải lại kết quả từ Firebase” để xem dữ liệu.</td>
             </tr>
           </tbody>
         </table>
 
         <div class="notice">
-          Hiện tại bảng này là dữ liệu mẫu. Ở bước 5, ta sẽ lưu kết quả học sinh thật vào Firebase để giáo viên xem lại.
+          Đây là dữ liệu thật được lưu trong Firebase khi học sinh nộp bài.
         </div>
       </div>
     </section>
   </div>
 
-  <script>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+    import {
+      getFirestore,
+      collection,
+      addDoc,
+      getDocs,
+      query,
+      orderBy,
+      serverTimestamp
+    } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyABhyjdx1IPr1kI0yH_9DOALztTuCgcz4c",
+      authDomain: "ttthayphien-thi-online.firebaseapp.com",
+      projectId: "ttthayphien-thi-online",
+      storageBucket: "ttthayphien-thi-online.firebasestorage.app",
+      messagingSenderId: "562842297637",
+      appId: "1:562842297637:web:2164ab36d8003b5fd3a6cc"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
     let student = {
       name: "",
       className: ""
     };
 
     const adminPassword = "123456";
+    const examName = "Đề thi thử Toán 12";
     const examDurationMinutes = 15;
+
     let timeLeftSeconds = examDurationMinutes * 60;
     let timerInterval = null;
     let isSubmitted = false;
@@ -646,120 +656,70 @@
     const questions = [
       {
         content: "Kết quả của 2 + 3 là?",
-        options: {
-          A: "4",
-          B: "5",
-          C: "6",
-          D: "7"
-        },
+        options: { A: "4", B: "5", C: "6", D: "7" },
         answer: "B",
         level: "Nhận biết",
         type: "Dạng 1"
       },
       {
         content: "Thủ đô của Việt Nam là?",
-        options: {
-          A: "TP. Hồ Chí Minh",
-          B: "Đà Nẵng",
-          C: "Hà Nội",
-          D: "Huế"
-        },
+        options: { A: "TP. Hồ Chí Minh", B: "Đà Nẵng", C: "Hà Nội", D: "Huế" },
         answer: "C",
         level: "Nhận biết",
         type: "Dạng 1"
       },
       {
         content: "Số nào là số chẵn?",
-        options: {
-          A: "3",
-          B: "5",
-          C: "7",
-          D: "8"
-        },
+        options: { A: "3", B: "5", C: "7", D: "8" },
         answer: "D",
         level: "Thông hiểu",
         type: "Dạng 2"
       },
       {
         content: "Kết quả của 10 - 4 là?",
-        options: {
-          A: "5",
-          B: "6",
-          C: "7",
-          D: "8"
-        },
+        options: { A: "5", B: "6", C: "7", D: "8" },
         answer: "B",
         level: "Thông hiểu",
         type: "Dạng 2"
       },
       {
         content: "Hình vuông có mấy cạnh?",
-        options: {
-          A: "3",
-          B: "4",
-          C: "5",
-          D: "6"
-        },
+        options: { A: "3", B: "4", C: "5", D: "6" },
         answer: "B",
         level: "Vận dụng",
         type: "Dạng 3"
       },
       {
         content: "Một giờ có bao nhiêu phút?",
-        options: {
-          A: "30",
-          B: "45",
-          C: "60",
-          D: "90"
-        },
+        options: { A: "30", B: "45", C: "60", D: "90" },
         answer: "C",
         level: "Vận dụng",
         type: "Dạng 3"
       },
       {
         content: "Kết quả của 3 × 4 là?",
-        options: {
-          A: "7",
-          B: "10",
-          C: "12",
-          D: "14"
-        },
+        options: { A: "7", B: "10", C: "12", D: "14" },
         answer: "C",
         level: "Vận dụng",
         type: "Dạng 3"
       },
       {
         content: "Nước có công thức hóa học là gì?",
-        options: {
-          A: "CO2",
-          B: "H2O",
-          C: "O2",
-          D: "NaCl"
-        },
+        options: { A: "CO2", B: "H2O", C: "O2", D: "NaCl" },
         answer: "B",
         level: "Vận dụng cao",
         type: "Dạng 4"
       },
       {
         content: "Từ nào sau đây là danh từ?",
-        options: {
-          A: "Chạy",
-          B: "Đẹp",
-          C: "Cái bàn",
-          D: "Nhanh"
-        },
+        options: { A: "Chạy", B: "Đẹp", C: "Cái bàn", D: "Nhanh" },
         answer: "C",
         level: "Vận dụng cao",
         type: "Dạng 4"
       },
       {
         content: "Kết quả của 100 : 10 là?",
-        options: {
-          A: "5",
-          B: "10",
-          C: "20",
-          D: "50"
-        },
+        options: { A: "5", B: "10", C: "20", D: "50" },
         answer: "B",
         level: "Vận dụng cao",
         type: "Dạng 4"
@@ -779,7 +739,7 @@
       document.getElementById(screenId).classList.remove("hidden");
     }
 
-    function login() {
+    window.login = function() {
       const name = document.getElementById("studentName").value.trim();
       const className = document.getElementById("studentClass").value.trim();
 
@@ -795,9 +755,9 @@
         "Học sinh: " + student.name + " - Lớp: " + student.className;
 
       showScreen("examSelectScreen");
-    }
+    };
 
-    function startExam() {
+    window.startExam = function() {
       studentAnswers = {};
       isSubmitted = false;
       timeLeftSeconds = examDurationMinutes * 60;
@@ -812,7 +772,7 @@
 
       document.getElementById("submitButton").disabled = false;
       showScreen("examScreen");
-    }
+    };
 
     function startTimer() {
       clearInterval(timerInterval);
@@ -825,7 +785,7 @@
           clearInterval(timerInterval);
           timeLeftSeconds = 0;
           updateTimerDisplay();
-          submitExam(true);
+          window.submitExam(true);
         }
       }, 1000);
     }
@@ -897,11 +857,11 @@
       updateProgress();
     }
 
-    function chooseAnswer(questionNumber, answer) {
+    window.chooseAnswer = function(questionNumber, answer) {
       studentAnswers[questionNumber] = answer;
       document.getElementById("answer-number-" + questionNumber).classList.add("answered");
       updateProgress();
-    }
+    };
 
     function updateProgress() {
       const answeredCount = Object.keys(studentAnswers).length;
@@ -909,7 +869,7 @@
         "Đã làm " + answeredCount + "/" + questions.length + " câu";
     }
 
-    function submitExam(autoSubmit) {
+    window.submitExam = async function(autoSubmit) {
       if (isSubmitted) {
         return;
       }
@@ -949,6 +909,8 @@
         submitMessage = "Hết giờ, hệ thống đã tự động nộp bài.";
       }
 
+      let saveStatus = "Đang lưu kết quả vào Firebase...";
+
       document.getElementById("resultContent").innerHTML = `
         <div class="result-box">
           <p><b>${submitMessage}</b></p>
@@ -957,23 +919,47 @@
           <p><b>Số câu đúng:</b> ${correctCount}/${questions.length}</p>
           <p><b>Điểm:</b> ${score.toFixed(2)}</p>
           <p><b>Thời gian làm bài:</b> ${usedMinutes} phút ${remainingSeconds} giây</p>
+          <p id="saveStatus"><b>${saveStatus}</b></p>
         </div>
       `;
 
       showScreen("resultScreen");
-    }
 
-    function backToExamList() {
+      try {
+        await addDoc(collection(db, "examResults"), {
+          studentName: student.name,
+          className: student.className,
+          examName: examName,
+          totalQuestions: questions.length,
+          correctCount: correctCount,
+          score: Number(score.toFixed(2)),
+          usedSeconds: usedSeconds,
+          usedTimeText: usedMinutes + " phút " + remainingSeconds + " giây",
+          answers: studentAnswers,
+          autoSubmit: autoSubmit,
+          createdAt: serverTimestamp()
+        });
+
+        document.getElementById("saveStatus").innerHTML =
+          "<b>Đã lưu kết quả vào Firebase thành công.</b>";
+      } catch (error) {
+        console.error("Lỗi lưu Firebase:", error);
+        document.getElementById("saveStatus").innerHTML =
+          "<b>Không lưu được kết quả vào Firebase. Kiểm tra Firestore Rules hoặc firebaseConfig.</b>";
+      }
+    };
+
+    window.backToExamList = function() {
       clearInterval(timerInterval);
       showScreen("examSelectScreen");
-    }
+    };
 
-    function openAdminLogin() {
+    window.openAdminLogin = function() {
       clearInterval(timerInterval);
       showScreen("adminLoginScreen");
-    }
+    };
 
-    function loginAdmin() {
+    window.loginAdmin = function() {
       const password = document.getElementById("adminPassword").value;
 
       if (password !== adminPassword) {
@@ -984,20 +970,24 @@
       renderAdminQuestionTable();
       showScreen("adminDashboardScreen");
       showAdminSection("examManagement");
-    }
+    };
 
-    function backToStudentLogin() {
+    window.backToStudentLogin = function() {
       clearInterval(timerInterval);
       showScreen("loginScreen");
-    }
+    };
 
-    function showAdminSection(sectionId) {
+    window.showAdminSection = function(sectionId) {
       document.getElementById("examManagement").classList.add("hidden");
       document.getElementById("questionBank").classList.add("hidden");
       document.getElementById("studentResults").classList.add("hidden");
 
       document.getElementById(sectionId).classList.remove("hidden");
-    }
+
+      if (sectionId === "studentResults") {
+        loadStudentResults();
+      }
+    };
 
     function renderAdminQuestionTable() {
       const tableBody = document.getElementById("adminQuestionTable");
@@ -1017,6 +1007,60 @@
         tableBody.appendChild(row);
       });
     }
+
+    window.loadStudentResults = async function() {
+      const tableBody = document.getElementById("studentResultsTable");
+      tableBody.innerHTML = `
+        <tr>
+          <td colspan="7">Đang tải dữ liệu từ Firebase...</td>
+        </tr>
+      `;
+
+      try {
+        const q = query(collection(db, "examResults"), orderBy("createdAt", "desc"));
+        const querySnapshot = await getDocs(q);
+
+        if (querySnapshot.empty) {
+          tableBody.innerHTML = `
+            <tr>
+              <td colspan="7">Chưa có học sinh nào nộp bài.</td>
+            </tr>
+          `;
+          return;
+        }
+
+        tableBody.innerHTML = "";
+
+        querySnapshot.forEach((doc) => {
+          const data = doc.data();
+
+          let createdAtText = "Chưa có thời gian";
+          if (data.createdAt && data.createdAt.toDate) {
+            createdAtText = data.createdAt.toDate().toLocaleString("vi-VN");
+          }
+
+          const row = document.createElement("tr");
+          row.innerHTML = `
+            <td>${createdAtText}</td>
+            <td>${data.studentName || ""}</td>
+            <td>${data.className || ""}</td>
+            <td>${data.examName || ""}</td>
+            <td>${data.correctCount || 0}/${data.totalQuestions || 0}</td>
+            <td>${data.score || 0}</td>
+            <td>${data.usedTimeText || ""}</td>
+          `;
+
+          tableBody.appendChild(row);
+        });
+      } catch (error) {
+        console.error("Lỗi đọc Firebase:", error);
+        tableBody.innerHTML = `
+          <tr>
+            <td colspan="7">Không tải được dữ liệu từ Firebase. Kiểm tra Firestore Rules hoặc kết nối Firebase.</td>
+          </tr>
+        `;
+      }
+    };
   </script>
 </body>
 </html>
