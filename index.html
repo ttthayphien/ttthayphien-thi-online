@@ -5,37 +5,57 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>TT Thầy Phiên - Thi Online</title>
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       font-family: Arial, sans-serif;
-      background: #f4f7fb;
+      background: #eef3fb;
       margin: 0;
-      padding: 0;
       color: #1f2937;
     }
+
     header {
       background: #2563eb;
       color: white;
-      padding: 24px;
+      padding: 18px 24px;
       text-align: center;
     }
-    main {
-      max-width: 900px;
-      margin: 30px auto;
+
+    header h1 {
+      margin: 0;
+      font-size: 26px;
+    }
+
+    header p {
+      margin: 6px 0 0;
+      font-size: 14px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 24px auto;
+      padding: 0 16px;
+    }
+
+    .box {
       background: white;
       padding: 24px;
       border-radius: 14px;
       box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+      margin-bottom: 18px;
     }
-    h1, h2 {
-      margin-top: 0;
+
+    input {
+      width: 100%;
+      padding: 12px;
+      margin: 8px 0 16px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      font-size: 16px;
     }
-    .card {
-      border: 1px solid #e5e7eb;
-      border-radius: 12px;
-      padding: 18px;
-      margin: 16px 0;
-      background: #fafafa;
-    }
+
     button {
       background: #2563eb;
       color: white;
@@ -45,64 +65,450 @@
       cursor: pointer;
       font-size: 16px;
     }
+
     button:hover {
       background: #1d4ed8;
     }
+
+    .secondary {
+      background: #64748b;
+    }
+
+    .secondary:hover {
+      background: #475569;
+    }
+
+    .exam-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+    }
+
+    .exam-card {
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 18px;
+      background: #fafafa;
+    }
+
+    .exam-card h3 {
+      margin-top: 0;
+    }
+
+    .exam-layout {
+      display: grid;
+      grid-template-columns: 1fr 280px;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .question-card {
+      background: white;
+      border-radius: 12px;
+      padding: 18px;
+      margin-bottom: 16px;
+      border: 1px solid #e5e7eb;
+    }
+
+    .question-title {
+      font-weight: bold;
+      margin-bottom: 12px;
+    }
+
     .option {
       display: block;
       margin: 10px 0;
+      padding: 10px;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      cursor: pointer;
     }
-    #result {
+
+    .option:hover {
+      background: #f1f5f9;
+    }
+
+    .answer-sheet {
+      position: sticky;
+      top: 16px;
+      background: white;
+      padding: 18px;
+      border-radius: 14px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    }
+
+    .answer-sheet h3 {
+      margin-top: 0;
+    }
+
+    .answer-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+      margin: 14px 0;
+    }
+
+    .answer-number {
+      border: 1px solid #d1d5db;
+      background: #f8fafc;
+      color: #1f2937;
+      padding: 9px 0;
+      border-radius: 8px;
+      text-align: center;
       font-weight: bold;
-      font-size: 20px;
-      color: #16a34a;
-      margin-top: 18px;
+      font-size: 14px;
+    }
+
+    .answered {
+      background: #22c55e;
+      color: white;
+      border-color: #22c55e;
+    }
+
+    .result-box {
+      background: #ecfdf5;
+      border: 1px solid #86efac;
+      color: #166534;
+      padding: 18px;
+      border-radius: 12px;
+      font-size: 18px;
+      margin-top: 16px;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .student-info {
+      font-size: 14px;
+      color: #475569;
+      margin-bottom: 12px;
+    }
+
+    @media (max-width: 850px) {
+      .exam-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .answer-sheet {
+        position: static;
+      }
     }
   </style>
 </head>
 <body>
   <header>
     <h1>TT Thầy Phiên - Thi Online</h1>
-    <p>Website thi trắc nghiệm online cho học sinh</p>
+    <p>Hệ thống làm bài trắc nghiệm trực tuyến</p>
   </header>
 
-  <main>
-    <h2>Bài thi thử</h2>
-    <p>Học sinh chọn đáp án rồi bấm nộp bài để xem điểm.</p>
+  <div class="container">
+    <section id="loginScreen" class="box">
+      <h2>Đăng nhập học sinh</h2>
+      <p>Nhập thông tin để bắt đầu làm bài.</p>
 
-    <div class="card">
-      <p><b>Câu 1:</b> Kết quả của 2 + 3 là?</p>
-      <label class="option"><input type="radio" name="q1" value="A"> A. 4</label>
-      <label class="option"><input type="radio" name="q1" value="B"> B. 5</label>
-      <label class="option"><input type="radio" name="q1" value="C"> C. 6</label>
-      <label class="option"><input type="radio" name="q1" value="D"> D. 7</label>
-    </div>
+      <label>Họ và tên</label>
+      <input id="studentName" type="text" placeholder="Ví dụ: Nguyễn Văn A" />
 
-    <div class="card">
-      <p><b>Câu 2:</b> Thủ đô của Việt Nam là?</p>
-      <label class="option"><input type="radio" name="q2" value="A"> A. TP. Hồ Chí Minh</label>
-      <label class="option"><input type="radio" name="q2" value="B"> B. Đà Nẵng</label>
-      <label class="option"><input type="radio" name="q2" value="C"> C. Hà Nội</label>
-      <label class="option"><input type="radio" name="q2" value="D"> D. Huế</label>
-    </div>
+      <label>Lớp</label>
+      <input id="studentClass" type="text" placeholder="Ví dụ: 12A1" />
 
-    <button onclick="submitExam()">Nộp bài</button>
+      <button onclick="login()">Đăng nhập</button>
+    </section>
 
-    <div id="result"></div>
-  </main>
+    <section id="examSelectScreen" class="box hidden">
+      <h2>Chọn kỳ thi</h2>
+      <div class="student-info" id="studentInfo"></div>
+
+      <div class="exam-list">
+        <div class="exam-card">
+          <h3>Đề thi thử Toán 12</h3>
+          <p>Số câu: 10 câu</p>
+          <p>Thời gian: 15 phút</p>
+          <button onclick="startExam()">Vào làm bài</button>
+        </div>
+
+        <div class="exam-card">
+          <h3>Đề thi đang khóa</h3>
+          <p>Giáo viên chưa mở đề này.</p>
+          <button class="secondary" disabled>Chưa mở</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="examScreen" class="hidden">
+      <div class="exam-layout">
+        <div>
+          <div class="box">
+            <h2>Đề thi thử Toán 12</h2>
+            <div class="student-info" id="studentInfoExam"></div>
+            <p><b>Hướng dẫn:</b> Chọn một đáp án đúng nhất cho mỗi câu rồi bấm nộp bài.</p>
+          </div>
+
+          <div id="questionList"></div>
+        </div>
+
+        <aside class="answer-sheet">
+          <h3>Phiếu trả lời</h3>
+          <p id="progressText">Đã làm 0/10 câu</p>
+          <div id="answerGrid" class="answer-grid"></div>
+          <button onclick="submitExam()">Nộp bài</button>
+          <button class="secondary" onclick="backToExamList()" style="margin-top: 8px;">Quay lại</button>
+        </aside>
+      </div>
+    </section>
+
+    <section id="resultScreen" class="box hidden">
+      <h2>Kết quả bài làm</h2>
+      <div id="resultContent"></div>
+      <button onclick="backToExamList()">Quay lại danh sách đề</button>
+    </section>
+  </div>
 
   <script>
+    let student = {
+      name: "",
+      className: ""
+    };
+
+    const questions = [
+      {
+        content: "Kết quả của 2 + 3 là?",
+        options: {
+          A: "4",
+          B: "5",
+          C: "6",
+          D: "7"
+        },
+        answer: "B"
+      },
+      {
+        content: "Thủ đô của Việt Nam là?",
+        options: {
+          A: "TP. Hồ Chí Minh",
+          B: "Đà Nẵng",
+          C: "Hà Nội",
+          D: "Huế"
+        },
+        answer: "C"
+      },
+      {
+        content: "Số nào là số chẵn?",
+        options: {
+          A: "3",
+          B: "5",
+          C: "7",
+          D: "8"
+        },
+        answer: "D"
+      },
+      {
+        content: "Kết quả của 10 - 4 là?",
+        options: {
+          A: "5",
+          B: "6",
+          C: "7",
+          D: "8"
+        },
+        answer: "B"
+      },
+      {
+        content: "Hình vuông có mấy cạnh?",
+        options: {
+          A: "3",
+          B: "4",
+          C: "5",
+          D: "6"
+        },
+        answer: "B"
+      },
+      {
+        content: "Một giờ có bao nhiêu phút?",
+        options: {
+          A: "30",
+          B: "45",
+          C: "60",
+          D: "90"
+        },
+        answer: "C"
+      },
+      {
+        content: "Kết quả của 3 × 4 là?",
+        options: {
+          A: "7",
+          B: "10",
+          C: "12",
+          D: "14"
+        },
+        answer: "C"
+      },
+      {
+        content: "Nước có công thức hóa học là gì?",
+        options: {
+          A: "CO2",
+          B: "H2O",
+          C: "O2",
+          D: "NaCl"
+        },
+        answer: "B"
+      },
+      {
+        content: "Từ nào sau đây là danh từ?",
+        options: {
+          A: "Chạy",
+          B: "Đẹp",
+          C: "Cái bàn",
+          D: "Nhanh"
+        },
+        answer: "C"
+      },
+      {
+        content: "Kết quả của 100 : 10 là?",
+        options: {
+          A: "5",
+          B: "10",
+          C: "20",
+          D: "50"
+        },
+        answer: "B"
+      }
+    ];
+
+    let studentAnswers = {};
+
+    function showScreen(screenId) {
+      document.getElementById("loginScreen").classList.add("hidden");
+      document.getElementById("examSelectScreen").classList.add("hidden");
+      document.getElementById("examScreen").classList.add("hidden");
+      document.getElementById("resultScreen").classList.add("hidden");
+
+      document.getElementById(screenId).classList.remove("hidden");
+    }
+
+    function login() {
+      const name = document.getElementById("studentName").value.trim();
+      const className = document.getElementById("studentClass").value.trim();
+
+      if (!name || !className) {
+        alert("Vui lòng nhập đầy đủ họ tên và lớp.");
+        return;
+      }
+
+      student.name = name;
+      student.className = className;
+
+      document.getElementById("studentInfo").innerText =
+        "Học sinh: " + student.name + " - Lớp: " + student.className;
+
+      showScreen("examSelectScreen");
+    }
+
+    function startExam() {
+      studentAnswers = {};
+      renderQuestions();
+      renderAnswerSheet();
+      document.getElementById("studentInfoExam").innerText =
+        "Học sinh: " + student.name + " - Lớp: " + student.className;
+      showScreen("examScreen");
+    }
+
+    function renderQuestions() {
+      const questionList = document.getElementById("questionList");
+      questionList.innerHTML = "";
+
+      questions.forEach((question, index) => {
+        const questionNumber = index + 1;
+
+        const card = document.createElement("div");
+        card.className = "question-card";
+        card.id = "question-" + questionNumber;
+
+        card.innerHTML = `
+          <div class="question-title">Câu ${questionNumber}: ${question.content}</div>
+          ${Object.keys(question.options).map(key => `
+            <label class="option">
+              <input type="radio" name="q${questionNumber}" value="${key}" onchange="chooseAnswer(${questionNumber}, '${key}')">
+              ${key}. ${question.options[key]}
+            </label>
+          `).join("")}
+        `;
+
+        questionList.appendChild(card);
+      });
+    }
+
+    function renderAnswerSheet() {
+      const answerGrid = document.getElementById("answerGrid");
+      answerGrid.innerHTML = "";
+
+      questions.forEach((_, index) => {
+        const questionNumber = index + 1;
+        const item = document.createElement("div");
+        item.className = "answer-number";
+        item.id = "answer-number-" + questionNumber;
+        item.innerText = questionNumber;
+        item.onclick = function() {
+          document.getElementById("question-" + questionNumber).scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+          });
+        };
+        answerGrid.appendChild(item);
+      });
+
+      updateProgress();
+    }
+
+    function chooseAnswer(questionNumber, answer) {
+      studentAnswers[questionNumber] = answer;
+      document.getElementById("answer-number-" + questionNumber).classList.add("answered");
+      updateProgress();
+    }
+
+    function updateProgress() {
+      const answeredCount = Object.keys(studentAnswers).length;
+      document.getElementById("progressText").innerText =
+        "Đã làm " + answeredCount + "/" + questions.length + " câu";
+    }
+
     function submitExam() {
-      let score = 0;
+      const answeredCount = Object.keys(studentAnswers).length;
 
-      const q1 = document.querySelector('input[name="q1"]:checked');
-      const q2 = document.querySelector('input[name="q2"]:checked');
+      if (answeredCount < questions.length) {
+        const confirmSubmit = confirm(
+          "Bạn mới làm " + answeredCount + "/" + questions.length + " câu. Bạn có chắc muốn nộp bài không?"
+        );
 
-      if (q1 && q1.value === "B") score++;
-      if (q2 && q2.value === "C") score++;
+        if (!confirmSubmit) {
+          return;
+        }
+      }
 
-      document.getElementById("result").innerText =
-        "Bạn làm đúng " + score + "/2 câu. Điểm: " + (score * 5);
+      let correctCount = 0;
+
+      questions.forEach((question, index) => {
+        const questionNumber = index + 1;
+        if (studentAnswers[questionNumber] === question.answer) {
+          correctCount++;
+        }
+      });
+
+      const score = (correctCount / questions.length) * 10;
+
+      document.getElementById("resultContent").innerHTML = `
+        <div class="result-box">
+          <p><b>Học sinh:</b> ${student.name}</p>
+          <p><b>Lớp:</b> ${student.className}</p>
+          <p><b>Số câu đúng:</b> ${correctCount}/${questions.length}</p>
+          <p><b>Điểm:</b> ${score.toFixed(2)}</p>
+        </div>
+      `;
+
+      showScreen("resultScreen");
+    }
+
+    function backToExamList() {
+      showScreen("examSelectScreen");
     }
   </script>
 </body>
