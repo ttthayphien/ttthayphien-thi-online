@@ -5,10 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>TT Thầy Phiên - Thi Online</title>
 
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [["\\(", "\\)"], ["$", "$"]]
+      },
+      svg: {
+        fontCache: "global"
+      }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
   <style>
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       font-family: Arial, sans-serif;
@@ -48,10 +58,6 @@
       font-weight: bold;
     }
 
-    .admin-top-button:hover {
-      background: #dbeafe;
-    }
-
     .container {
       max-width: 1200px;
       margin: 24px auto;
@@ -76,9 +82,7 @@
       font-family: Arial, sans-serif;
     }
 
-    textarea {
-      min-height: 90px;
-    }
+    textarea { min-height: 90px; }
 
     button {
       background: #2563eb;
@@ -91,38 +95,17 @@
       margin: 4px 4px 4px 0;
     }
 
-    button:hover {
-      background: #1d4ed8;
-    }
+    button:hover { background: #1d4ed8; }
+    button:disabled { background: #94a3b8; cursor: not-allowed; }
 
-    button:disabled {
-      background: #94a3b8;
-      cursor: not-allowed;
-    }
+    .secondary { background: #64748b; }
+    .secondary:hover { background: #475569; }
 
-    .secondary {
-      background: #64748b;
-    }
+    .success { background: #16a34a; }
+    .success:hover { background: #15803d; }
 
-    .secondary:hover {
-      background: #475569;
-    }
-
-    .success {
-      background: #16a34a;
-    }
-
-    .success:hover {
-      background: #15803d;
-    }
-
-    .danger {
-      background: #dc2626;
-    }
-
-    .danger:hover {
-      background: #b91c1c;
-    }
+    .danger { background: #dc2626; }
+    .danger:hover { background: #b91c1c; }
 
     .exam-list {
       display: grid;
@@ -137,9 +120,7 @@
       background: #fafafa;
     }
 
-    .exam-card h3 {
-      margin-top: 0;
-    }
+    .exam-card h3 { margin-top: 0; }
 
     .exam-layout {
       display: grid;
@@ -159,6 +140,13 @@
     .question-title {
       font-weight: bold;
       margin-bottom: 12px;
+      line-height: 1.6;
+    }
+
+    .question-meta {
+      font-size: 13px;
+      color: #64748b;
+      margin-bottom: 12px;
     }
 
     .option {
@@ -168,10 +156,22 @@
       border: 1px solid #e5e7eb;
       border-radius: 8px;
       cursor: pointer;
+      line-height: 1.6;
     }
 
-    .option:hover {
-      background: #f1f5f9;
+    .option:hover { background: #f1f5f9; }
+
+    .tf-statement {
+      border: 1px solid #e5e7eb;
+      padding: 12px;
+      border-radius: 10px;
+      margin: 10px 0;
+      background: #fafafa;
+    }
+
+    .tf-content {
+      margin-bottom: 8px;
+      line-height: 1.6;
     }
 
     .answer-sheet {
@@ -209,18 +209,14 @@
       border-color: #fdba74;
     }
 
-    .timer-warning .timer {
-      color: #ea580c;
-    }
+    .timer-warning .timer { color: #ea580c; }
 
     .timer-danger {
       background: #fef2f2;
       border-color: #fca5a5;
     }
 
-    .timer-danger .timer {
-      color: #dc2626;
-    }
+    .timer-danger .timer { color: #dc2626; }
 
     .answer-grid {
       display: grid;
@@ -257,9 +253,7 @@
       margin-top: 16px;
     }
 
-    .hidden {
-      display: none;
-    }
+    .hidden { display: none; }
 
     .student-info {
       font-size: 14px;
@@ -281,9 +275,7 @@
       background: #f8fafc;
     }
 
-    .admin-card h3 {
-      margin-top: 0;
-    }
+    .admin-card h3 { margin-top: 0; }
 
     .admin-menu {
       display: flex;
@@ -313,9 +305,7 @@
       vertical-align: top;
     }
 
-    th {
-      background: #f1f5f9;
-    }
+    th { background: #f1f5f9; }
 
     .badge {
       display: inline-block;
@@ -325,15 +315,8 @@
       font-weight: bold;
     }
 
-    .badge-open {
-      background: #dcfce7;
-      color: #166534;
-    }
-
-    .badge-lock {
-      background: #fee2e2;
-      color: #991b1b;
-    }
+    .badge-open { background: #dcfce7; color: #166534; }
+    .badge-lock { background: #fee2e2; color: #991b1b; }
 
     .notice {
       background: #fff7ed;
@@ -365,24 +348,20 @@
       margin-bottom: 12px;
     }
 
-    .small-text {
-      font-size: 13px;
-      color: #64748b;
+    .image-warning {
+      background: #fff7ed;
+      border: 1px dashed #fb923c;
+      color: #9a3412;
+      padding: 10px;
+      border-radius: 8px;
+      margin: 10px 0;
+      font-size: 14px;
     }
 
     @media (max-width: 850px) {
-      .exam-layout {
-        grid-template-columns: 1fr;
-      }
-
-      .answer-sheet {
-        position: static;
-      }
-
-      .admin-top-button {
-        position: static;
-        margin-top: 12px;
-      }
+      .exam-layout { grid-template-columns: 1fr; }
+      .answer-sheet { position: static; }
+      .admin-top-button { position: static; margin-top: 12px; }
     }
   </style>
 </head>
@@ -414,17 +393,17 @@
 
       <div class="exam-list">
         <div class="exam-card">
-          <h3>Đề thi thử Toán 12</h3>
-          <p>Số câu: 10 câu</p>
+          <h3>Đề thử từ kho Firebase</h3>
+          <p>Website sẽ lấy câu hỏi thật từ collection <b>questions</b>.</p>
           <p>Thời gian: 15 phút</p>
           <p>Trạng thái: <span class="badge badge-open">Đang mở</span></p>
           <button onclick="startExam()">Vào làm bài</button>
         </div>
 
         <div class="exam-card">
-          <h3>Đề thi đang khóa</h3>
-          <p>Giáo viên chưa mở đề này.</p>
-          <p>Trạng thái: <span class="badge badge-lock">Đang khóa</span></p>
+          <h3>Đề theo ma trận</h3>
+          <p>Sẽ làm ở bước sau.</p>
+          <p>Trạng thái: <span class="badge badge-lock">Chưa làm</span></p>
           <button class="secondary" disabled>Chưa mở</button>
         </div>
       </div>
@@ -434,9 +413,9 @@
       <div class="exam-layout">
         <div>
           <div class="box">
-            <h2>Đề thi thử Toán 12</h2>
+            <h2>Đề thử từ kho Firebase</h2>
             <div class="student-info" id="studentInfoExam"></div>
-            <p><b>Hướng dẫn:</b> Chọn một đáp án đúng nhất cho mỗi câu. Khi hết giờ, hệ thống sẽ tự nộp bài.</p>
+            <p><b>Hướng dẫn:</b> Làm các câu hỏi bên dưới. Điểm hiện tại là cách tính mẫu để kiểm tra hệ thống.</p>
           </div>
 
           <div id="questionList"></div>
@@ -450,7 +429,7 @@
             <div id="timer" class="timer">15:00</div>
           </div>
 
-          <p id="progressText">Đã làm 0/10 câu</p>
+          <p id="progressText">Đã làm 0/0 câu</p>
           <div id="answerGrid" class="answer-grid"></div>
           <button id="submitButton" onclick="submitExam(false)">Nộp bài</button>
           <button class="secondary" onclick="backToExamList()" style="margin-top: 8px;">Quay lại</button>
@@ -485,8 +464,8 @@
 
       <div class="admin-menu">
         <button onclick="showAdminSection('examManagement')">Quản lý kỳ thi</button>
-        <button onclick="showAdminSection('questionBank')">Ngân hàng câu hỏi mẫu</button>
         <button onclick="showAdminSection('importQuestions')">Nhập câu hỏi vào kho</button>
+        <button onclick="showAdminSection('firebaseQuestionBank')">Kho câu hỏi Firebase</button>
         <button onclick="showAdminSection('studentResults')">Kết quả học sinh</button>
         <button class="secondary" onclick="backToStudentLogin()">Về trang học sinh</button>
       </div>
@@ -494,21 +473,17 @@
       <div class="admin-grid">
         <div class="admin-card">
           <h3>Kỳ thi</h3>
-          <p>Đang có 2 kỳ thi mẫu.</p>
-          <p><span class="badge badge-open">1 đề đang mở</span></p>
-          <p><span class="badge badge-lock">1 đề đang khóa</span></p>
+          <p>Hiện đang dùng đề thử lấy toàn bộ câu hỏi trong Firebase.</p>
         </div>
 
         <div class="admin-card">
-          <h3>Kho câu hỏi Firebase</h3>
-          <p>Câu hỏi thật sẽ nằm trong collection <b>questions</b>.</p>
-          <p>Dùng mục <b>Nhập câu hỏi vào kho</b> để nhập dữ liệu.</p>
+          <h3>Kho câu hỏi</h3>
+          <p>Câu hỏi thật nằm trong collection <b>questions</b>.</p>
         </div>
 
         <div class="admin-card">
           <h3>Kết quả học sinh</h3>
           <p>Kết quả thật được đọc từ Firebase.</p>
-          <p>Bấm mục <b>Kết quả học sinh</b> để tải dữ liệu.</p>
         </div>
       </div>
 
@@ -516,7 +491,7 @@
         <h3>Quản lý kỳ thi</h3>
 
         <label>Tên kỳ thi</label>
-        <input type="text" value="Đề thi thử Toán 12" />
+        <input type="text" value="Đề thử từ kho Firebase" />
 
         <label>Thời gian làm bài, tính bằng phút</label>
         <input type="number" value="15" />
@@ -529,51 +504,9 @@
 
         <button class="success" onclick="alert('Bản mẫu: chức năng lưu kỳ thi sẽ làm ở bước sau.')">Lưu kỳ thi</button>
 
-        <table>
-          <thead>
-            <tr>
-              <th>Tên kỳ thi</th>
-              <th>Số câu</th>
-              <th>Thời gian</th>
-              <th>Trạng thái</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Đề thi thử Toán 12</td>
-              <td>10</td>
-              <td>15 phút</td>
-              <td><span class="badge badge-open">Đang mở</span></td>
-            </tr>
-            <tr>
-              <td>Đề thi đang khóa</td>
-              <td>0</td>
-              <td>45 phút</td>
-              <td><span class="badge badge-lock">Đang khóa</span></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div id="questionBank" class="admin-section hidden">
-        <h3>Ngân hàng câu hỏi mẫu đang nằm trong code</h3>
-
         <div class="notice">
-          Đây chỉ là 10 câu mẫu để test website. Kho câu hỏi thật sẽ nằm ở mục <b>Nhập câu hỏi vào kho</b>.
+          Bước này mới cho học sinh làm thử bằng câu hỏi trong Firebase. Tạo ma trận đề sẽ làm ở bước sau.
         </div>
-
-        <table>
-          <thead>
-            <tr>
-              <th>STT</th>
-              <th>Nội dung</th>
-              <th>Đáp án đúng</th>
-              <th>Mức độ</th>
-              <th>Dạng</th>
-            </tr>
-          </thead>
-          <tbody id="adminQuestionTable"></tbody>
-        </table>
       </div>
 
       <div id="importQuestions" class="admin-section hidden">
@@ -586,11 +519,10 @@
 
         <div class="notice">
           Dữ liệu sẽ được lưu vào collection <b>questions</b> trong Firebase.
-          Đây là kho câu hỏi thật dùng cho các bước tạo ma trận và bốc đề sau này.
         </div>
 
         <label>Dữ liệu câu hỏi dạng JSON</label>
-        <textarea id="questionJsonInput" placeholder='Dán JSON vào đây, ví dụ: [{"questionType":"multipleChoice","code":"S.12.01.1.1","content":"..."}]' style="min-height: 260px;"></textarea>
+        <textarea id="questionJsonInput" placeholder='Dán JSON vào đây' style="min-height: 260px;"></textarea>
 
         <button onclick="checkQuestionJson()">Kiểm tra dữ liệu</button>
         <button class="success" onclick="importQuestionsToFirebase()">Nhập vào kho Firebase</button>
@@ -600,8 +532,12 @@
         <div id="questionImportStatus" class="notice">
           Chưa có dữ liệu.
         </div>
+      </div>
 
+      <div id="firebaseQuestionBank" class="admin-section hidden">
         <h3>Danh sách câu hỏi trong kho Firebase</h3>
+
+        <button onclick="loadQuestionBankFromFirebase()">Tải lại kho câu hỏi</button>
 
         <table>
           <thead>
@@ -633,14 +569,15 @@
               <th>Học sinh</th>
               <th>Lớp</th>
               <th>Kỳ thi</th>
-              <th>Số câu đúng</th>
+              <th>Số đúng</th>
+              <th>Tổng</th>
               <th>Điểm</th>
               <th>Thời gian làm bài</th>
             </tr>
           </thead>
           <tbody id="studentResultsTable">
             <tr>
-              <td colspan="7">Bấm “Tải lại kết quả từ Firebase” để xem dữ liệu.</td>
+              <td colspan="8">Bấm “Tải lại kết quả từ Firebase” để xem dữ liệu.</td>
             </tr>
           </tbody>
         </table>
@@ -676,92 +613,16 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    let student = {
-      name: "",
-      className: ""
-    };
-
+    let student = { name: "", className: "" };
     const adminPassword = "123456";
-    const examName = "Đề thi thử Toán 12";
+    const examName = "Đề thử từ kho Firebase";
     const examDurationMinutes = 15;
 
     let timeLeftSeconds = examDurationMinutes * 60;
     let timerInterval = null;
     let isSubmitted = false;
 
-    const questions = [
-      {
-        content: "Kết quả của 2 + 3 là?",
-        options: { A: "4", B: "5", C: "6", D: "7" },
-        answer: "B",
-        level: "Nhận biết",
-        type: "Dạng 1"
-      },
-      {
-        content: "Thủ đô của Việt Nam là?",
-        options: { A: "TP. Hồ Chí Minh", B: "Đà Nẵng", C: "Hà Nội", D: "Huế" },
-        answer: "C",
-        level: "Nhận biết",
-        type: "Dạng 1"
-      },
-      {
-        content: "Số nào là số chẵn?",
-        options: { A: "3", B: "5", C: "7", D: "8" },
-        answer: "D",
-        level: "Thông hiểu",
-        type: "Dạng 2"
-      },
-      {
-        content: "Kết quả của 10 - 4 là?",
-        options: { A: "5", B: "6", C: "7", D: "8" },
-        answer: "B",
-        level: "Thông hiểu",
-        type: "Dạng 2"
-      },
-      {
-        content: "Hình vuông có mấy cạnh?",
-        options: { A: "3", B: "4", C: "5", D: "6" },
-        answer: "B",
-        level: "Vận dụng",
-        type: "Dạng 3"
-      },
-      {
-        content: "Một giờ có bao nhiêu phút?",
-        options: { A: "30", B: "45", C: "60", D: "90" },
-        answer: "C",
-        level: "Vận dụng",
-        type: "Dạng 3"
-      },
-      {
-        content: "Kết quả của 3 × 4 là?",
-        options: { A: "7", B: "10", C: "12", D: "14" },
-        answer: "C",
-        level: "Vận dụng",
-        type: "Dạng 3"
-      },
-      {
-        content: "Nước có công thức hóa học là gì?",
-        options: { A: "CO2", B: "H2O", C: "O2", D: "NaCl" },
-        answer: "B",
-        level: "Vận dụng cao",
-        type: "Dạng 4"
-      },
-      {
-        content: "Từ nào sau đây là danh từ?",
-        options: { A: "Chạy", B: "Đẹp", C: "Cái bàn", D: "Nhanh" },
-        answer: "C",
-        level: "Vận dụng cao",
-        type: "Dạng 4"
-      },
-      {
-        content: "Kết quả của 100 : 10 là?",
-        options: { A: "5", B: "10", C: "20", D: "50" },
-        answer: "B",
-        level: "Vận dụng cao",
-        type: "Dạng 4"
-      }
-    ];
-
+    let examQuestions = [];
     let studentAnswers = {};
 
     function showScreen(screenId) {
@@ -771,8 +632,41 @@
       document.getElementById("resultScreen").classList.add("hidden");
       document.getElementById("adminLoginScreen").classList.add("hidden");
       document.getElementById("adminDashboardScreen").classList.add("hidden");
-
       document.getElementById(screenId).classList.remove("hidden");
+    }
+
+    function rerenderMath() {
+      if (window.MathJax && window.MathJax.typesetPromise) {
+        window.MathJax.typesetPromise();
+      }
+    }
+
+    function getMainCode(question) {
+      return question.code || question.groupCode || "";
+    }
+
+    function getShortContent(text) {
+      if (!text) return "";
+      return text.length <= 120 ? text : text.substring(0, 120) + "...";
+    }
+
+    function escapeHtml(text) {
+      if (text === undefined || text === null) return "";
+      return String(text)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function normalizeAnswer(text) {
+      if (text === undefined || text === null) return "";
+      return String(text)
+        .trim()
+        .toLowerCase()
+        .replaceAll(" ", "")
+        .replaceAll(",", ".");
     }
 
     window.login = function() {
@@ -793,22 +687,64 @@
       showScreen("examSelectScreen");
     };
 
-    window.startExam = function() {
+    window.startExam = async function() {
       studentAnswers = {};
       isSubmitted = false;
       timeLeftSeconds = examDurationMinutes * 60;
 
-      renderQuestions();
-      renderAnswerSheet();
-      updateTimerDisplay();
-      startTimer();
+      document.getElementById("questionList").innerHTML = `
+        <div class="box">Đang tải câu hỏi từ Firebase...</div>
+      `;
+
+      showScreen("examScreen");
 
       document.getElementById("studentInfoExam").innerText =
         "Học sinh: " + student.name + " - Lớp: " + student.className;
 
-      document.getElementById("submitButton").disabled = false;
-      showScreen("examScreen");
+      try {
+        await loadExamQuestionsFromFirebase();
+
+        if (examQuestions.length === 0) {
+          document.getElementById("questionList").innerHTML = `
+            <div class="box">
+              <h3>Chưa có câu hỏi trong kho Firebase</h3>
+              <p>Vào Admin → Nhập câu hỏi vào kho để thêm câu hỏi trước.</p>
+            </div>
+          `;
+          return;
+        }
+
+        renderQuestions();
+        renderAnswerSheet();
+        updateTimerDisplay();
+        startTimer();
+
+        document.getElementById("submitButton").disabled = false;
+      } catch (error) {
+        console.error("Lỗi tải đề:", error);
+        document.getElementById("questionList").innerHTML = `
+          <div class="box error-box">
+            Không tải được câu hỏi từ Firebase. Kiểm tra collection questions hoặc Firestore Rules.
+          </div>
+        `;
+      }
     };
+
+    async function loadExamQuestionsFromFirebase() {
+      const q = query(collection(db, "questions"), orderBy("importedAt", "desc"));
+      const querySnapshot = await getDocs(q);
+
+      examQuestions = [];
+
+      querySnapshot.forEach((doc) => {
+        const question = doc.data();
+        question.firebaseId = doc.id;
+
+        if (question.isActive !== false) {
+          examQuestions.push(question);
+        }
+      });
+    }
 
     function startTimer() {
       clearInterval(timerInterval);
@@ -830,14 +766,11 @@
       const minutes = Math.floor(timeLeftSeconds / 60);
       const seconds = timeLeftSeconds % 60;
 
-      const minuteText = String(minutes).padStart(2, "0");
-      const secondText = String(seconds).padStart(2, "0");
-
-      document.getElementById("timer").innerText = minuteText + ":" + secondText;
+      document.getElementById("timer").innerText =
+        String(minutes).padStart(2, "0") + ":" + String(seconds).padStart(2, "0");
 
       const timerBox = document.getElementById("timerBox");
-      timerBox.classList.remove("timer-warning");
-      timerBox.classList.remove("timer-danger");
+      timerBox.classList.remove("timer-warning", "timer-danger");
 
       if (timeLeftSeconds <= 60) {
         timerBox.classList.add("timer-danger");
@@ -850,32 +783,117 @@
       const questionList = document.getElementById("questionList");
       questionList.innerHTML = "";
 
-      questions.forEach((question, index) => {
+      examQuestions.forEach((question, index) => {
         const questionNumber = index + 1;
-
         const card = document.createElement("div");
         card.className = "question-card";
         card.id = "question-" + questionNumber;
 
-        card.innerHTML = `
-          <div class="question-title">Câu ${questionNumber}: ${question.content}</div>
-          ${Object.keys(question.options).map(key => `
-            <label class="option">
-              <input type="radio" name="q${questionNumber}" value="${key}" onchange="chooseAnswer(${questionNumber}, '${key}')">
-              ${key}. ${question.options[key]}
-            </label>
-          `).join("")}
-        `;
+        if (question.questionType === "multipleChoice") {
+          card.innerHTML = renderMultipleChoice(question, questionNumber);
+        } else if (question.questionType === "trueFalseGroup") {
+          card.innerHTML = renderTrueFalseGroup(question, questionNumber);
+        } else if (question.questionType === "shortAnswer") {
+          card.innerHTML = renderShortAnswer(question, questionNumber);
+        } else {
+          card.innerHTML = `
+            <div class="question-title">Câu ${questionNumber}: Dạng câu hỏi chưa hỗ trợ</div>
+            <div>${escapeHtml(question.content || "")}</div>
+          `;
+        }
 
         questionList.appendChild(card);
       });
+
+      rerenderMath();
+    }
+
+    function renderQuestionHeader(question, questionNumber) {
+      let html = `
+        <div class="question-title">
+          Câu ${questionNumber}: ${escapeHtml(question.content || "")}
+        </div>
+        <div class="question-meta">
+          Mã: ${escapeHtml(getMainCode(question))} |
+          Loại: ${escapeHtml(question.questionType || "")}
+        </div>
+      `;
+
+      if (question.needImageReview) {
+        html += `
+          <div class="image-warning">
+            Câu này có hình/bảng/đồ thị cần xử lý ảnh ở bước sau.
+          </div>
+        `;
+      }
+
+      if (question.imageUrl) {
+        html += `<img src="${escapeHtml(question.imageUrl)}" style="max-width:100%; margin: 12px 0;">`;
+      }
+
+      if (question.questionImageUrl) {
+        html += `<img src="${escapeHtml(question.questionImageUrl)}" style="max-width:100%; margin: 12px 0;">`;
+      }
+
+      return html;
+    }
+
+    function renderMultipleChoice(question, questionNumber) {
+      return `
+        ${renderQuestionHeader(question, questionNumber)}
+        ${["A", "B", "C", "D"].map((key) => {
+          const optionValue = question["option" + key] || "";
+          return `
+            <label class="option">
+              <input type="radio" name="q${questionNumber}" value="${key}" onchange="chooseAnswer('${questionNumber}', '${key}')">
+              ${key}. ${escapeHtml(optionValue)}
+            </label>
+          `;
+        }).join("")}
+      `;
+    }
+
+    function renderTrueFalseGroup(question, questionNumber) {
+      const statements = Array.isArray(question.statements) ? question.statements : [];
+
+      return `
+        ${renderQuestionHeader(question, questionNumber)}
+        ${statements.map((statement) => {
+          const label = statement.label || "";
+          return `
+            <div class="tf-statement">
+              <div class="tf-content">
+                <b>${escapeHtml(label)})</b>
+                ${escapeHtml(statement.content || "")}
+              </div>
+              <label>
+                <input type="radio" name="q${questionNumber}_${label}" value="Đúng" onchange="chooseTrueFalseAnswer('${questionNumber}', '${label}', 'Đúng')">
+                Đúng
+              </label>
+              &nbsp;&nbsp;
+              <label>
+                <input type="radio" name="q${questionNumber}_${label}" value="Sai" onchange="chooseTrueFalseAnswer('${questionNumber}', '${label}', 'Sai')">
+                Sai
+              </label>
+            </div>
+          `;
+        }).join("")}
+      `;
+    }
+
+    function renderShortAnswer(question, questionNumber) {
+      return `
+        ${renderQuestionHeader(question, questionNumber)}
+        <label>Nhập đáp án</label>
+        <input type="text" placeholder="Nhập đáp án của bạn" oninput="chooseShortAnswer('${questionNumber}', this.value)">
+      `;
     }
 
     function renderAnswerSheet() {
       const answerGrid = document.getElementById("answerGrid");
       answerGrid.innerHTML = "";
 
-      questions.forEach((_, index) => {
+      examQuestions.forEach((_, index) => {
         const questionNumber = index + 1;
         const item = document.createElement("div");
         item.className = "answer-number";
@@ -895,63 +913,149 @@
 
     window.chooseAnswer = function(questionNumber, answer) {
       studentAnswers[questionNumber] = answer;
-      document.getElementById("answer-number-" + questionNumber).classList.add("answered");
+      markAnswered(questionNumber);
       updateProgress();
     };
 
+    window.chooseTrueFalseAnswer = function(questionNumber, label, answer) {
+      if (!studentAnswers[questionNumber]) {
+        studentAnswers[questionNumber] = {};
+      }
+
+      studentAnswers[questionNumber][label] = answer;
+
+      const question = examQuestions[Number(questionNumber) - 1];
+      const statements = Array.isArray(question.statements) ? question.statements : [];
+
+      const answeredCount = Object.keys(studentAnswers[questionNumber]).length;
+
+      if (answeredCount >= statements.length) {
+        markAnswered(questionNumber);
+      }
+
+      updateProgress();
+    };
+
+    window.chooseShortAnswer = function(questionNumber, answer) {
+      studentAnswers[questionNumber] = answer.trim();
+
+      if (answer.trim()) {
+        markAnswered(questionNumber);
+      } else {
+        document.getElementById("answer-number-" + questionNumber).classList.remove("answered");
+      }
+
+      updateProgress();
+    };
+
+    function markAnswered(questionNumber) {
+      const item = document.getElementById("answer-number-" + questionNumber);
+      if (item) item.classList.add("answered");
+    }
+
     function updateProgress() {
-      const answeredCount = Object.keys(studentAnswers).length;
+      let answeredCount = 0;
+
+      examQuestions.forEach((question, index) => {
+        const questionNumber = String(index + 1);
+        const answer = studentAnswers[questionNumber];
+
+        if (question.questionType === "trueFalseGroup") {
+          const statements = Array.isArray(question.statements) ? question.statements : [];
+          if (answer && Object.keys(answer).length >= statements.length) {
+            answeredCount++;
+          }
+        } else {
+          if (answer !== undefined && answer !== "") {
+            answeredCount++;
+          }
+        }
+      });
+
       document.getElementById("progressText").innerText =
-        "Đã làm " + answeredCount + "/" + questions.length + " câu";
+        "Đã làm " + answeredCount + "/" + examQuestions.length + " câu";
+    }
+
+    function gradeExam() {
+      let correctUnits = 0;
+      let totalUnits = 0;
+
+      examQuestions.forEach((question, index) => {
+        const questionNumber = String(index + 1);
+        const answer = studentAnswers[questionNumber];
+
+        if (question.questionType === "multipleChoice") {
+          totalUnits++;
+          if (answer === question.correctAnswer) {
+            correctUnits++;
+          }
+        } else if (question.questionType === "shortAnswer") {
+          totalUnits++;
+          const studentAnswer = normalizeAnswer(answer);
+          const correctAnswer = normalizeAnswer(question.correctAnswer);
+          const acceptedAnswers = String(question.acceptedAnswers || "")
+            .split(";")
+            .map(normalizeAnswer)
+            .filter(Boolean);
+
+          if (studentAnswer && (studentAnswer === correctAnswer || acceptedAnswers.includes(studentAnswer))) {
+            correctUnits++;
+          }
+        } else if (question.questionType === "trueFalseGroup") {
+          const statements = Array.isArray(question.statements) ? question.statements : [];
+          statements.forEach((statement) => {
+            totalUnits++;
+            const label = statement.label;
+            if (answer && answer[label] === statement.correctAnswer) {
+              correctUnits++;
+            }
+          });
+        }
+      });
+
+      const score = totalUnits > 0 ? (correctUnits / totalUnits) * 10 : 0;
+
+      return {
+        correctUnits,
+        totalUnits,
+        score
+      };
     }
 
     window.submitExam = async function(autoSubmit) {
-      if (isSubmitted) {
-        return;
-      }
+      if (isSubmitted) return;
 
       const answeredCount = Object.keys(studentAnswers).length;
 
-      if (!autoSubmit && answeredCount < questions.length) {
+      if (!autoSubmit && answeredCount < examQuestions.length) {
         const confirmSubmit = confirm(
-          "Bạn mới làm " + answeredCount + "/" + questions.length + " câu. Bạn có chắc muốn nộp bài không?"
+          "Bạn chưa làm đủ tất cả câu. Bạn có chắc muốn nộp bài không?"
         );
 
-        if (!confirmSubmit) {
-          return;
-        }
+        if (!confirmSubmit) return;
       }
 
       isSubmitted = true;
       clearInterval(timerInterval);
       document.getElementById("submitButton").disabled = true;
 
-      let correctCount = 0;
+      const grade = gradeExam();
 
-      questions.forEach((question, index) => {
-        const questionNumber = index + 1;
-        if (studentAnswers[questionNumber] === question.answer) {
-          correctCount++;
-        }
-      });
-
-      const score = (correctCount / questions.length) * 10;
       const usedSeconds = examDurationMinutes * 60 - timeLeftSeconds;
       const usedMinutes = Math.floor(usedSeconds / 60);
       const remainingSeconds = usedSeconds % 60;
 
-      let submitMessage = "Nộp bài thành công.";
-      if (autoSubmit) {
-        submitMessage = "Hết giờ, hệ thống đã tự động nộp bài.";
-      }
+      const submitMessage = autoSubmit
+        ? "Hết giờ, hệ thống đã tự động nộp bài."
+        : "Nộp bài thành công.";
 
       document.getElementById("resultContent").innerHTML = `
         <div class="result-box">
           <p><b>${submitMessage}</b></p>
-          <p><b>Học sinh:</b> ${student.name}</p>
-          <p><b>Lớp:</b> ${student.className}</p>
-          <p><b>Số câu đúng:</b> ${correctCount}/${questions.length}</p>
-          <p><b>Điểm:</b> ${score.toFixed(2)}</p>
+          <p><b>Học sinh:</b> ${escapeHtml(student.name)}</p>
+          <p><b>Lớp:</b> ${escapeHtml(student.className)}</p>
+          <p><b>Số đơn vị đúng:</b> ${grade.correctUnits}/${grade.totalUnits}</p>
+          <p><b>Điểm mẫu:</b> ${grade.score.toFixed(2)}</p>
           <p><b>Thời gian làm bài:</b> ${usedMinutes} phút ${remainingSeconds} giây</p>
           <p id="saveStatus"><b>Đang lưu kết quả vào Firebase...</b></p>
         </div>
@@ -964,12 +1068,14 @@
           studentName: student.name,
           className: student.className,
           examName: examName,
-          totalQuestions: questions.length,
-          correctCount: correctCount,
-          score: Number(score.toFixed(2)),
+          totalQuestions: examQuestions.length,
+          correctCount: grade.correctUnits,
+          totalUnits: grade.totalUnits,
+          score: Number(grade.score.toFixed(2)),
           usedSeconds: usedSeconds,
           usedTimeText: usedMinutes + " phút " + remainingSeconds + " giây",
           answers: studentAnswers,
+          questionIds: examQuestions.map(q => q.firebaseId || ""),
           autoSubmit: autoSubmit,
           createdAt: serverTimestamp()
         });
@@ -1001,7 +1107,6 @@
         return;
       }
 
-      renderAdminQuestionTable();
       showScreen("adminDashboardScreen");
       showAdminSection("examManagement");
     };
@@ -1013,8 +1118,8 @@
 
     window.showAdminSection = function(sectionId) {
       document.getElementById("examManagement").classList.add("hidden");
-      document.getElementById("questionBank").classList.add("hidden");
       document.getElementById("importQuestions").classList.add("hidden");
+      document.getElementById("firebaseQuestionBank").classList.add("hidden");
       document.getElementById("studentResults").classList.add("hidden");
 
       document.getElementById(sectionId).classList.remove("hidden");
@@ -1023,53 +1128,10 @@
         loadStudentResults();
       }
 
-      if (sectionId === "importQuestions") {
+      if (sectionId === "firebaseQuestionBank") {
         loadQuestionBankFromFirebase();
       }
     };
-
-    function renderAdminQuestionTable() {
-      const tableBody = document.getElementById("adminQuestionTable");
-      tableBody.innerHTML = "";
-
-      questions.forEach((question, index) => {
-        const row = document.createElement("tr");
-
-        row.innerHTML = `
-          <td>${index + 1}</td>
-          <td>${question.content}</td>
-          <td>${question.answer}</td>
-          <td>${question.level}</td>
-          <td>${question.type}</td>
-        `;
-
-        tableBody.appendChild(row);
-      });
-    }
-
-    function getMainCode(question) {
-      if (question.code) {
-        return question.code;
-      }
-
-      if (question.groupCode) {
-        return question.groupCode;
-      }
-
-      return "";
-    }
-
-    function getShortContent(text) {
-      if (!text) {
-        return "";
-      }
-
-      if (text.length <= 120) {
-        return text;
-      }
-
-      return text.substring(0, 120) + "...";
-    }
 
     window.clearQuestionJsonInput = function() {
       document.getElementById("questionJsonInput").value = "";
@@ -1093,13 +1155,7 @@
 
         if (!Array.isArray(data)) {
           status.className = "error-box";
-          status.innerHTML = "Dữ liệu phải là một mảng JSON, bắt đầu bằng dấu [ và kết thúc bằng dấu ].";
-          return;
-        }
-
-        if (data.length === 0) {
-          status.className = "error-box";
-          status.innerHTML = "Mảng JSON đang rỗng, chưa có câu hỏi nào.";
+          status.innerHTML = "Dữ liệu phải là một mảng JSON.";
           return;
         }
 
@@ -1107,22 +1163,12 @@
         let trueFalseCount = 0;
         let shortAnswerCount = 0;
         let otherCount = 0;
-        let missingTypeCount = 0;
 
         data.forEach((question) => {
-          if (!question.questionType) {
-            missingTypeCount++;
-          }
-
-          if (question.questionType === "multipleChoice") {
-            multipleChoiceCount++;
-          } else if (question.questionType === "trueFalseGroup") {
-            trueFalseCount++;
-          } else if (question.questionType === "shortAnswer") {
-            shortAnswerCount++;
-          } else {
-            otherCount++;
-          }
+          if (question.questionType === "multipleChoice") multipleChoiceCount++;
+          else if (question.questionType === "trueFalseGroup") trueFalseCount++;
+          else if (question.questionType === "shortAnswer") shortAnswerCount++;
+          else otherCount++;
         });
 
         status.className = "ok-box";
@@ -1131,8 +1177,7 @@
           "Trắc nghiệm 4 đáp án: <b>" + multipleChoiceCount + "</b><br>" +
           "Đúng/Sai: <b>" + trueFalseCount + "</b><br>" +
           "Trả lời ngắn: <b>" + shortAnswerCount + "</b><br>" +
-          "Dạng khác/chưa xác định: <b>" + otherCount + "</b><br>" +
-          "Thiếu questionType: <b>" + missingTypeCount + "</b>";
+          "Dạng khác/chưa xác định: <b>" + otherCount + "</b>";
       } catch (error) {
         status.className = "error-box";
         status.innerHTML = "JSON chưa đúng định dạng. Hãy kiểm tra dấu ngoặc, dấu phẩy, dấu nháy.";
@@ -1174,7 +1219,6 @@
         for (const question of data) {
           const questionToSave = {
             ...question,
-            source: "AI_import_from_word",
             importedAt: serverTimestamp(),
             isActive: question.isActive === false ? false : true
           };
@@ -1188,7 +1232,6 @@
           "Đã nhập thành công <b>" + importedCount + "</b> câu hỏi vào kho Firebase.";
 
         document.getElementById("questionJsonInput").value = "";
-        loadQuestionBankFromFirebase();
       } catch (error) {
         console.error("Lỗi nhập câu hỏi:", error);
         status.className = "error-box";
@@ -1200,9 +1243,7 @@
     window.loadQuestionBankFromFirebase = async function() {
       const tableBody = document.getElementById("questionBankFirebaseTable");
 
-      if (!tableBody) {
-        return;
-      }
+      if (!tableBody) return;
 
       tableBody.innerHTML = `
         <tr>
@@ -1224,12 +1265,10 @@
         }
 
         tableBody.innerHTML = "";
-
         let index = 1;
 
         querySnapshot.forEach((doc) => {
           const question = doc.data();
-
           const row = document.createElement("tr");
 
           let answerText = "";
@@ -1246,10 +1285,10 @@
 
           row.innerHTML = `
             <td>${index}</td>
-            <td>${question.questionType || ""}</td>
-            <td>${getMainCode(question)}</td>
-            <td>${getShortContent(question.content)}</td>
-            <td>${answerText}</td>
+            <td>${escapeHtml(question.questionType || "")}</td>
+            <td>${escapeHtml(getMainCode(question))}</td>
+            <td>${escapeHtml(getShortContent(question.content))}</td>
+            <td>${escapeHtml(answerText)}</td>
           `;
 
           tableBody.appendChild(row);
@@ -1269,7 +1308,7 @@
       const tableBody = document.getElementById("studentResultsTable");
       tableBody.innerHTML = `
         <tr>
-          <td colspan="7">Đang tải dữ liệu từ Firebase...</td>
+          <td colspan="8">Đang tải dữ liệu từ Firebase...</td>
         </tr>
       `;
 
@@ -1280,7 +1319,7 @@
         if (querySnapshot.empty) {
           tableBody.innerHTML = `
             <tr>
-              <td colspan="7">Chưa có học sinh nào nộp bài.</td>
+              <td colspan="8">Chưa có học sinh nào nộp bài.</td>
             </tr>
           `;
           return;
@@ -1298,13 +1337,14 @@
 
           const row = document.createElement("tr");
           row.innerHTML = `
-            <td>${createdAtText}</td>
-            <td>${data.studentName || ""}</td>
-            <td>${data.className || ""}</td>
-            <td>${data.examName || ""}</td>
-            <td>${data.correctCount || 0}/${data.totalQuestions || 0}</td>
-            <td>${data.score || 0}</td>
-            <td>${data.usedTimeText || ""}</td>
+            <td>${escapeHtml(createdAtText)}</td>
+            <td>${escapeHtml(data.studentName || "")}</td>
+            <td>${escapeHtml(data.className || "")}</td>
+            <td>${escapeHtml(data.examName || "")}</td>
+            <td>${escapeHtml(data.correctCount || 0)}</td>
+            <td>${escapeHtml(data.totalUnits || data.totalQuestions || 0)}</td>
+            <td>${escapeHtml(data.score || 0)}</td>
+            <td>${escapeHtml(data.usedTimeText || "")}</td>
           `;
 
           tableBody.appendChild(row);
@@ -1313,7 +1353,7 @@
         console.error("Lỗi đọc Firebase:", error);
         tableBody.innerHTML = `
           <tr>
-            <td colspan="7">Không tải được dữ liệu từ Firebase. Kiểm tra Firestore Rules hoặc kết nối Firebase.</td>
+            <td colspan="8">Không tải được dữ liệu từ Firebase.</td>
           </tr>
         `;
       }
