@@ -88,6 +88,7 @@
       border-radius: 8px;
       cursor: pointer;
       font-size: 16px;
+      margin: 4px 4px 4px 0;
     }
 
     button:hover {
@@ -113,6 +114,14 @@
 
     .success:hover {
       background: #15803d;
+    }
+
+    .danger {
+      background: #dc2626;
+    }
+
+    .danger:hover {
+      background: #b91c1c;
     }
 
     .exam-list {
@@ -248,15 +257,6 @@
       margin-top: 16px;
     }
 
-    .error-box {
-      background: #fef2f2;
-      border: 1px solid #fca5a5;
-      color: #991b1b;
-      padding: 12px;
-      border-radius: 10px;
-      margin-top: 12px;
-    }
-
     .hidden {
       display: none;
     }
@@ -310,6 +310,7 @@
       padding: 10px;
       text-align: left;
       font-size: 14px;
+      vertical-align: top;
     }
 
     th {
@@ -341,6 +342,32 @@
       padding: 12px;
       border-radius: 10px;
       margin-top: 12px;
+      margin-bottom: 12px;
+    }
+
+    .ok-box {
+      background: #ecfdf5;
+      border: 1px solid #86efac;
+      color: #166534;
+      padding: 12px;
+      border-radius: 10px;
+      margin-top: 12px;
+      margin-bottom: 12px;
+    }
+
+    .error-box {
+      background: #fef2f2;
+      border: 1px solid #fca5a5;
+      color: #991b1b;
+      padding: 12px;
+      border-radius: 10px;
+      margin-top: 12px;
+      margin-bottom: 12px;
+    }
+
+    .small-text {
+      font-size: 13px;
+      color: #64748b;
     }
 
     @media (max-width: 850px) {
@@ -458,7 +485,8 @@
 
       <div class="admin-menu">
         <button onclick="showAdminSection('examManagement')">Quản lý kỳ thi</button>
-        <button onclick="showAdminSection('questionBank')">Ngân hàng câu hỏi</button>
+        <button onclick="showAdminSection('questionBank')">Ngân hàng câu hỏi mẫu</button>
+        <button onclick="showAdminSection('importQuestions')">Nhập câu hỏi vào kho</button>
         <button onclick="showAdminSection('studentResults')">Kết quả học sinh</button>
         <button class="secondary" onclick="backToStudentLogin()">Về trang học sinh</button>
       </div>
@@ -472,14 +500,14 @@
         </div>
 
         <div class="admin-card">
-          <h3>Ngân hàng câu hỏi</h3>
-          <p>Đang có 10 câu hỏi mẫu.</p>
-          <p>Sau này giáo viên sẽ nhập câu hỏi thật tại đây.</p>
+          <h3>Kho câu hỏi Firebase</h3>
+          <p>Câu hỏi thật sẽ nằm trong collection <b>questions</b>.</p>
+          <p>Dùng mục <b>Nhập câu hỏi vào kho</b> để nhập dữ liệu.</p>
         </div>
 
         <div class="admin-card">
           <h3>Kết quả học sinh</h3>
-          <p>Kết quả thật sẽ được đọc từ Firebase.</p>
+          <p>Kết quả thật được đọc từ Firebase.</p>
           <p>Bấm mục <b>Kết quả học sinh</b> để tải dữ liệu.</p>
         </div>
       </div>
@@ -528,48 +556,11 @@
       </div>
 
       <div id="questionBank" class="admin-section hidden">
-        <h3>Ngân hàng câu hỏi</h3>
+        <h3>Ngân hàng câu hỏi mẫu đang nằm trong code</h3>
 
-        <label>Nội dung câu hỏi</label>
-        <textarea placeholder="Nhập nội dung câu hỏi..."></textarea>
-
-        <label>Đáp án A</label>
-        <input type="text" placeholder="Nhập đáp án A" />
-
-        <label>Đáp án B</label>
-        <input type="text" placeholder="Nhập đáp án B" />
-
-        <label>Đáp án C</label>
-        <input type="text" placeholder="Nhập đáp án C" />
-
-        <label>Đáp án D</label>
-        <input type="text" placeholder="Nhập đáp án D" />
-
-        <label>Đáp án đúng</label>
-        <select>
-          <option>A</option>
-          <option>B</option>
-          <option>C</option>
-          <option>D</option>
-        </select>
-
-        <label>Mức độ</label>
-        <select>
-          <option>Nhận biết</option>
-          <option>Thông hiểu</option>
-          <option>Vận dụng</option>
-          <option>Vận dụng cao</option>
-        </select>
-
-        <label>Dạng câu</label>
-        <select>
-          <option>Dạng 1</option>
-          <option>Dạng 2</option>
-          <option>Dạng 3</option>
-          <option>Dạng 4</option>
-        </select>
-
-        <button class="success" onclick="alert('Bản mẫu: chức năng thêm câu hỏi sẽ làm ở bước sau.')">Thêm câu hỏi</button>
+        <div class="notice">
+          Đây chỉ là 10 câu mẫu để test website. Kho câu hỏi thật sẽ nằm ở mục <b>Nhập câu hỏi vào kho</b>.
+        </div>
 
         <table>
           <thead>
@@ -582,6 +573,51 @@
             </tr>
           </thead>
           <tbody id="adminQuestionTable"></tbody>
+        </table>
+      </div>
+
+      <div id="importQuestions" class="admin-section hidden">
+        <h3>Nhập câu hỏi vào kho Firebase</h3>
+
+        <p>
+          Dán dữ liệu JSON do AI tạo từ file Word vào ô bên dưới.
+          Sau đó bấm <b>Kiểm tra dữ liệu</b>, rồi bấm <b>Nhập vào kho Firebase</b>.
+        </p>
+
+        <div class="notice">
+          Dữ liệu sẽ được lưu vào collection <b>questions</b> trong Firebase.
+          Đây là kho câu hỏi thật dùng cho các bước tạo ma trận và bốc đề sau này.
+        </div>
+
+        <label>Dữ liệu câu hỏi dạng JSON</label>
+        <textarea id="questionJsonInput" placeholder='Dán JSON vào đây, ví dụ: [{"questionType":"multipleChoice","code":"S.12.01.1.1","content":"..."}]' style="min-height: 260px;"></textarea>
+
+        <button onclick="checkQuestionJson()">Kiểm tra dữ liệu</button>
+        <button class="success" onclick="importQuestionsToFirebase()">Nhập vào kho Firebase</button>
+        <button class="secondary" onclick="loadQuestionBankFromFirebase()">Tải lại kho câu hỏi</button>
+        <button class="danger" onclick="clearQuestionJsonInput()">Xóa ô nhập</button>
+
+        <div id="questionImportStatus" class="notice">
+          Chưa có dữ liệu.
+        </div>
+
+        <h3>Danh sách câu hỏi trong kho Firebase</h3>
+
+        <table>
+          <thead>
+            <tr>
+              <th>STT</th>
+              <th>Loại</th>
+              <th>Mã</th>
+              <th>Nội dung</th>
+              <th>Đáp án</th>
+            </tr>
+          </thead>
+          <tbody id="questionBankFirebaseTable">
+            <tr>
+              <td colspan="5">Bấm “Tải lại kho câu hỏi” để xem dữ liệu.</td>
+            </tr>
+          </tbody>
         </table>
       </div>
 
@@ -909,8 +945,6 @@
         submitMessage = "Hết giờ, hệ thống đã tự động nộp bài.";
       }
 
-      let saveStatus = "Đang lưu kết quả vào Firebase...";
-
       document.getElementById("resultContent").innerHTML = `
         <div class="result-box">
           <p><b>${submitMessage}</b></p>
@@ -919,7 +953,7 @@
           <p><b>Số câu đúng:</b> ${correctCount}/${questions.length}</p>
           <p><b>Điểm:</b> ${score.toFixed(2)}</p>
           <p><b>Thời gian làm bài:</b> ${usedMinutes} phút ${remainingSeconds} giây</p>
-          <p id="saveStatus"><b>${saveStatus}</b></p>
+          <p id="saveStatus"><b>Đang lưu kết quả vào Firebase...</b></p>
         </div>
       `;
 
@@ -980,12 +1014,17 @@
     window.showAdminSection = function(sectionId) {
       document.getElementById("examManagement").classList.add("hidden");
       document.getElementById("questionBank").classList.add("hidden");
+      document.getElementById("importQuestions").classList.add("hidden");
       document.getElementById("studentResults").classList.add("hidden");
 
       document.getElementById(sectionId).classList.remove("hidden");
 
       if (sectionId === "studentResults") {
         loadStudentResults();
+      }
+
+      if (sectionId === "importQuestions") {
+        loadQuestionBankFromFirebase();
       }
     };
 
@@ -1007,6 +1046,224 @@
         tableBody.appendChild(row);
       });
     }
+
+    function getMainCode(question) {
+      if (question.code) {
+        return question.code;
+      }
+
+      if (question.groupCode) {
+        return question.groupCode;
+      }
+
+      return "";
+    }
+
+    function getShortContent(text) {
+      if (!text) {
+        return "";
+      }
+
+      if (text.length <= 120) {
+        return text;
+      }
+
+      return text.substring(0, 120) + "...";
+    }
+
+    window.clearQuestionJsonInput = function() {
+      document.getElementById("questionJsonInput").value = "";
+      document.getElementById("questionImportStatus").className = "notice";
+      document.getElementById("questionImportStatus").innerHTML = "Đã xóa ô nhập.";
+    };
+
+    window.checkQuestionJson = function() {
+      const input = document.getElementById("questionJsonInput").value.trim();
+      const status = document.getElementById("questionImportStatus");
+
+      status.className = "notice";
+
+      if (!input) {
+        status.innerHTML = "Bạn chưa dán dữ liệu JSON.";
+        return;
+      }
+
+      try {
+        const data = JSON.parse(input);
+
+        if (!Array.isArray(data)) {
+          status.className = "error-box";
+          status.innerHTML = "Dữ liệu phải là một mảng JSON, bắt đầu bằng dấu [ và kết thúc bằng dấu ].";
+          return;
+        }
+
+        if (data.length === 0) {
+          status.className = "error-box";
+          status.innerHTML = "Mảng JSON đang rỗng, chưa có câu hỏi nào.";
+          return;
+        }
+
+        let multipleChoiceCount = 0;
+        let trueFalseCount = 0;
+        let shortAnswerCount = 0;
+        let otherCount = 0;
+        let missingTypeCount = 0;
+
+        data.forEach((question) => {
+          if (!question.questionType) {
+            missingTypeCount++;
+          }
+
+          if (question.questionType === "multipleChoice") {
+            multipleChoiceCount++;
+          } else if (question.questionType === "trueFalseGroup") {
+            trueFalseCount++;
+          } else if (question.questionType === "shortAnswer") {
+            shortAnswerCount++;
+          } else {
+            otherCount++;
+          }
+        });
+
+        status.className = "ok-box";
+        status.innerHTML =
+          "Dữ liệu hợp lệ. Tổng số câu: <b>" + data.length + "</b><br>" +
+          "Trắc nghiệm 4 đáp án: <b>" + multipleChoiceCount + "</b><br>" +
+          "Đúng/Sai: <b>" + trueFalseCount + "</b><br>" +
+          "Trả lời ngắn: <b>" + shortAnswerCount + "</b><br>" +
+          "Dạng khác/chưa xác định: <b>" + otherCount + "</b><br>" +
+          "Thiếu questionType: <b>" + missingTypeCount + "</b>";
+      } catch (error) {
+        status.className = "error-box";
+        status.innerHTML = "JSON chưa đúng định dạng. Hãy kiểm tra dấu ngoặc, dấu phẩy, dấu nháy.";
+      }
+    };
+
+    window.importQuestionsToFirebase = async function() {
+      const input = document.getElementById("questionJsonInput").value.trim();
+      const status = document.getElementById("questionImportStatus");
+
+      status.className = "notice";
+
+      if (!input) {
+        status.innerHTML = "Bạn chưa dán dữ liệu JSON.";
+        return;
+      }
+
+      let data;
+
+      try {
+        data = JSON.parse(input);
+      } catch (error) {
+        status.className = "error-box";
+        status.innerHTML = "JSON chưa đúng định dạng nên chưa thể nhập kho.";
+        return;
+      }
+
+      if (!Array.isArray(data) || data.length === 0) {
+        status.className = "error-box";
+        status.innerHTML = "Dữ liệu phải là mảng JSON và có ít nhất 1 câu hỏi.";
+        return;
+      }
+
+      status.innerHTML = "Đang nhập " + data.length + " câu hỏi vào Firebase...";
+
+      try {
+        let importedCount = 0;
+
+        for (const question of data) {
+          const questionToSave = {
+            ...question,
+            source: "AI_import_from_word",
+            importedAt: serverTimestamp(),
+            isActive: question.isActive === false ? false : true
+          };
+
+          await addDoc(collection(db, "questions"), questionToSave);
+          importedCount++;
+        }
+
+        status.className = "ok-box";
+        status.innerHTML =
+          "Đã nhập thành công <b>" + importedCount + "</b> câu hỏi vào kho Firebase.";
+
+        document.getElementById("questionJsonInput").value = "";
+        loadQuestionBankFromFirebase();
+      } catch (error) {
+        console.error("Lỗi nhập câu hỏi:", error);
+        status.className = "error-box";
+        status.innerHTML =
+          "Không nhập được câu hỏi vào Firebase. Kiểm tra Firestore Rules hoặc dữ liệu JSON.";
+      }
+    };
+
+    window.loadQuestionBankFromFirebase = async function() {
+      const tableBody = document.getElementById("questionBankFirebaseTable");
+
+      if (!tableBody) {
+        return;
+      }
+
+      tableBody.innerHTML = `
+        <tr>
+          <td colspan="5">Đang tải kho câu hỏi từ Firebase...</td>
+        </tr>
+      `;
+
+      try {
+        const q = query(collection(db, "questions"), orderBy("importedAt", "desc"));
+        const querySnapshot = await getDocs(q);
+
+        if (querySnapshot.empty) {
+          tableBody.innerHTML = `
+            <tr>
+              <td colspan="5">Kho câu hỏi đang trống.</td>
+            </tr>
+          `;
+          return;
+        }
+
+        tableBody.innerHTML = "";
+
+        let index = 1;
+
+        querySnapshot.forEach((doc) => {
+          const question = doc.data();
+
+          const row = document.createElement("tr");
+
+          let answerText = "";
+
+          if (question.questionType === "multipleChoice") {
+            answerText = question.correctAnswer || "";
+          } else if (question.questionType === "shortAnswer") {
+            answerText = question.correctAnswer || "";
+          } else if (question.questionType === "trueFalseGroup" && question.statements) {
+            answerText = question.statements.map(function(item) {
+              return item.label + ": " + item.correctAnswer;
+            }).join("; ");
+          }
+
+          row.innerHTML = `
+            <td>${index}</td>
+            <td>${question.questionType || ""}</td>
+            <td>${getMainCode(question)}</td>
+            <td>${getShortContent(question.content)}</td>
+            <td>${answerText}</td>
+          `;
+
+          tableBody.appendChild(row);
+          index++;
+        });
+      } catch (error) {
+        console.error("Lỗi tải kho câu hỏi:", error);
+        tableBody.innerHTML = `
+          <tr>
+            <td colspan="5">Không tải được kho câu hỏi từ Firebase.</td>
+          </tr>
+        `;
+      }
+    };
 
     window.loadStudentResults = async function() {
       const tableBody = document.getElementById("studentResultsTable");
