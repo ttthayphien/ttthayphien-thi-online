@@ -1,74 +1,1620 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>TT Thầy Phiên - Thi Online</title>
-<script>
-window.MathJax={tex:{inlineMath:[["\\(","\\)"],["$","$"]]},svg:{fontCache:"global"}};
-</script>
-<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
-<style>
-*{box-sizing:border-box}body{font-family:Arial,sans-serif;background:#eef3fb;margin:0;color:#1f2937}header{background:#2563eb;color:white;padding:18px 24px;text-align:center;position:relative}header h1{margin:0;font-size:26px}header p{margin:6px 0 0;font-size:14px}.admin-top-button{position:absolute;right:18px;top:18px;background:white;color:#2563eb;padding:9px 14px;border-radius:8px;border:0;cursor:pointer;font-weight:bold}.container{max-width:1200px;margin:24px auto;padding:0 16px}.box,.question-card,.answer-sheet{background:white;border-radius:14px;box-shadow:0 8px 24px rgba(0,0,0,.08)}.box{padding:24px;margin-bottom:18px}.question-card{padding:18px;margin-bottom:16px;border:1px solid #e5e7eb}.answer-sheet{position:sticky;top:16px;padding:18px}input,textarea,select{width:100%;padding:12px;margin:8px 0 16px;border:1px solid #d1d5db;border-radius:8px;font-size:16px;font-family:Arial,sans-serif}textarea{min-height:260px}button{background:#2563eb;color:white;border:0;padding:12px 18px;border-radius:8px;cursor:pointer;font-size:16px;margin:4px 4px 4px 0}button:hover{background:#1d4ed8}button:disabled{background:#94a3b8;cursor:not-allowed}.secondary{background:#64748b}.success{background:#16a34a}.danger{background:#dc2626}.exam-list,.admin-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}.exam-card,.admin-card{border:1px solid #e5e7eb;border-radius:12px;padding:18px;background:#fafafa}.exam-layout{display:grid;grid-template-columns:1fr 280px;gap:18px;align-items:start}.question-title{font-weight:bold;margin-bottom:12px;line-height:1.6}.question-meta{font-size:13px;color:#64748b;margin-bottom:12px}.question-image-wrap{width:100%;border:1px solid #e5e7eb;background:#fff;border-radius:12px;padding:12px;margin:12px 0 16px;text-align:center}.question-image-wrap img{max-width:100%;height:auto;border-radius:8px}.answer-area-title{font-weight:bold;margin:10px 0;color:#334155}.option{display:block;margin:10px 0;padding:10px;border:1px solid #e5e7eb;border-radius:8px;cursor:pointer;line-height:1.6}.option:hover{background:#f1f5f9}.image-mode-choice-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}.image-mode-choice-row label{border:1px solid #d1d5db;border-radius:10px;padding:12px;text-align:center;cursor:pointer;background:#f8fafc;font-weight:bold}.tf-statement{border:1px solid #e5e7eb;padding:12px;border-radius:10px;margin:10px 0;background:#fafafa}.timer-box{background:#eff6ff;border:1px solid #bfdbfe;padding:12px;border-radius:10px;margin-bottom:14px;text-align:center}.timer{font-size:30px;font-weight:bold;color:#2563eb}.timer-warning{background:#fff7ed;border-color:#fdba74}.timer-warning .timer{color:#ea580c}.timer-danger{background:#fef2f2;border-color:#fca5a5}.timer-danger .timer{color:#dc2626}.answer-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:14px 0}.answer-number{border:1px solid #d1d5db;background:#f8fafc;color:#1f2937;padding:9px 0;border-radius:8px;text-align:center;font-weight:bold;font-size:14px;cursor:pointer}.answered{background:#22c55e;color:white;border-color:#22c55e}.result-box{background:#ecfdf5;border:1px solid #86efac;color:#166534;padding:18px;border-radius:12px;font-size:18px;margin-top:16px}.hidden{display:none}.student-info{font-size:14px;color:#475569;margin-bottom:12px}.admin-menu{display:flex;flex-wrap:wrap;gap:10px;margin:16px 0}.admin-section{border-top:1px solid #e5e7eb;margin-top:18px;padding-top:18px}table{width:100%;border-collapse:collapse;margin-top:12px;background:white}th,td{border:1px solid #e5e7eb;padding:10px;text-align:left;font-size:14px;vertical-align:top}th{background:#f1f5f9}.badge{display:inline-block;padding:4px 8px;border-radius:999px;font-size:12px;font-weight:bold}.badge-open{background:#dcfce7;color:#166534}.badge-lock{background:#fee2e2;color:#991b1b}.notice{background:#fff7ed;border:1px solid #fdba74;color:#9a3412;padding:12px;border-radius:10px;margin:12px 0}.ok-box{background:#ecfdf5;border:1px solid #86efac;color:#166534;padding:12px;border-radius:10px;margin:12px 0}.error-box{background:#fef2f2;border:1px solid #fca5a5;color:#991b1b;padding:12px;border-radius:10px;margin:12px 0}.image-warning{background:#fff7ed;border:1px dashed #fb923c;color:#9a3412;padding:10px;border-radius:8px;margin:10px 0;font-size:14px}@media(max-width:850px){.exam-layout{grid-template-columns:1fr}.answer-sheet{position:static}.admin-top-button{position:static;margin-top:12px}.image-mode-choice-row{grid-template-columns:repeat(2,1fr)}}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TT Thầy Phiên - Thi Online</title>
+
+  <!-- BẢN CODE: STEP 8.1 - HIỂN THỊ CÂU HỎI DẠNG ẢNH NGUYÊN CÂU -->
+
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [["\\(", "\\)"], ["$", "$"]]
+      },
+      svg: {
+        fontCache: "global"
+      }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #eef3fb;
+      margin: 0;
+      color: #1f2937;
+    }
+
+    header {
+      background: #2563eb;
+      color: white;
+      padding: 18px 24px;
+      text-align: center;
+      position: relative;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 26px;
+    }
+
+    header p {
+      margin: 6px 0 0;
+      font-size: 14px;
+    }
+
+    .admin-top-button {
+      position: absolute;
+      right: 18px;
+      top: 18px;
+      background: white;
+      color: #2563eb;
+      padding: 9px 14px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 24px auto;
+      padding: 0 16px;
+    }
+
+    .box {
+      background: white;
+      padding: 24px;
+      border-radius: 14px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+      margin-bottom: 18px;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 12px;
+      margin: 8px 0 16px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      font-size: 16px;
+      font-family: Arial, sans-serif;
+    }
+
+    textarea {
+      min-height: 260px;
+    }
+
+    button {
+      background: #2563eb;
+      color: white;
+      border: none;
+      padding: 12px 18px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      margin: 4px 4px 4px 0;
+    }
+
+    button:hover {
+      background: #1d4ed8;
+    }
+
+    button:disabled {
+      background: #94a3b8;
+      cursor: not-allowed;
+    }
+
+    .secondary {
+      background: #64748b;
+    }
+
+    .success {
+      background: #16a34a;
+    }
+
+    .danger {
+      background: #dc2626;
+    }
+
+    .exam-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+    }
+
+    .exam-card {
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 18px;
+      background: #fafafa;
+    }
+
+    .exam-card h3 {
+      margin-top: 0;
+    }
+
+    .exam-layout {
+      display: grid;
+      grid-template-columns: 1fr 280px;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .question-card {
+      background: white;
+      border-radius: 12px;
+      padding: 18px;
+      margin-bottom: 16px;
+      border: 1px solid #e5e7eb;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+    }
+
+    .question-title {
+      font-weight: bold;
+      margin-bottom: 12px;
+      line-height: 1.6;
+    }
+
+    .question-meta {
+      font-size: 13px;
+      color: #64748b;
+      margin-bottom: 12px;
+    }
+
+    .question-image-wrap {
+      width: 100%;
+      border: 1px solid #e5e7eb;
+      background: #fff;
+      border-radius: 12px;
+      padding: 12px;
+      margin: 12px 0 16px;
+      text-align: center;
+    }
+
+    .question-image-wrap img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+    }
+
+    .image-load-error {
+      display: none;
+      background: #fef2f2;
+      border: 1px solid #fca5a5;
+      color: #991b1b;
+      padding: 12px;
+      border-radius: 10px;
+      margin-top: 10px;
+      text-align: left;
+    }
+
+    .answer-area-title {
+      font-weight: bold;
+      margin: 10px 0;
+      color: #334155;
+    }
+
+    .option {
+      display: block;
+      margin: 10px 0;
+      padding: 10px;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      cursor: pointer;
+      line-height: 1.6;
+    }
+
+    .option:hover {
+      background: #f1f5f9;
+    }
+
+    .image-mode-choice-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .image-mode-choice-row label {
+      border: 1px solid #d1d5db;
+      border-radius: 10px;
+      padding: 14px;
+      text-align: center;
+      cursor: pointer;
+      background: #f8fafc;
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    .image-mode-choice-row label:hover {
+      background: #e0f2fe;
+    }
+
+    .tf-statement {
+      border: 1px solid #e5e7eb;
+      padding: 12px;
+      border-radius: 10px;
+      margin: 10px 0;
+      background: #fafafa;
+    }
+
+    .tf-content {
+      margin-bottom: 8px;
+      line-height: 1.6;
+    }
+
+    .answer-sheet {
+      position: sticky;
+      top: 16px;
+      background: white;
+      padding: 18px;
+      border-radius: 14px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    }
+
+    .timer-box {
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      padding: 12px;
+      border-radius: 10px;
+      margin-bottom: 14px;
+      text-align: center;
+    }
+
+    .timer-label {
+      font-size: 14px;
+      color: #475569;
+      margin-bottom: 4px;
+    }
+
+    .timer {
+      font-size: 30px;
+      font-weight: bold;
+      color: #2563eb;
+    }
+
+    .timer-warning {
+      background: #fff7ed;
+      border-color: #fdba74;
+    }
+
+    .timer-warning .timer {
+      color: #ea580c;
+    }
+
+    .timer-danger {
+      background: #fef2f2;
+      border-color: #fca5a5;
+    }
+
+    .timer-danger .timer {
+      color: #dc2626;
+    }
+
+    .answer-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+      margin: 14px 0;
+    }
+
+    .answer-number {
+      border: 1px solid #d1d5db;
+      background: #f8fafc;
+      color: #1f2937;
+      padding: 9px 0;
+      border-radius: 8px;
+      text-align: center;
+      font-weight: bold;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .answered {
+      background: #22c55e;
+      color: white;
+      border-color: #22c55e;
+    }
+
+    .result-box {
+      background: #ecfdf5;
+      border: 1px solid #86efac;
+      color: #166534;
+      padding: 18px;
+      border-radius: 12px;
+      font-size: 18px;
+      margin-top: 16px;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .student-info {
+      font-size: 14px;
+      color: #475569;
+      margin-bottom: 12px;
+    }
+
+    .admin-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    .admin-card {
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 18px;
+      background: #f8fafc;
+    }
+
+    .admin-card h3 {
+      margin-top: 0;
+    }
+
+    .admin-menu {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 16px 0;
+    }
+
+    .admin-section {
+      border-top: 1px solid #e5e7eb;
+      margin-top: 18px;
+      padding-top: 18px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 12px;
+      background: white;
+    }
+
+    th, td {
+      border: 1px solid #e5e7eb;
+      padding: 10px;
+      text-align: left;
+      font-size: 14px;
+      vertical-align: top;
+    }
+
+    th {
+      background: #f1f5f9;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    .badge-open {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .badge-lock {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .notice {
+      background: #fff7ed;
+      border: 1px solid #fdba74;
+      color: #9a3412;
+      padding: 12px;
+      border-radius: 10px;
+      margin-top: 12px;
+      margin-bottom: 12px;
+    }
+
+    .ok-box {
+      background: #ecfdf5;
+      border: 1px solid #86efac;
+      color: #166534;
+      padding: 12px;
+      border-radius: 10px;
+      margin-top: 12px;
+      margin-bottom: 12px;
+    }
+
+    .error-box {
+      background: #fef2f2;
+      border: 1px solid #fca5a5;
+      color: #991b1b;
+      padding: 12px;
+      border-radius: 10px;
+      margin-top: 12px;
+      margin-bottom: 12px;
+    }
+
+    .image-warning {
+      background: #fff7ed;
+      border: 1px dashed #fb923c;
+      color: #9a3412;
+      padding: 10px;
+      border-radius: 8px;
+      margin: 10px 0;
+      font-size: 14px;
+    }
+
+    @media (max-width: 850px) {
+      .exam-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .answer-sheet {
+        position: static;
+      }
+
+      .admin-top-button {
+        position: static;
+        margin-top: 12px;
+      }
+
+      .image-mode-choice-row {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+  </style>
 </head>
+
 <body>
-<header><h1>TT Thầy Phiên - Thi Online</h1><p>Hệ thống làm bài trắc nghiệm trực tuyến</p><button class="admin-top-button" onclick="openAdminLogin()">Giáo viên / Admin</button></header>
-<div class="container">
-<section id="loginScreen" class="box"><h2>Đăng nhập học sinh</h2><p>Nhập thông tin để bắt đầu làm bài.</p><label>Họ và tên</label><input id="studentName" placeholder="Ví dụ: Nguyễn Văn A"/><label>Lớp</label><input id="studentClass" placeholder="Ví dụ: 12A1"/><button onclick="login()">Đăng nhập</button></section>
-<section id="examSelectScreen" class="box hidden"><h2>Chọn kỳ thi</h2><div class="student-info" id="studentInfo"></div><div class="exam-list"><div class="exam-card"><h3>Đề thử từ kho Firebase</h3><p>Lấy câu hỏi thật từ collection <b>questions</b>.</p><p>Thời gian: 15 phút</p><p>Trạng thái: <span class="badge badge-open">Đang mở</span></p><button onclick="startExam()">Vào làm bài</button></div><div class="exam-card"><h3>Đề theo ma trận</h3><p>Sẽ làm ở bước sau.</p><p>Trạng thái: <span class="badge badge-lock">Chưa làm</span></p><button class="secondary" disabled>Chưa mở</button></div></div></section>
-<section id="examScreen" class="hidden"><div class="exam-layout"><div><div class="box"><h2>Đề thử từ kho Firebase</h2><div class="student-info" id="studentInfoExam"></div><p><b>Hướng dẫn:</b> Nếu câu hỏi có ảnh nguyên câu, hãy xem ảnh và trả lời ở phần bên dưới ảnh.</p></div><div id="questionList"></div></div><aside class="answer-sheet"><h3>Phiếu trả lời</h3><div id="timerBox" class="timer-box"><div>Thời gian còn lại</div><div id="timer" class="timer">15:00</div></div><p id="progressText">Đã làm 0/0 câu</p><div id="answerGrid" class="answer-grid"></div><button id="submitButton" onclick="submitExam(false)">Nộp bài</button><button class="secondary" onclick="backToExamList()" style="margin-top:8px">Quay lại</button></aside></div></section>
-<section id="resultScreen" class="box hidden"><h2>Kết quả bài làm</h2><div id="resultContent"></div><button onclick="backToExamList()">Quay lại danh sách đề</button></section>
-<section id="adminLoginScreen" class="box hidden"><h2>Đăng nhập giáo viên</h2><p>Nhập mật khẩu quản trị để vào trang giáo viên.</p><label>Mật khẩu admin</label><input id="adminPassword" type="password" placeholder="Nhập mật khẩu admin"/><button onclick="loginAdmin()">Đăng nhập admin</button><button class="secondary" onclick="backToStudentLogin()">Quay lại trang học sinh</button><div class="notice">Mật khẩu tạm thời hiện tại là: <b>123456</b>.</div></section>
-<section id="adminDashboardScreen" class="box hidden"><h2>Trang giáo viên / Admin</h2><p>Khu vực quản lý kỳ thi, ngân hàng câu hỏi và kết quả học sinh.</p><div class="admin-menu"><button onclick="showAdminSection('examManagement')">Quản lý kỳ thi</button><button onclick="showAdminSection('importQuestions')">Nhập câu hỏi vào kho</button><button onclick="showAdminSection('firebaseQuestionBank')">Kho câu hỏi Firebase</button><button onclick="showAdminSection('studentResults')">Kết quả học sinh</button><button class="secondary" onclick="backToStudentLogin()">Về trang học sinh</button></div><div class="admin-grid"><div class="admin-card"><h3>Kỳ thi</h3><p>Hiện đang dùng đề thử lấy toàn bộ câu hỏi trong Firebase.</p></div><div class="admin-card"><h3>Kho câu hỏi</h3><p>Chuẩn mới: mỗi câu nên có <b>questionId</b> và có thể có <b>questionImageUrl</b>.</p></div><div class="admin-card"><h3>Kết quả học sinh</h3><p>Kết quả thật được đọc từ Firebase.</p></div></div>
-<div id="examManagement" class="admin-section"><h3>Quản lý kỳ thi</h3><label>Tên kỳ thi</label><input value="Đề thử từ kho Firebase"/><label>Thời gian làm bài, tính bằng phút</label><input type="number" value="15"/><label>Trạng thái</label><select><option>Đang mở</option><option>Đang khóa</option></select><button class="success" onclick="alert('Bản mẫu: chức năng lưu kỳ thi sẽ làm ở bước sau.')">Lưu kỳ thi</button><div class="notice">Bước này hỗ trợ câu hỏi dạng ảnh nguyên câu. Tạo ma trận đề sẽ làm ở bước sau.</div></div>
-<div id="importQuestions" class="admin-section hidden"><h3>Nhập câu hỏi vào kho Firebase</h3><p>Dán dữ liệu JSON do AI/công cụ tạo từ file Word vào ô bên dưới.</p><div class="notice">Chuẩn mới: <b>questionId</b>, <b>questionType</b>, <b>code/groupCode</b>, <b>displayMode: "image"</b> + <b>questionImageUrl</b> nếu là ảnh nguyên câu.</div><label>Dữ liệu câu hỏi dạng JSON</label><textarea id="questionJsonInput" placeholder="Dán JSON vào đây"></textarea><button onclick="checkQuestionJson()">Kiểm tra dữ liệu</button><button class="success" onclick="importQuestionsToFirebase()">Nhập vào kho Firebase</button><button class="secondary" onclick="loadQuestionBankFromFirebase()">Tải lại kho câu hỏi</button><button class="danger" onclick="clearQuestionJsonInput()">Xóa ô nhập</button><div id="questionImportStatus" class="notice">Chưa có dữ liệu.</div></div>
-<div id="firebaseQuestionBank" class="admin-section hidden"><h3>Danh sách câu hỏi trong kho Firebase</h3><button onclick="loadQuestionBankFromFirebase()">Tải lại kho câu hỏi</button><table><thead><tr><th>STT</th><th>ID</th><th>Loại</th><th>Mã</th><th>Hiển thị</th><th>Nội dung / Ảnh</th><th>Đáp án</th></tr></thead><tbody id="questionBankFirebaseTable"><tr><td colspan="7">Bấm “Tải lại kho câu hỏi” để xem dữ liệu.</td></tr></tbody></table></div>
-<div id="studentResults" class="admin-section hidden"><h3>Kết quả học sinh</h3><button onclick="loadStudentResults()">Tải lại kết quả từ Firebase</button><table><thead><tr><th>Thời gian nộp</th><th>Học sinh</th><th>Lớp</th><th>Kỳ thi</th><th>Số đúng</th><th>Tổng</th><th>Điểm</th><th>Thời gian</th></tr></thead><tbody id="studentResultsTable"><tr><td colspan="8">Bấm “Tải lại kết quả từ Firebase” để xem dữ liệu.</td></tr></tbody></table></div>
-</section>
-</div>
-<script type="module">
-import{initializeApp}from"https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
-import{getFirestore,collection,addDoc,getDocs,query,orderBy,serverTimestamp}from"https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
-const firebaseConfig={apiKey:"AIzaSyABhyjdx1IPr1kI0yH_9DOALztTuCgcz4c",authDomain:"ttthayphien-thi-online.firebaseapp.com",projectId:"ttthayphien-thi-online",storageBucket:"ttthayphien-thi-online.firebasestorage.app",messagingSenderId:"562842297637",appId:"1:562842297637:web:2164ab36d8003b5fd3a6cc"};
-const app=initializeApp(firebaseConfig),db=getFirestore(app);
-let student={name:"",className:""},adminPassword="123456",examName="Đề thử từ kho Firebase",examDurationMinutes=15,timeLeftSeconds=900,timerInterval=null,isSubmitted=false,examQuestions=[],studentAnswers={};
-function showScreen(id){["loginScreen","examSelectScreen","examScreen","resultScreen","adminLoginScreen","adminDashboardScreen"].forEach(x=>document.getElementById(x).classList.add("hidden"));document.getElementById(id).classList.remove("hidden")}
-function rerenderMath(){if(window.MathJax&&window.MathJax.typesetPromise)window.MathJax.typesetPromise()}
-function esc(t){if(t===undefined||t===null)return"";return String(t).replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;")}
-function norm(t){if(t===undefined||t===null)return"";return String(t).trim().toLowerCase().replaceAll(" ","").replaceAll(",",".")}
-function mainCode(q){return q.code||q.groupCode||""}
-function qid(q){return q.questionId||q.firebaseId||""}
-function short(t){if(!t)return"";return t.length<=100?t:t.slice(0,100)+"..."}
-function hasImg(q){return Boolean(q.questionImageUrl)}
-window.login=function(){const n=document.getElementById("studentName").value.trim(),c=document.getElementById("studentClass").value.trim();if(!n||!c){alert("Vui lòng nhập đầy đủ họ tên và lớp.");return}student={name:n,className:c};document.getElementById("studentInfo").innerText="Học sinh: "+n+" - Lớp: "+c;showScreen("examSelectScreen")};
-window.startExam=async function(){studentAnswers={};isSubmitted=false;timeLeftSeconds=examDurationMinutes*60;document.getElementById("questionList").innerHTML='<div class="box">Đang tải câu hỏi từ Firebase...</div>';showScreen("examScreen");document.getElementById("studentInfoExam").innerText="Học sinh: "+student.name+" - Lớp: "+student.className;try{await loadExamQuestionsFromFirebase();if(examQuestions.length===0){document.getElementById("questionList").innerHTML='<div class="box"><h3>Chưa có câu hỏi trong kho Firebase</h3><p>Vào Admin → Nhập câu hỏi vào kho để thêm câu hỏi trước.</p></div>';return}renderQuestions();renderAnswerSheet();updateTimerDisplay();startTimer();document.getElementById("submitButton").disabled=false}catch(e){console.error(e);document.getElementById("questionList").innerHTML='<div class="box error-box">Không tải được câu hỏi từ Firebase.</div>'}};
-async function loadExamQuestionsFromFirebase(){const qs=await getDocs(query(collection(db,"questions"),orderBy("importedAt","desc")));examQuestions=[];qs.forEach(d=>{const q=d.data();q.firebaseId=d.id;if(q.isActive!==false)examQuestions.push(q)})}
-function startTimer(){clearInterval(timerInterval);timerInterval=setInterval(()=>{timeLeftSeconds--;updateTimerDisplay();if(timeLeftSeconds<=0){clearInterval(timerInterval);timeLeftSeconds=0;updateTimerDisplay();submitExam(true)}},1000)}
-function updateTimerDisplay(){const m=Math.floor(timeLeftSeconds/60),s=timeLeftSeconds%60;document.getElementById("timer").innerText=String(m).padStart(2,"0")+":"+String(s).padStart(2,"0");const b=document.getElementById("timerBox");b.classList.remove("timer-warning","timer-danger");if(timeLeftSeconds<=60)b.classList.add("timer-danger");else if(timeLeftSeconds<=300)b.classList.add("timer-warning")}
-function header(q,n){let h='<div class="question-meta">Câu '+n+' | ID: '+esc(qid(q))+' | Mã: '+esc(mainCode(q))+' | Loại: '+esc(q.questionType||"")+'</div>';if(hasImg(q))return h+'<div class="question-image-wrap"><img src="'+esc(q.questionImageUrl)+'" alt="Câu '+n+'"></div>';h+='<div class="question-title">Câu '+n+': '+esc(q.content||"")+'</div>';if(q.needImageReview)h+='<div class="image-warning">Câu này có hình/bảng/đồ thị cần xử lý ảnh ở bước sau.</div>';if(q.imageUrl)h+='<img src="'+esc(q.imageUrl)+'" style="max-width:100%;margin:12px 0">';return h}
-function renderQuestions(){const list=document.getElementById("questionList");list.innerHTML="";examQuestions.forEach((q,i)=>{const n=i+1,card=document.createElement("div");card.className="question-card";card.id="question-"+n;if(q.questionType==="multipleChoice")card.innerHTML=renderMC(q,n);else if(q.questionType==="trueFalseGroup")card.innerHTML=renderTF(q,n);else if(q.questionType==="shortAnswer")card.innerHTML=renderSA(q,n);else card.innerHTML='<div class="question-title">Câu '+n+': Dạng câu hỏi chưa hỗ trợ</div><div>'+esc(q.content||"")+'</div>';list.appendChild(card)});rerenderMath()}
-function renderMC(q,n){if(hasImg(q))return header(q,n)+'<div class="answer-area-title">Chọn đáp án:</div><div class="image-mode-choice-row">'+["A","B","C","D"].map(k=>'<label><input type="radio" name="q'+n+'" value="'+k+'" onchange="chooseAnswer(\''+n+'\',\''+k+'\')"> '+k+'</label>').join("")+'</div>';return header(q,n)+["A","B","C","D"].map(k=>'<label class="option"><input type="radio" name="q'+n+'" value="'+k+'" onchange="chooseAnswer(\''+n+'\',\''+k+'\')"> '+k+'. '+esc(q["option"+k]||"")+'</label>').join("")}
-function renderTF(q,n){const sts=Array.isArray(q.statements)?q.statements:[];return header(q,n)+(hasImg(q)?'<div class="answer-area-title">Chọn Đúng/Sai cho từng ý:</div>':"")+sts.map(st=>{const l=st.label||"";return '<div class="tf-statement"><div class="tf-content"><b>'+esc(l)+')</b> '+(hasImg(q)?"":esc(st.content||""))+'</div><label><input type="radio" name="q'+n+"_"+l+'" value="Đúng" onchange="chooseTrueFalseAnswer(\''+n+'\',\''+l+'\',\'Đúng\')"> Đúng</label>&nbsp;&nbsp;<label><input type="radio" name="q'+n+"_"+l+'" value="Sai" onchange="chooseTrueFalseAnswer(\''+n+'\',\''+l+'\',\'Sai\')"> Sai</label></div>'}).join("")}
-function renderSA(q,n){return header(q,n)+'<label>Nhập đáp án</label><input type="text" placeholder="Nhập đáp án của bạn" oninput="chooseShortAnswer(\''+n+'\',this.value)">'}
-function renderAnswerSheet(){const g=document.getElementById("answerGrid");g.innerHTML="";examQuestions.forEach((_,i)=>{const n=i+1,it=document.createElement("div");it.className="answer-number";it.id="answer-number-"+n;it.innerText=n;it.onclick=()=>document.getElementById("question-"+n).scrollIntoView({behavior:"smooth",block:"start"});g.appendChild(it)});updateProgress()}
-window.chooseAnswer=function(n,a){studentAnswers[n]=a;markAnswered(n);updateProgress()};
-window.chooseTrueFalseAnswer=function(n,l,a){if(!studentAnswers[n])studentAnswers[n]={};studentAnswers[n][l]=a;const q=examQuestions[Number(n)-1],sts=Array.isArray(q.statements)?q.statements:[];if(Object.keys(studentAnswers[n]).length>=sts.length)markAnswered(n);updateProgress()};
-window.chooseShortAnswer=function(n,a){studentAnswers[n]=a.trim();const it=document.getElementById("answer-number-"+n);if(a.trim())markAnswered(n);else if(it)it.classList.remove("answered");updateProgress()};
-function markAnswered(n){const it=document.getElementById("answer-number-"+n);if(it)it.classList.add("answered")}
-function updateProgress(){let c=0;examQuestions.forEach((q,i)=>{const n=String(i+1),a=studentAnswers[n];if(q.questionType==="trueFalseGroup"){const sts=Array.isArray(q.statements)?q.statements:[];if(a&&Object.keys(a).length>=sts.length)c++}else if(a!==undefined&&a!=="")c++});document.getElementById("progressText").innerText="Đã làm "+c+"/"+examQuestions.length+" câu"}
-function gradeExam(){let ok=0,total=0;examQuestions.forEach((q,i)=>{const n=String(i+1),a=studentAnswers[n];if(q.questionType==="multipleChoice"){total++;if(a===q.correctAnswer)ok++}else if(q.questionType==="shortAnswer"){total++;const sa=norm(a),ca=norm(q.correctAnswer),acc=String(q.acceptedAnswers||"").split(";").map(norm).filter(Boolean);if(sa&&(sa===ca||acc.includes(sa)))ok++}else if(q.questionType==="trueFalseGroup"){(Array.isArray(q.statements)?q.statements:[]).forEach(st=>{total++;if(a&&a[st.label]===st.correctAnswer)ok++})}});return{correctUnits:ok,totalUnits:total,score:total?(ok/total)*10:0}}
-window.submitExam=async function(autoSubmit){if(isSubmitted)return;if(!autoSubmit&&!confirm("Bạn có chắc muốn nộp bài không?"))return;isSubmitted=true;clearInterval(timerInterval);document.getElementById("submitButton").disabled=true;const gr=gradeExam(),used=examDurationMinutes*60-timeLeftSeconds,um=Math.floor(used/60),us=used%60,msg=autoSubmit?"Hết giờ, hệ thống đã tự động nộp bài.":"Nộp bài thành công.";document.getElementById("resultContent").innerHTML='<div class="result-box"><p><b>'+msg+'</b></p><p><b>Học sinh:</b> '+esc(student.name)+'</p><p><b>Lớp:</b> '+esc(student.className)+'</p><p><b>Số đơn vị đúng:</b> '+gr.correctUnits+'/'+gr.totalUnits+'</p><p><b>Điểm mẫu:</b> '+gr.score.toFixed(2)+'</p><p><b>Thời gian làm bài:</b> '+um+' phút '+us+' giây</p><p id="saveStatus"><b>Đang lưu kết quả vào Firebase...</b></p></div>';showScreen("resultScreen");try{await addDoc(collection(db,"examResults"),{studentName:student.name,className:student.className,examName,totalQuestions:examQuestions.length,correctCount:gr.correctUnits,totalUnits:gr.totalUnits,score:Number(gr.score.toFixed(2)),usedSeconds:used,usedTimeText:um+" phút "+us+" giây",answers:studentAnswers,questionIds:examQuestions.map(q=>qid(q)),autoSubmit,createdAt:serverTimestamp()});document.getElementById("saveStatus").innerHTML="<b>Đã lưu kết quả vào Firebase thành công.</b>"}catch(e){console.error(e);document.getElementById("saveStatus").innerHTML="<b>Không lưu được kết quả vào Firebase.</b>"}};
-window.backToExamList=function(){clearInterval(timerInterval);showScreen("examSelectScreen")};
-window.openAdminLogin=function(){clearInterval(timerInterval);showScreen("adminLoginScreen")};
-window.loginAdmin=function(){if(document.getElementById("adminPassword").value!==adminPassword){alert("Mật khẩu admin chưa đúng.");return}showScreen("adminDashboardScreen");showAdminSection("examManagement")};
-window.backToStudentLogin=function(){clearInterval(timerInterval);showScreen("loginScreen")};
-window.showAdminSection=function(id){["examManagement","importQuestions","firebaseQuestionBank","studentResults"].forEach(x=>document.getElementById(x).classList.add("hidden"));document.getElementById(id).classList.remove("hidden");if(id==="studentResults")loadStudentResults();if(id==="firebaseQuestionBank")loadQuestionBankFromFirebase()};
-window.clearQuestionJsonInput=function(){document.getElementById("questionJsonInput").value="";document.getElementById("questionImportStatus").className="notice";document.getElementById("questionImportStatus").innerHTML="Đã xóa ô nhập."};
-window.checkQuestionJson=function(){const input=document.getElementById("questionJsonInput").value.trim(),st=document.getElementById("questionImportStatus");st.className="notice";if(!input){st.innerHTML="Bạn chưa dán dữ liệu JSON.";return}try{const data=JSON.parse(input);if(!Array.isArray(data)){st.className="error-box";st.innerHTML="Dữ liệu phải là một mảng JSON.";return}let mc=0,tf=0,sa=0,img=0,noid=0,o=0;data.forEach(q=>{if(!q.questionId)noid++;if(q.questionImageUrl||q.displayMode==="image")img++;if(q.questionType==="multipleChoice")mc++;else if(q.questionType==="trueFalseGroup")tf++;else if(q.questionType==="shortAnswer")sa++;else o++});st.className="ok-box";st.innerHTML="Dữ liệu hợp lệ. Tổng số câu: <b>"+data.length+"</b><br>Trắc nghiệm: <b>"+mc+"</b><br>Đúng/Sai: <b>"+tf+"</b><br>Trả lời ngắn: <b>"+sa+"</b><br>Câu có ảnh nguyên câu: <b>"+img+"</b><br>Câu thiếu questionId: <b>"+noid+"</b><br>Dạng khác: <b>"+o+"</b>"}catch(e){st.className="error-box";st.innerHTML="JSON chưa đúng định dạng."}};
-window.importQuestionsToFirebase=async function(){const input=document.getElementById("questionJsonInput").value.trim(),st=document.getElementById("questionImportStatus");st.className="notice";if(!input){st.innerHTML="Bạn chưa dán dữ liệu JSON.";return}let data;try{data=JSON.parse(input)}catch(e){st.className="error-box";st.innerHTML="JSON chưa đúng định dạng nên chưa thể nhập kho.";return}if(!Array.isArray(data)||data.length===0){st.className="error-box";st.innerHTML="Dữ liệu phải là mảng JSON và có ít nhất 1 câu hỏi.";return}st.innerHTML="Đang nhập "+data.length+" câu hỏi vào Firebase...";try{let n=0;for(const q of data){await addDoc(collection(db,"questions"),{...q,importedAt:serverTimestamp(),isActive:q.isActive===false?false:true});n++}st.className="ok-box";st.innerHTML="Đã nhập thành công <b>"+n+"</b> câu hỏi vào kho Firebase.";document.getElementById("questionJsonInput").value=""}catch(e){console.error(e);st.className="error-box";st.innerHTML="Không nhập được câu hỏi vào Firebase."}};
-window.loadQuestionBankFromFirebase=async function(){const tb=document.getElementById("questionBankFirebaseTable");if(!tb)return;tb.innerHTML='<tr><td colspan="7">Đang tải kho câu hỏi từ Firebase...</td></tr>';try{const qs=await getDocs(query(collection(db,"questions"),orderBy("importedAt","desc")));if(qs.empty){tb.innerHTML='<tr><td colspan="7">Kho câu hỏi đang trống.</td></tr>';return}tb.innerHTML="";let i=1;qs.forEach(d=>{const q=d.data();q.firebaseId=d.id;let ans="";if(q.questionType==="multipleChoice")ans=q.correctAnswer||"";else if(q.questionType==="shortAnswer")ans=q.correctAnswer||"";else if(q.questionType==="trueFalseGroup"&&q.statements)ans=q.statements.map(x=>x.label+": "+x.correctAnswer).join("; ");const mode=hasImg(q)?"Ảnh nguyên câu":"Text",cont=hasImg(q)?q.questionImageUrl:short(q.content);const r=document.createElement("tr");r.innerHTML="<td>"+i+"</td><td>"+esc(qid(q))+"</td><td>"+esc(q.questionType||"")+"</td><td>"+esc(mainCode(q))+"</td><td>"+esc(mode)+"</td><td>"+esc(cont)+"</td><td>"+esc(ans)+"</td>";tb.appendChild(r);i++})}catch(e){console.error(e);tb.innerHTML='<tr><td colspan="7">Không tải được kho câu hỏi từ Firebase.</td></tr>'}};
-window.loadStudentResults=async function(){const tb=document.getElementById("studentResultsTable");tb.innerHTML='<tr><td colspan="8">Đang tải dữ liệu từ Firebase...</td></tr>';try{const qs=await getDocs(query(collection(db,"examResults"),orderBy("createdAt","desc")));if(qs.empty){tb.innerHTML='<tr><td colspan="8">Chưa có học sinh nào nộp bài.</td></tr>';return}tb.innerHTML="";qs.forEach(d=>{const x=d.data();let t="Chưa có thời gian";if(x.createdAt&&x.createdAt.toDate)t=x.createdAt.toDate().toLocaleString("vi-VN");const r=document.createElement("tr");r.innerHTML="<td>"+esc(t)+"</td><td>"+esc(x.studentName||"")+"</td><td>"+esc(x.className||"")+"</td><td>"+esc(x.examName||"")+"</td><td>"+esc(x.correctCount||0)+"</td><td>"+esc(x.totalUnits||x.totalQuestions||0)+"</td><td>"+esc(x.score||0)+"</td><td>"+esc(x.usedTimeText||"")+"</td>";tb.appendChild(r)})}catch(e){console.error(e);tb.innerHTML='<tr><td colspan="8">Không tải được dữ liệu từ Firebase.</td></tr>'}};
-</script>
+  <header>
+    <h1>TT Thầy Phiên - Thi Online</h1>
+    <p>Hệ thống làm bài trắc nghiệm trực tuyến</p>
+    <button class="admin-top-button" onclick="openAdminLogin()">Giáo viên / Admin</button>
+  </header>
+
+  <div class="container">
+    <section id="loginScreen" class="box">
+      <h2>Đăng nhập học sinh</h2>
+      <p>Nhập thông tin để bắt đầu làm bài.</p>
+
+      <label>Họ và tên</label>
+      <input id="studentName" type="text" placeholder="Ví dụ: Nguyễn Văn A" />
+
+      <label>Lớp</label>
+      <input id="studentClass" type="text" placeholder="Ví dụ: 12A1" />
+
+      <button onclick="login()">Đăng nhập</button>
+    </section>
+
+    <section id="examSelectScreen" class="box hidden">
+      <h2>Chọn kỳ thi</h2>
+      <div class="student-info" id="studentInfo"></div>
+
+      <div class="exam-list">
+        <div class="exam-card">
+          <h3>Đề thử từ kho Firebase</h3>
+          <p>Website sẽ lấy câu hỏi thật từ collection <b>questions</b>.</p>
+          <p>Thời gian: 15 phút</p>
+          <p>Trạng thái: <span class="badge badge-open">Đang mở</span></p>
+          <button onclick="startExam()">Vào làm bài</button>
+        </div>
+
+        <div class="exam-card">
+          <h3>Đề theo ma trận</h3>
+          <p>Sẽ làm ở bước sau.</p>
+          <p>Trạng thái: <span class="badge badge-lock">Chưa làm</span></p>
+          <button class="secondary" disabled>Chưa mở</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="examScreen" class="hidden">
+      <div class="exam-layout">
+        <div>
+          <div class="box">
+            <h2>Đề thử từ kho Firebase</h2>
+            <div class="student-info" id="studentInfoExam"></div>
+            <p><b>Hướng dẫn:</b> Nếu câu hỏi có ảnh nguyên câu, hãy xem ảnh và trả lời ở phần bên dưới ảnh.</p>
+          </div>
+
+          <div id="questionList"></div>
+        </div>
+
+        <aside class="answer-sheet">
+          <h3>Phiếu trả lời</h3>
+
+          <div id="timerBox" class="timer-box">
+            <div class="timer-label">Thời gian còn lại</div>
+            <div id="timer" class="timer">15:00</div>
+          </div>
+
+          <p id="progressText">Đã làm 0/0 câu</p>
+          <div id="answerGrid" class="answer-grid"></div>
+          <button id="submitButton" onclick="submitExam(false)">Nộp bài</button>
+          <button class="secondary" onclick="backToExamList()" style="margin-top: 8px;">Quay lại</button>
+        </aside>
+      </div>
+    </section>
+
+    <section id="resultScreen" class="box hidden">
+      <h2>Kết quả bài làm</h2>
+      <div id="resultContent"></div>
+      <button onclick="backToExamList()">Quay lại danh sách đề</button>
+    </section>
+
+    <section id="adminLoginScreen" class="box hidden">
+      <h2>Đăng nhập giáo viên</h2>
+      <p>Nhập mật khẩu quản trị để vào trang giáo viên.</p>
+
+      <label>Mật khẩu admin</label>
+      <input id="adminPassword" type="password" placeholder="Nhập mật khẩu admin" />
+
+      <button onclick="loginAdmin()">Đăng nhập admin</button>
+      <button class="secondary" onclick="backToStudentLogin()">Quay lại trang học sinh</button>
+
+      <div class="notice">
+        Mật khẩu tạm thời hiện tại là: <b>123456</b>.
+      </div>
+    </section>
+
+    <section id="adminDashboardScreen" class="box hidden">
+      <h2>Trang giáo viên / Admin</h2>
+      <p>Đây là khu vực giáo viên quản lý kỳ thi, ngân hàng câu hỏi và kết quả học sinh.</p>
+
+      <div class="admin-menu">
+        <button onclick="showAdminSection('examManagement')">Quản lý kỳ thi</button>
+        <button onclick="showAdminSection('importQuestions')">Nhập câu hỏi vào kho</button>
+        <button onclick="showAdminSection('firebaseQuestionBank')">Kho câu hỏi Firebase</button>
+        <button onclick="showAdminSection('studentResults')">Kết quả học sinh</button>
+        <button class="secondary" onclick="backToStudentLogin()">Về trang học sinh</button>
+      </div>
+
+      <div class="admin-grid">
+        <div class="admin-card">
+          <h3>Kỳ thi</h3>
+          <p>Hiện đang dùng đề thử lấy toàn bộ câu hỏi trong Firebase.</p>
+        </div>
+
+        <div class="admin-card">
+          <h3>Kho câu hỏi</h3>
+          <p>Chuẩn mới: mỗi câu nên có <b>questionId</b> và có thể có <b>questionImageUrl</b>.</p>
+        </div>
+
+        <div class="admin-card">
+          <h3>Kết quả học sinh</h3>
+          <p>Kết quả thật được đọc từ Firebase.</p>
+        </div>
+      </div>
+
+      <div id="examManagement" class="admin-section">
+        <h3>Quản lý kỳ thi</h3>
+
+        <label>Tên kỳ thi</label>
+        <input type="text" value="Đề thử từ kho Firebase" />
+
+        <label>Thời gian làm bài, tính bằng phút</label>
+        <input type="number" value="15" />
+
+        <label>Trạng thái</label>
+        <select>
+          <option>Đang mở</option>
+          <option>Đang khóa</option>
+        </select>
+
+        <button class="success" onclick="alert('Bản mẫu: chức năng lưu kỳ thi sẽ làm ở bước sau.')">Lưu kỳ thi</button>
+
+        <div class="notice">
+          Bước này hỗ trợ câu hỏi dạng ảnh nguyên câu. Tạo ma trận đề sẽ làm ở bước sau.
+        </div>
+      </div>
+
+      <div id="importQuestions" class="admin-section hidden">
+        <h3>Nhập câu hỏi vào kho Firebase</h3>
+
+        <p>
+          Dán dữ liệu JSON do AI/công cụ tạo từ file Word vào ô bên dưới.
+          Sau đó bấm <b>Kiểm tra dữ liệu</b>, rồi bấm <b>Nhập vào kho Firebase</b>.
+        </p>
+
+        <div class="notice">
+          Chuẩn mới khuyên dùng: mỗi câu có <b>questionId</b>, <b>questionType</b>, mã phân loại <b>code/groupCode</b>, và nếu là ảnh nguyên câu thì có <b>displayMode: "image"</b> + <b>questionImageUrl</b>.
+        </div>
+
+        <label>Dữ liệu câu hỏi dạng JSON</label>
+        <textarea id="questionJsonInput" placeholder='Dán JSON vào đây'></textarea>
+
+        <button onclick="checkQuestionJson()">Kiểm tra dữ liệu</button>
+        <button class="success" onclick="importQuestionsToFirebase()">Nhập vào kho Firebase</button>
+        <button class="secondary" onclick="loadQuestionBankFromFirebase()">Tải lại kho câu hỏi</button>
+        <button class="danger" onclick="clearQuestionJsonInput()">Xóa ô nhập</button>
+
+        <div id="questionImportStatus" class="notice">
+          Chưa có dữ liệu.
+        </div>
+      </div>
+
+      <div id="firebaseQuestionBank" class="admin-section hidden">
+        <h3>Danh sách câu hỏi trong kho Firebase</h3>
+
+        <button onclick="loadQuestionBankFromFirebase()">Tải lại kho câu hỏi</button>
+
+        <table>
+          <thead>
+            <tr>
+              <th>STT</th>
+              <th>ID</th>
+              <th>Loại</th>
+              <th>Mã</th>
+              <th>Hiển thị</th>
+              <th>Nội dung / Ảnh</th>
+              <th>Đáp án</th>
+            </tr>
+          </thead>
+          <tbody id="questionBankFirebaseTable">
+            <tr>
+              <td colspan="7">Bấm “Tải lại kho câu hỏi” để xem dữ liệu.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div id="studentResults" class="admin-section hidden">
+        <h3>Kết quả học sinh</h3>
+
+        <button onclick="loadStudentResults()">Tải lại kết quả từ Firebase</button>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Thời gian nộp</th>
+              <th>Học sinh</th>
+              <th>Lớp</th>
+              <th>Kỳ thi</th>
+              <th>Số đúng</th>
+              <th>Tổng</th>
+              <th>Điểm</th>
+              <th>Thời gian làm bài</th>
+            </tr>
+          </thead>
+          <tbody id="studentResultsTable">
+            <tr>
+              <td colspan="8">Bấm “Tải lại kết quả từ Firebase” để xem dữ liệu.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="notice">
+          Đây là dữ liệu thật được lưu trong Firebase khi học sinh nộp bài.
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+    import {
+      getFirestore,
+      collection,
+      addDoc,
+      getDocs,
+      query,
+      orderBy,
+      serverTimestamp
+    } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyABhyjdx1IPr1kI0yH_9DOALztTuCgcz4c",
+      authDomain: "ttthayphien-thi-online.firebaseapp.com",
+      projectId: "ttthayphien-thi-online",
+      storageBucket: "ttthayphien-thi-online.firebasestorage.app",
+      messagingSenderId: "562842297637",
+      appId: "1:562842297637:web:2164ab36d8003b5fd3a6cc"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    let student = { name: "", className: "" };
+    const adminPassword = "123456";
+    const examName = "Đề thử từ kho Firebase";
+    const examDurationMinutes = 15;
+
+    let timeLeftSeconds = examDurationMinutes * 60;
+    let timerInterval = null;
+    let isSubmitted = false;
+
+    let examQuestions = [];
+    let studentAnswers = {};
+
+    function showScreen(screenId) {
+      document.getElementById("loginScreen").classList.add("hidden");
+      document.getElementById("examSelectScreen").classList.add("hidden");
+      document.getElementById("examScreen").classList.add("hidden");
+      document.getElementById("resultScreen").classList.add("hidden");
+      document.getElementById("adminLoginScreen").classList.add("hidden");
+      document.getElementById("adminDashboardScreen").classList.add("hidden");
+
+      document.getElementById(screenId).classList.remove("hidden");
+    }
+
+    function rerenderMath() {
+      if (window.MathJax && window.MathJax.typesetPromise) {
+        window.MathJax.typesetPromise();
+      }
+    }
+
+    function escapeHtml(text) {
+      if (text === undefined || text === null) {
+        return "";
+      }
+
+      return String(text)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function normalizeAnswer(text) {
+      if (text === undefined || text === null) {
+        return "";
+      }
+
+      return String(text)
+        .trim()
+        .toLowerCase()
+        .replaceAll(" ", "")
+        .replaceAll(",", ".");
+    }
+
+    function getMainCode(question) {
+      return question.code || question.groupCode || "";
+    }
+
+    function getQuestionId(question) {
+      return question.questionId || question.firebaseId || "";
+    }
+
+    function getShortContent(text) {
+      if (!text) {
+        return "";
+      }
+
+      if (text.length <= 120) {
+        return text;
+      }
+
+      return text.substring(0, 120) + "...";
+    }
+
+    function hasQuestionImage(question) {
+      return Boolean(question.questionImageUrl);
+    }
+
+    window.login = function() {
+      const name = document.getElementById("studentName").value.trim();
+      const className = document.getElementById("studentClass").value.trim();
+
+      if (!name || !className) {
+        alert("Vui lòng nhập đầy đủ họ tên và lớp.");
+        return;
+      }
+
+      student.name = name;
+      student.className = className;
+
+      document.getElementById("studentInfo").innerText =
+        "Học sinh: " + student.name + " - Lớp: " + student.className;
+
+      showScreen("examSelectScreen");
+    };
+
+    window.startExam = async function() {
+      studentAnswers = {};
+      isSubmitted = false;
+      timeLeftSeconds = examDurationMinutes * 60;
+
+      document.getElementById("questionList").innerHTML = `
+        <div class="box">Đang tải câu hỏi từ Firebase...</div>
+      `;
+
+      showScreen("examScreen");
+
+      document.getElementById("studentInfoExam").innerText =
+        "Học sinh: " + student.name + " - Lớp: " + student.className;
+
+      try {
+        await loadExamQuestionsFromFirebase();
+
+        if (examQuestions.length === 0) {
+          document.getElementById("questionList").innerHTML = `
+            <div class="box">
+              <h3>Chưa có câu hỏi trong kho Firebase</h3>
+              <p>Vào Admin → Nhập câu hỏi vào kho để thêm câu hỏi trước.</p>
+            </div>
+          `;
+          return;
+        }
+
+        renderQuestions();
+        renderAnswerSheet();
+        updateTimerDisplay();
+        startTimer();
+
+        document.getElementById("submitButton").disabled = false;
+      } catch (error) {
+        console.error("Lỗi tải đề:", error);
+        document.getElementById("questionList").innerHTML = `
+          <div class="box error-box">
+            Không tải được câu hỏi từ Firebase. Kiểm tra collection questions hoặc Firestore Rules.
+          </div>
+        `;
+      }
+    };
+
+    async function loadExamQuestionsFromFirebase() {
+      const q = query(collection(db, "questions"), orderBy("importedAt", "desc"));
+      const querySnapshot = await getDocs(q);
+
+      examQuestions = [];
+
+      querySnapshot.forEach((doc) => {
+        const question = doc.data();
+        question.firebaseId = doc.id;
+
+        if (question.isActive !== false) {
+          examQuestions.push(question);
+        }
+      });
+    }
+
+    function startTimer() {
+      clearInterval(timerInterval);
+
+      timerInterval = setInterval(function() {
+        timeLeftSeconds--;
+        updateTimerDisplay();
+
+        if (timeLeftSeconds <= 0) {
+          clearInterval(timerInterval);
+          timeLeftSeconds = 0;
+          updateTimerDisplay();
+          window.submitExam(true);
+        }
+      }, 1000);
+    }
+
+    function updateTimerDisplay() {
+      const minutes = Math.floor(timeLeftSeconds / 60);
+      const seconds = timeLeftSeconds % 60;
+
+      document.getElementById("timer").innerText =
+        String(minutes).padStart(2, "0") + ":" + String(seconds).padStart(2, "0");
+
+      const timerBox = document.getElementById("timerBox");
+      timerBox.classList.remove("timer-warning");
+      timerBox.classList.remove("timer-danger");
+
+      if (timeLeftSeconds <= 60) {
+        timerBox.classList.add("timer-danger");
+      } else if (timeLeftSeconds <= 300) {
+        timerBox.classList.add("timer-warning");
+      }
+    }
+
+    function renderQuestions() {
+      const questionList = document.getElementById("questionList");
+      questionList.innerHTML = "";
+
+      examQuestions.forEach((question, index) => {
+        const questionNumber = index + 1;
+        const card = document.createElement("div");
+        card.className = "question-card";
+        card.id = "question-" + questionNumber;
+
+        if (question.questionType === "multipleChoice") {
+          card.innerHTML = renderMultipleChoice(question, questionNumber);
+        } else if (question.questionType === "trueFalseGroup") {
+          card.innerHTML = renderTrueFalseGroup(question, questionNumber);
+        } else if (question.questionType === "shortAnswer") {
+          card.innerHTML = renderShortAnswer(question, questionNumber);
+        } else {
+          card.innerHTML = `
+            <div class="question-title">Câu ${questionNumber}: Dạng câu hỏi chưa hỗ trợ</div>
+            <div>${escapeHtml(question.content || "")}</div>
+          `;
+        }
+
+        questionList.appendChild(card);
+      });
+
+      rerenderMath();
+    }
+
+    function renderQuestionHeader(question, questionNumber) {
+      let html = `
+        <div class="question-meta">
+          Câu ${questionNumber} |
+          ID: ${escapeHtml(getQuestionId(question))} |
+          Mã: ${escapeHtml(getMainCode(question))} |
+          Loại: ${escapeHtml(question.questionType || "")}
+        </div>
+      `;
+
+      if (hasQuestionImage(question)) {
+        html += `
+          <div class="question-image-wrap">
+            <img
+              src="${escapeHtml(question.questionImageUrl)}"
+              alt="Câu ${questionNumber}"
+              onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"
+            />
+            <div class="image-load-error">
+              Không tải được ảnh câu hỏi.<br>
+              Link ảnh đang lưu là:<br>
+              <b>${escapeHtml(question.questionImageUrl)}</b>
+            </div>
+          </div>
+        `;
+
+        return html;
+      }
+
+      html += `
+        <div class="question-title">
+          Câu ${questionNumber}: ${escapeHtml(question.content || "")}
+        </div>
+      `;
+
+      if (question.needImageReview) {
+        html += `
+          <div class="image-warning">
+            Câu này có hình/bảng/đồ thị cần xử lý ảnh ở bước sau.
+          </div>
+        `;
+      }
+
+      if (question.imageUrl) {
+        html += `<img src="${escapeHtml(question.imageUrl)}" style="max-width:100%; margin: 12px 0;">`;
+      }
+
+      return html;
+    }
+
+    function renderMultipleChoice(question, questionNumber) {
+      if (hasQuestionImage(question)) {
+        return `
+          ${renderQuestionHeader(question, questionNumber)}
+          <div class="answer-area-title">Chọn đáp án:</div>
+          <div class="image-mode-choice-row">
+            ${["A", "B", "C", "D"].map((key) => `
+              <label>
+                <input
+                  type="radio"
+                  name="q${questionNumber}"
+                  value="${key}"
+                  onchange="chooseAnswer('${questionNumber}', '${key}')"
+                />
+                ${key}
+              </label>
+            `).join("")}
+          </div>
+        `;
+      }
+
+      return `
+        ${renderQuestionHeader(question, questionNumber)}
+        ${["A", "B", "C", "D"].map((key) => {
+          const optionValue = question["option" + key] || "";
+          return `
+            <label class="option">
+              <input
+                type="radio"
+                name="q${questionNumber}"
+                value="${key}"
+                onchange="chooseAnswer('${questionNumber}', '${key}')"
+              />
+              ${key}. ${escapeHtml(optionValue)}
+            </label>
+          `;
+        }).join("")}
+      `;
+    }
+
+    function renderTrueFalseGroup(question, questionNumber) {
+      const statements = Array.isArray(question.statements) ? question.statements : [];
+
+      if (hasQuestionImage(question)) {
+        return `
+          ${renderQuestionHeader(question, questionNumber)}
+          <div class="answer-area-title">Chọn Đúng/Sai cho từng ý:</div>
+          ${statements.map((statement) => {
+            const label = statement.label || "";
+            return `
+              <div class="tf-statement">
+                <div class="tf-content"><b>${escapeHtml(label)})</b></div>
+                <label>
+                  <input
+                    type="radio"
+                    name="q${questionNumber}_${label}"
+                    value="Đúng"
+                    onchange="chooseTrueFalseAnswer('${questionNumber}', '${label}', 'Đúng')"
+                  />
+                  Đúng
+                </label>
+                &nbsp;&nbsp;
+                <label>
+                  <input
+                    type="radio"
+                    name="q${questionNumber}_${label}"
+                    value="Sai"
+                    onchange="chooseTrueFalseAnswer('${questionNumber}', '${label}', 'Sai')"
+                  />
+                  Sai
+                </label>
+              </div>
+            `;
+          }).join("")}
+        `;
+      }
+
+      return `
+        ${renderQuestionHeader(question, questionNumber)}
+        ${statements.map((statement) => {
+          const label = statement.label || "";
+          return `
+            <div class="tf-statement">
+              <div class="tf-content">
+                <b>${escapeHtml(label)})</b>
+                ${escapeHtml(statement.content || "")}
+              </div>
+              <label>
+                <input
+                  type="radio"
+                  name="q${questionNumber}_${label}"
+                  value="Đúng"
+                  onchange="chooseTrueFalseAnswer('${questionNumber}', '${label}', 'Đúng')"
+                />
+                Đúng
+              </label>
+              &nbsp;&nbsp;
+              <label>
+                <input
+                  type="radio"
+                  name="q${questionNumber}_${label}"
+                  value="Sai"
+                  onchange="chooseTrueFalseAnswer('${questionNumber}', '${label}', 'Sai')"
+                />
+                Sai
+              </label>
+            </div>
+          `;
+        }).join("")}
+      `;
+    }
+
+    function renderShortAnswer(question, questionNumber) {
+      return `
+        ${renderQuestionHeader(question, questionNumber)}
+        <label>Nhập đáp án</label>
+        <input
+          type="text"
+          placeholder="Nhập đáp án của bạn"
+          oninput="chooseShortAnswer('${questionNumber}', this.value)"
+        />
+      `;
+    }
+
+    function renderAnswerSheet() {
+      const answerGrid = document.getElementById("answerGrid");
+      answerGrid.innerHTML = "";
+
+      examQuestions.forEach((_, index) => {
+        const questionNumber = index + 1;
+        const item = document.createElement("div");
+        item.className = "answer-number";
+        item.id = "answer-number-" + questionNumber;
+        item.innerText = questionNumber;
+        item.onclick = function() {
+          document.getElementById("question-" + questionNumber).scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+          });
+        };
+        answerGrid.appendChild(item);
+      });
+
+      updateProgress();
+    }
+
+    window.chooseAnswer = function(questionNumber, answer) {
+      studentAnswers[questionNumber] = answer;
+      markAnswered(questionNumber);
+      updateProgress();
+    };
+
+    window.chooseTrueFalseAnswer = function(questionNumber, label, answer) {
+      if (!studentAnswers[questionNumber]) {
+        studentAnswers[questionNumber] = {};
+      }
+
+      studentAnswers[questionNumber][label] = answer;
+
+      const question = examQuestions[Number(questionNumber) - 1];
+      const statements = Array.isArray(question.statements) ? question.statements : [];
+      const answeredCount = Object.keys(studentAnswers[questionNumber]).length;
+
+      if (answeredCount >= statements.length) {
+        markAnswered(questionNumber);
+      }
+
+      updateProgress();
+    };
+
+    window.chooseShortAnswer = function(questionNumber, answer) {
+      studentAnswers[questionNumber] = answer.trim();
+
+      const item = document.getElementById("answer-number-" + questionNumber);
+
+      if (answer.trim()) {
+        markAnswered(questionNumber);
+      } else if (item) {
+        item.classList.remove("answered");
+      }
+
+      updateProgress();
+    };
+
+    function markAnswered(questionNumber) {
+      const item = document.getElementById("answer-number-" + questionNumber);
+
+      if (item) {
+        item.classList.add("answered");
+      }
+    }
+
+    function updateProgress() {
+      let answeredCount = 0;
+
+      examQuestions.forEach((question, index) => {
+        const questionNumber = String(index + 1);
+        const answer = studentAnswers[questionNumber];
+
+        if (question.questionType === "trueFalseGroup") {
+          const statements = Array.isArray(question.statements) ? question.statements : [];
+          if (answer && Object.keys(answer).length >= statements.length) {
+            answeredCount++;
+          }
+        } else if (answer !== undefined && answer !== "") {
+          answeredCount++;
+        }
+      });
+
+      document.getElementById("progressText").innerText =
+        "Đã làm " + answeredCount + "/" + examQuestions.length + " câu";
+    }
+
+    function gradeExam() {
+      let correctUnits = 0;
+      let totalUnits = 0;
+
+      examQuestions.forEach((question, index) => {
+        const questionNumber = String(index + 1);
+        const answer = studentAnswers[questionNumber];
+
+        if (question.questionType === "multipleChoice") {
+          totalUnits++;
+          if (answer === question.correctAnswer) {
+            correctUnits++;
+          }
+        } else if (question.questionType === "shortAnswer") {
+          totalUnits++;
+          const studentAnswer = normalizeAnswer(answer);
+          const correctAnswer = normalizeAnswer(question.correctAnswer);
+          const acceptedAnswers = String(question.acceptedAnswers || "")
+            .split(";")
+            .map(normalizeAnswer)
+            .filter(Boolean);
+
+          if (studentAnswer && (studentAnswer === correctAnswer || acceptedAnswers.includes(studentAnswer))) {
+            correctUnits++;
+          }
+        } else if (question.questionType === "trueFalseGroup") {
+          const statements = Array.isArray(question.statements) ? question.statements : [];
+
+          statements.forEach((statement) => {
+            totalUnits++;
+            const label = statement.label;
+
+            if (answer && answer[label] === statement.correctAnswer) {
+              correctUnits++;
+            }
+          });
+        }
+      });
+
+      const score = totalUnits > 0 ? (correctUnits / totalUnits) * 10 : 0;
+
+      return {
+        correctUnits,
+        totalUnits,
+        score
+      };
+    }
+
+    window.submitExam = async function(autoSubmit) {
+      if (isSubmitted) {
+        return;
+      }
+
+      if (!autoSubmit) {
+        const confirmSubmit = confirm("Bạn có chắc muốn nộp bài không?");
+        if (!confirmSubmit) {
+          return;
+        }
+      }
+
+      isSubmitted = true;
+      clearInterval(timerInterval);
+      document.getElementById("submitButton").disabled = true;
+
+      const grade = gradeExam();
+      const usedSeconds = examDurationMinutes * 60 - timeLeftSeconds;
+      const usedMinutes = Math.floor(usedSeconds / 60);
+      const remainingSeconds = usedSeconds % 60;
+
+      const submitMessage = autoSubmit
+        ? "Hết giờ, hệ thống đã tự động nộp bài."
+        : "Nộp bài thành công.";
+
+      document.getElementById("resultContent").innerHTML = `
+        <div class="result-box">
+          <p><b>${submitMessage}</b></p>
+          <p><b>Học sinh:</b> ${escapeHtml(student.name)}</p>
+          <p><b>Lớp:</b> ${escapeHtml(student.className)}</p>
+          <p><b>Số đơn vị đúng:</b> ${grade.correctUnits}/${grade.totalUnits}</p>
+          <p><b>Điểm mẫu:</b> ${grade.score.toFixed(2)}</p>
+          <p><b>Thời gian làm bài:</b> ${usedMinutes} phút ${remainingSeconds} giây</p>
+          <p id="saveStatus"><b>Đang lưu kết quả vào Firebase...</b></p>
+        </div>
+      `;
+
+      showScreen("resultScreen");
+
+      try {
+        await addDoc(collection(db, "examResults"), {
+          studentName: student.name,
+          className: student.className,
+          examName: examName,
+          totalQuestions: examQuestions.length,
+          correctCount: grade.correctUnits,
+          totalUnits: grade.totalUnits,
+          score: Number(grade.score.toFixed(2)),
+          usedSeconds: usedSeconds,
+          usedTimeText: usedMinutes + " phút " + remainingSeconds + " giây",
+          answers: studentAnswers,
+          questionIds: examQuestions.map(q => getQuestionId(q)),
+          autoSubmit: autoSubmit,
+          createdAt: serverTimestamp()
+        });
+
+        document.getElementById("saveStatus").innerHTML =
+          "<b>Đã lưu kết quả vào Firebase thành công.</b>";
+      } catch (error) {
+        console.error("Lỗi lưu Firebase:", error);
+        document.getElementById("saveStatus").innerHTML =
+          "<b>Không lưu được kết quả vào Firebase.</b>";
+      }
+    };
+
+    window.backToExamList = function() {
+      clearInterval(timerInterval);
+      showScreen("examSelectScreen");
+    };
+
+    window.openAdminLogin = function() {
+      clearInterval(timerInterval);
+      showScreen("adminLoginScreen");
+    };
+
+    window.loginAdmin = function() {
+      const password = document.getElementById("adminPassword").value;
+
+      if (password !== adminPassword) {
+        alert("Mật khẩu admin chưa đúng.");
+        return;
+      }
+
+      showScreen("adminDashboardScreen");
+      showAdminSection("examManagement");
+    };
+
+    window.backToStudentLogin = function() {
+      clearInterval(timerInterval);
+      showScreen("loginScreen");
+    };
+
+    window.showAdminSection = function(sectionId) {
+      document.getElementById("examManagement").classList.add("hidden");
+      document.getElementById("importQuestions").classList.add("hidden");
+      document.getElementById("firebaseQuestionBank").classList.add("hidden");
+      document.getElementById("studentResults").classList.add("hidden");
+
+      document.getElementById(sectionId).classList.remove("hidden");
+
+      if (sectionId === "studentResults") {
+        loadStudentResults();
+      }
+
+      if (sectionId === "firebaseQuestionBank") {
+        loadQuestionBankFromFirebase();
+      }
+    };
+
+    window.clearQuestionJsonInput = function() {
+      document.getElementById("questionJsonInput").value = "";
+      document.getElementById("questionImportStatus").className = "notice";
+      document.getElementById("questionImportStatus").innerHTML = "Đã xóa ô nhập.";
+    };
+
+    window.checkQuestionJson = function() {
+      const input = document.getElementById("questionJsonInput").value.trim();
+      const status = document.getElementById("questionImportStatus");
+
+      status.className = "notice";
+
+      if (!input) {
+        status.innerHTML = "Bạn chưa dán dữ liệu JSON.";
+        return;
+      }
+
+      try {
+        const data = JSON.parse(input);
+
+        if (!Array.isArray(data)) {
+          status.className = "error-box";
+          status.innerHTML = "Dữ liệu phải là một mảng JSON.";
+          return;
+        }
+
+        let multipleChoiceCount = 0;
+        let trueFalseCount = 0;
+        let shortAnswerCount = 0;
+        let imageModeCount = 0;
+        let missingIdCount = 0;
+        let otherCount = 0;
+
+        data.forEach((question) => {
+          if (!question.questionId) {
+            missingIdCount++;
+          }
+
+          if (question.questionImageUrl || question.displayMode === "image") {
+            imageModeCount++;
+          }
+
+          if (question.questionType === "multipleChoice") {
+            multipleChoiceCount++;
+          } else if (question.questionType === "trueFalseGroup") {
+            trueFalseCount++;
+          } else if (question.questionType === "shortAnswer") {
+            shortAnswerCount++;
+          } else {
+            otherCount++;
+          }
+        });
+
+        status.className = "ok-box";
+        status.innerHTML =
+          "Dữ liệu hợp lệ. Tổng số câu: <b>" + data.length + "</b><br>" +
+          "Trắc nghiệm 4 đáp án: <b>" + multipleChoiceCount + "</b><br>" +
+          "Đúng/Sai: <b>" + trueFalseCount + "</b><br>" +
+          "Trả lời ngắn: <b>" + shortAnswerCount + "</b><br>" +
+          "Câu có ảnh nguyên câu: <b>" + imageModeCount + "</b><br>" +
+          "Câu thiếu questionId: <b>" + missingIdCount + "</b><br>" +
+          "Dạng khác/chưa xác định: <b>" + otherCount + "</b>";
+      } catch (error) {
+        status.className = "error-box";
+        status.innerHTML = "JSON chưa đúng định dạng. Hãy kiểm tra dấu ngoặc, dấu phẩy, dấu nháy.";
+      }
+    };
+
+    window.importQuestionsToFirebase = async function() {
+      const input = document.getElementById("questionJsonInput").value.trim();
+      const status = document.getElementById("questionImportStatus");
+
+      status.className = "notice";
+
+      if (!input) {
+        status.innerHTML = "Bạn chưa dán dữ liệu JSON.";
+        return;
+      }
+
+      let data;
+
+      try {
+        data = JSON.parse(input);
+      } catch (error) {
+        status.className = "error-box";
+        status.innerHTML = "JSON chưa đúng định dạng nên chưa thể nhập kho.";
+        return;
+      }
+
+      if (!Array.isArray(data) || data.length === 0) {
+        status.className = "error-box";
+        status.innerHTML = "Dữ liệu phải là mảng JSON và có ít nhất 1 câu hỏi.";
+        return;
+      }
+
+      status.innerHTML = "Đang nhập " + data.length + " câu hỏi vào Firebase...";
+
+      try {
+        let importedCount = 0;
+
+        for (const question of data) {
+          const questionToSave = {
+            ...question,
+            importedAt: serverTimestamp(),
+            isActive: question.isActive === false ? false : true
+          };
+
+          await addDoc(collection(db, "questions"), questionToSave);
+          importedCount++;
+        }
+
+        status.className = "ok-box";
+        status.innerHTML =
+          "Đã nhập thành công <b>" + importedCount + "</b> câu hỏi vào kho Firebase.";
+
+        document.getElementById("questionJsonInput").value = "";
+      } catch (error) {
+        console.error("Lỗi nhập câu hỏi:", error);
+        status.className = "error-box";
+        status.innerHTML = "Không nhập được câu hỏi vào Firebase.";
+      }
+    };
+
+    window.loadQuestionBankFromFirebase = async function() {
+      const tableBody = document.getElementById("questionBankFirebaseTable");
+
+      if (!tableBody) {
+        return;
+      }
+
+      tableBody.innerHTML = `
+        <tr>
+          <td colspan="7">Đang tải kho câu hỏi từ Firebase...</td>
+        </tr>
+      `;
+
+      try {
+        const q = query(collection(db, "questions"), orderBy("importedAt", "desc"));
+        const querySnapshot = await getDocs(q);
+
+        if (querySnapshot.empty) {
+          tableBody.innerHTML = `
+            <tr>
+              <td colspan="7">Kho câu hỏi đang trống.</td>
+            </tr>
+          `;
+          return;
+        }
+
+        tableBody.innerHTML = "";
+
+        let index = 1;
+
+        querySnapshot.forEach((doc) => {
+          const question = doc.data();
+          question.firebaseId = doc.id;
+
+          let answerText = "";
+
+          if (question.questionType === "multipleChoice") {
+            answerText = question.correctAnswer || "";
+          } else if (question.questionType === "shortAnswer") {
+            answerText = question.correctAnswer || "";
+          } else if (question.questionType === "trueFalseGroup" && question.statements) {
+            answerText = question.statements.map(function(item) {
+              return item.label + ": " + item.correctAnswer;
+            }).join("; ");
+          }
+
+          const displayText = hasQuestionImage(question) ? "Ảnh nguyên câu" : "Text";
+          const contentText = hasQuestionImage(question)
+            ? question.questionImageUrl
+            : getShortContent(question.content);
+
+          const row = document.createElement("tr");
+
+          row.innerHTML = `
+            <td>${index}</td>
+            <td>${escapeHtml(getQuestionId(question))}</td>
+            <td>${escapeHtml(question.questionType || "")}</td>
+            <td>${escapeHtml(getMainCode(question))}</td>
+            <td>${escapeHtml(displayText)}</td>
+            <td>${escapeHtml(contentText)}</td>
+            <td>${escapeHtml(answerText)}</td>
+          `;
+
+          tableBody.appendChild(row);
+          index++;
+        });
+      } catch (error) {
+        console.error("Lỗi tải kho câu hỏi:", error);
+        tableBody.innerHTML = `
+          <tr>
+            <td colspan="7">Không tải được kho câu hỏi từ Firebase.</td>
+          </tr>
+        `;
+      }
+    };
+
+    window.loadStudentResults = async function() {
+      const tableBody = document.getElementById("studentResultsTable");
+
+      tableBody.innerHTML = `
+        <tr>
+          <td colspan="8">Đang tải dữ liệu từ Firebase...</td>
+        </tr>
+      `;
+
+      try {
+        const q = query(collection(db, "examResults"), orderBy("createdAt", "desc"));
+        const querySnapshot = await getDocs(q);
+
+        if (querySnapshot.empty) {
+          tableBody.innerHTML = `
+            <tr>
+              <td colspan="8">Chưa có học sinh nào nộp bài.</td>
+            </tr>
+          `;
+          return;
+        }
+
+        tableBody.innerHTML = "";
+
+        querySnapshot.forEach((doc) => {
+          const data = doc.data();
+
+          let createdAtText = "Chưa có thời gian";
+
+          if (data.createdAt && data.createdAt.toDate) {
+            createdAtText = data.createdAt.toDate().toLocaleString("vi-VN");
+          }
+
+          const row = document.createElement("tr");
+
+          row.innerHTML = `
+            <td>${escapeHtml(createdAtText)}</td>
+            <td>${escapeHtml(data.studentName || "")}</td>
+            <td>${escapeHtml(data.className || "")}</td>
+            <td>${escapeHtml(data.examName || "")}</td>
+            <td>${escapeHtml(data.correctCount || 0)}</td>
+            <td>${escapeHtml(data.totalUnits || data.totalQuestions || 0)}</td>
+            <td>${escapeHtml(data.score || 0)}</td>
+            <td>${escapeHtml(data.usedTimeText || "")}</td>
+          `;
+
+          tableBody.appendChild(row);
+        });
+      } catch (error) {
+        console.error("Lỗi đọc Firebase:", error);
+
+        tableBody.innerHTML = `
+          <tr>
+            <td colspan="8">Không tải được dữ liệu từ Firebase.</td>
+          </tr>
+        `;
+      }
+    };
+  </script>
 </body>
 </html>
