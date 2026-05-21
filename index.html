@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>TT Thầy Phiên - Thi Online</title>
 
-  <!-- BẢN CODE: STEP 10.2 - IMPORT JSON THEO KIỂU CẬP NHẬT questionId + HIỂN THỊ LỜI GIẢI -->
+  <!-- BẢN CODE: STEP 10.3 - HIỂN THỊ LỜI GIẢI DẠNG ẢNH solutionImageUrl -->
 
   <script>
     window.MathJax = {
@@ -1507,6 +1507,7 @@
         studentText: "Chưa trả lời",
         correctText: "",
         solutionText: question.solution || "",
+        solutionImageUrl: question.solutionImageUrl || "",
         imageUrl: hasQuestionImage(question) ? question.questionImageUrl : ""
       };
 
@@ -1599,19 +1600,30 @@
           `
           : "";
 
-        const solutionHtml = detail.solutionText
+        const solutionImageHtml = detail.solutionImageUrl
+          ? `
+            <div class="result-image-small">
+              <b>Lời giải chi tiết:</b><br>
+              <img src="${escapeHtml(detail.solutionImageUrl)}" alt="Lời giải câu ${detail.questionNumber}" />
+            </div>
+          `
+          : "";
+
+        const solutionTextHtml = detail.solutionText
           ? `
             <div class="solution-box">
               <b>Lời giải:</b><br>
               ${escapeHtml(detail.solutionText)}
             </div>
           `
-          : `
-            <div class="solution-box">
-              <b>Lời giải:</b><br>
-              Chưa có lời giải trong dữ liệu câu hỏi.
-            </div>
-          `;
+          : "";
+
+        const solutionHtml = solutionImageHtml || solutionTextHtml || `
+          <div class="solution-box">
+            <b>Lời giải:</b><br>
+            Chưa có lời giải trong dữ liệu câu hỏi.
+          </div>
+        `;
 
         return `
           <div class="result-review-card ${cardClass}">
