@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>TT Thầy Phiên - Thi Online</title>
 
-  <!-- BẢN CODE: STEP 11.1 - GIÁO VIÊN TẠO MA TRẬN, HỌC SINH CHỌN MA TRẬN -->
+  <!-- BẢN CODE: STEP 11.2 - TẠO MA TRẬN BẰNG DROPDOWN, KHÔNG GÕ TAY -->
 
   <script>
     window.MathJax = {
@@ -531,6 +531,37 @@
       margin: 3px 0;
     }
 
+    .matrix-builder-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 12px 0;
+    }
+
+    .matrix-builder-table select,
+    .matrix-builder-table input {
+      margin: 0;
+      min-width: 130px;
+      font-size: 14px;
+      padding: 8px;
+    }
+
+    .matrix-builder-table input[type="number"] {
+      width: 90px;
+      min-width: 90px;
+    }
+
+    .matrix-builder-table .danger {
+      padding: 8px 10px;
+      font-size: 13px;
+    }
+
+    .matrix-code-count {
+      color: #64748b;
+      font-size: 12px;
+      margin-top: 3px;
+    }
+
     .ok-box {
       background: #ecfdf5;
       border: 1px solid #86efac;
@@ -734,12 +765,8 @@
         <h3>Tạo và quản lý ma trận đề</h3>
 
         <div class="matrix-format-help">
-          <b>Cách nhập dòng ma trận:</b><br>
-          Mỗi dòng gồm 5 cột, ngăn cách bằng dấu <code>|</code>:<br>
-          <code>Phần | Tên phần | Loại câu | Mã câu | Số lượng</code><br><br>
-          Loại câu dùng một trong ba giá trị:
-          <code>multipleChoice</code>, <code>trueFalseGroup</code>, <code>shortAnswer</code>.
-          Với câu đúng/sai, mã sẽ được hiểu là <b>groupCode</b>.
+          <b>Cách mới:</b> Giáo viên không cần gõ mã tay. Bấm <b>Tải mã từ kho câu hỏi</b>, sau đó chọn
+          phần, loại câu, mã câu và số lượng bằng danh sách xổ xuống.
         </div>
 
         <label>Tên ma trận / tên đề</label>
@@ -754,14 +781,32 @@
           <option value="closed">Đang khóa</option>
         </select>
 
-        <label>Nội dung ma trận</label>
-        <textarea id="matrixTextInput" placeholder="PHẦN I | Trắc nghiệm nhiều phương án lựa chọn | multipleChoice | S.12.01.1.1 | 1"></textarea>
+        <div class="matrix-builder-toolbar">
+          <button onclick="loadMatrixCodeOptions()">Tải mã từ kho câu hỏi</button>
+          <button onclick="addMatrixRow()">Thêm dòng ma trận</button>
+          <button onclick="fillSampleMatrix()">Điền ma trận mẫu 7 câu</button>
+          <button onclick="previewMatrix()">Kiểm tra ma trận</button>
+          <button class="success" onclick="saveMatrixToFirebase()">Lưu ma trận vào Firebase</button>
+          <button class="secondary" onclick="loadMatricesFromFirebase()">Tải lại danh sách ma trận</button>
+          <button class="danger" onclick="clearMatrixForm()">Xóa form</button>
+        </div>
 
-        <button onclick="fillSampleMatrix()">Điền ma trận mẫu 7 câu</button>
-        <button onclick="previewMatrix()">Kiểm tra ma trận</button>
-        <button class="success" onclick="saveMatrixToFirebase()">Lưu ma trận vào Firebase</button>
-        <button class="secondary" onclick="loadMatricesFromFirebase()">Tải lại danh sách ma trận</button>
-        <button class="danger" onclick="clearMatrixForm()">Xóa form</button>
+        <table class="matrix-builder-table">
+          <thead>
+            <tr>
+              <th>Phần</th>
+              <th>Loại câu</th>
+              <th>Mã câu trong kho</th>
+              <th>Số lượng</th>
+              <th>Thao tác</th>
+            </tr>
+          </thead>
+          <tbody id="matrixRowsTable">
+            <tr>
+              <td colspan="5">Bấm “Tải mã từ kho câu hỏi”, rồi bấm “Thêm dòng ma trận”.</td>
+            </tr>
+          </tbody>
+        </table>
 
         <div id="matrixSaveStatus" class="notice">
           Chưa có ma trận.
@@ -951,6 +996,8 @@
     let selectedMatrixFirebaseId = "";
     let currentExamDurationMinutes = examDurationMinutes;
     let studentVisibleMatrices = [];
+    let matrixCodeOptionsByType = { multipleChoice: [], trueFalseGroup: [], shortAnswer: [] };
+    let matrixRowCounter = 0;
 
     let timeLeftSeconds = examDurationMinutes * 60;
     let timerInterval = null;
@@ -1045,78 +1092,139 @@
     };
 
 
-    function getDefaultMatrixText() {
+    function getDefaultMatrixItems() {
       return [
-        "PHẦN I | Trắc nghiệm nhiều phương án lựa chọn | multipleChoice | S.12.01.1.1 | 1",
-        "PHẦN I | Trắc nghiệm nhiều phương án lựa chọn | multipleChoice | S.12.01.1.2 | 2",
-        "PHẦN I | Trắc nghiệm nhiều phương án lựa chọn | multipleChoice | S.12.01.1.3 | 1",
-        "PHẦN II | Trắc nghiệm đúng sai | trueFalseGroup | S.MIX | 1",
-        "PHẦN II | Trắc nghiệm đúng sai | trueFalseGroup | S.11.11.1.MIX | 1",
-        "PHẦN III | Trả lời ngắn | shortAnswer | S.12.07.2.3 | 1"
-      ].join("\n");
+        {
+          section: "PHẦN I",
+          sectionName: "Trắc nghiệm nhiều phương án lựa chọn",
+          questionType: "multipleChoice",
+          code: "S.12.01.1.1",
+          quantity: 1
+        },
+        {
+          section: "PHẦN I",
+          sectionName: "Trắc nghiệm nhiều phương án lựa chọn",
+          questionType: "multipleChoice",
+          code: "S.12.01.1.2",
+          quantity: 2
+        },
+        {
+          section: "PHẦN I",
+          sectionName: "Trắc nghiệm nhiều phương án lựa chọn",
+          questionType: "multipleChoice",
+          code: "S.12.01.1.3",
+          quantity: 1
+        },
+        {
+          section: "PHẦN II",
+          sectionName: "Trắc nghiệm đúng sai",
+          questionType: "trueFalseGroup",
+          groupCode: "S.MIX",
+          quantity: 1
+        },
+        {
+          section: "PHẦN II",
+          sectionName: "Trắc nghiệm đúng sai",
+          questionType: "trueFalseGroup",
+          groupCode: "S.11.11.1.MIX",
+          quantity: 1
+        },
+        {
+          section: "PHẦN III",
+          sectionName: "Trả lời ngắn",
+          questionType: "shortAnswer",
+          code: "S.12.07.2.3",
+          quantity: 1
+        }
+      ];
     }
 
-    function parseMatrixText(text) {
-      const lines = String(text || "")
-        .split(/\r?\n/)
-        .map((line) => line.trim())
-        .filter((line) => line && !line.startsWith("#"));
-
-      const items = [];
-
-      lines.forEach((line, index) => {
-        const parts = line.split("|").map((part) => part.trim());
-
-        if (parts.length !== 5) {
-          throw new Error("Dòng " + (index + 1) + " chưa đúng 5 cột: " + line);
-        }
-
-        const section = parts[0];
-        const sectionName = parts[1];
-        const questionType = parts[2];
-        const code = parts[3];
-        const quantity = Number(parts[4]);
-
-        if (!["multipleChoice", "trueFalseGroup", "shortAnswer"].includes(questionType)) {
-          throw new Error("Dòng " + (index + 1) + " có loại câu chưa hợp lệ: " + questionType);
-        }
-
-        if (!section || !sectionName || !code || !Number.isInteger(quantity) || quantity <= 0) {
-          throw new Error("Dòng " + (index + 1) + " thiếu dữ liệu hoặc số lượng không hợp lệ.");
-        }
-
-        const item = {
-          section,
-          sectionName,
-          questionType,
-          quantity
-        };
-
-        if (questionType === "trueFalseGroup") {
-          item.groupCode = code;
-        } else {
-          item.code = code;
-        }
-
-        items.push(item);
-      });
-
-      if (items.length === 0) {
-        throw new Error("Ma trận đang trống.");
+    function getSectionNameFromSectionAndType(section, questionType) {
+      if (section === "PHẦN I" || questionType === "multipleChoice") {
+        return "Trắc nghiệm nhiều phương án lựa chọn";
       }
 
-      return items;
+      if (section === "PHẦN II" || questionType === "trueFalseGroup") {
+        return "Trắc nghiệm đúng sai";
+      }
+
+      if (section === "PHẦN III" || questionType === "shortAnswer") {
+        return "Trả lời ngắn";
+      }
+
+      return "";
+    }
+
+    function getCodeFromMatrixItem(item) {
+      return item.groupCode || item.code || "";
+    }
+
+    function getMatrixItemStorageObject(section, questionType, code, quantity) {
+      const item = {
+        section,
+        sectionName: getSectionNameFromSectionAndType(section, questionType),
+        questionType,
+        quantity: Number(quantity)
+      };
+
+      if (questionType === "trueFalseGroup") {
+        item.groupCode = code;
+      } else {
+        item.code = code;
+      }
+
+      return item;
+    }
+
+    function getQuestionCodeForMatrix(question) {
+      if (question.questionType === "trueFalseGroup") {
+        return question.groupCode || question.code || "";
+      }
+
+      return question.code || "";
+    }
+
+    function getQuestionTypeLabel(questionType) {
+      if (questionType === "multipleChoice") {
+        return "Trắc nghiệm";
+      }
+
+      if (questionType === "trueFalseGroup") {
+        return "Đúng/Sai";
+      }
+
+      if (questionType === "shortAnswer") {
+        return "Trả lời ngắn";
+      }
+
+      return questionType || "";
+    }
+
+    function getRecommendedSectionForType(questionType) {
+      if (questionType === "multipleChoice") {
+        return "PHẦN I";
+      }
+
+      if (questionType === "trueFalseGroup") {
+        return "PHẦN II";
+      }
+
+      if (questionType === "shortAnswer") {
+        return "PHẦN III";
+      }
+
+      return "PHẦN I";
     }
 
     function matrixItemsToHtml(items) {
       return `
         <ul class="matrix-item-list">
-          ${items.map((item) => {
-            const code = item.groupCode || item.code || "";
+          ${(items || []).map((item) => {
+            const code = getCodeFromMatrixItem(item);
             return `
               <li>
                 ${escapeHtml(item.section)} -
-                ${escapeHtml(item.questionType)} -
+                ${escapeHtml(getQuestionTypeLabel(item.questionType))} -
                 <b>${escapeHtml(code)}</b>:
                 ${item.quantity} câu
               </li>
@@ -1126,24 +1234,246 @@
       `;
     }
 
-    function matrixItemsToText(items) {
-      return (items || []).map((item) => {
-        const code = item.groupCode || item.code || "";
-        return [
-          item.section || "",
-          item.sectionName || "",
-          item.questionType || "",
-          code,
-          item.quantity || 1
-        ].join(" | ");
-      }).join("\n");
+    function getMatrixCodeOptions(questionType) {
+      return matrixCodeOptionsByType[questionType] || [];
     }
 
-    window.fillSampleMatrix = function() {
+    function getCodeSelectOptions(questionType, selectedCode) {
+      const options = getMatrixCodeOptions(questionType);
+
+      if (options.length === 0) {
+        return `<option value="">Chưa tải mã / chưa có mã phù hợp</option>`;
+      }
+
+      return options.map((option) => {
+        const selected = option.code === selectedCode ? "selected" : "";
+        return `
+          <option value="${escapeHtml(option.code)}" ${selected}>
+            ${escapeHtml(option.code)} - hiện có ${option.count} câu
+          </option>
+        `;
+      }).join("");
+    }
+
+    function renderMatrixRows(items) {
+      const tableBody = document.getElementById("matrixRowsTable");
+
+      if (!tableBody) {
+        return;
+      }
+
+      const rows = Array.isArray(items) ? items : [];
+
+      if (rows.length === 0) {
+        tableBody.innerHTML = `
+          <tr>
+            <td colspan="5">Chưa có dòng ma trận. Bấm “Thêm dòng ma trận”.</td>
+          </tr>
+        `;
+        return;
+      }
+
+      tableBody.innerHTML = rows.map((item) => {
+        matrixRowCounter++;
+        const rowId = "matrixRow" + matrixRowCounter;
+        const questionType = item.questionType || "multipleChoice";
+        const code = getCodeFromMatrixItem(item);
+        const section = item.section || getRecommendedSectionForType(questionType);
+        const quantity = Number(item.quantity || 1);
+
+        return `
+          <tr id="${rowId}">
+            <td>
+              <select class="matrix-section-select">
+                <option value="PHẦN I" ${section === "PHẦN I" ? "selected" : ""}>PHẦN I</option>
+                <option value="PHẦN II" ${section === "PHẦN II" ? "selected" : ""}>PHẦN II</option>
+                <option value="PHẦN III" ${section === "PHẦN III" ? "selected" : ""}>PHẦN III</option>
+              </select>
+            </td>
+            <td>
+              <select class="matrix-type-select" onchange="onMatrixTypeChanged('${rowId}')">
+                <option value="multipleChoice" ${questionType === "multipleChoice" ? "selected" : ""}>Trắc nghiệm</option>
+                <option value="trueFalseGroup" ${questionType === "trueFalseGroup" ? "selected" : ""}>Đúng/Sai</option>
+                <option value="shortAnswer" ${questionType === "shortAnswer" ? "selected" : ""}>Trả lời ngắn</option>
+              </select>
+            </td>
+            <td>
+              <select class="matrix-code-select">
+                ${getCodeSelectOptions(questionType, code)}
+              </select>
+              <div class="matrix-code-count">Mã lấy từ kho câu hỏi đang bật.</div>
+            </td>
+            <td>
+              <input class="matrix-quantity-input" type="number" min="1" value="${quantity}" />
+            </td>
+            <td>
+              <button class="danger" onclick="removeMatrixRow('${rowId}')">Xóa</button>
+            </td>
+          </tr>
+        `;
+      }).join("");
+    }
+
+    function getMatrixItemsFromRows() {
+      const rows = Array.from(document.querySelectorAll("#matrixRowsTable tr[id^='matrixRow']"));
+      const items = [];
+
+      rows.forEach((row, index) => {
+        const section = row.querySelector(".matrix-section-select").value;
+        const questionType = row.querySelector(".matrix-type-select").value;
+        const code = row.querySelector(".matrix-code-select").value;
+        const quantity = Number(row.querySelector(".matrix-quantity-input").value);
+
+        if (!section || !questionType || !code || !Number.isInteger(quantity) || quantity <= 0) {
+          throw new Error("Dòng " + (index + 1) + " đang thiếu dữ liệu hoặc số lượng chưa hợp lệ.");
+        }
+
+        items.push(getMatrixItemStorageObject(section, questionType, code, quantity));
+      });
+
+      if (items.length === 0) {
+        throw new Error("Ma trận đang trống.");
+      }
+
+      return items;
+    }
+
+    window.loadMatrixCodeOptions = async function() {
+      const status = document.getElementById("matrixSaveStatus");
+
+      try {
+        status.className = "notice";
+        status.innerHTML = "Đang tải danh sách mã từ kho câu hỏi đang bật...";
+
+        const activeQuestions = await getActiveQuestionsFromFirebase();
+        const mapByType = {
+          multipleChoice: {},
+          trueFalseGroup: {},
+          shortAnswer: {}
+        };
+
+        activeQuestions.forEach((question) => {
+          const type = question.questionType;
+          const code = getQuestionCodeForMatrix(question);
+
+          if (!mapByType[type] || !code) {
+            return;
+          }
+
+          if (!mapByType[type][code]) {
+            mapByType[type][code] = 0;
+          }
+
+          mapByType[type][code]++;
+        });
+
+        ["multipleChoice", "trueFalseGroup", "shortAnswer"].forEach((type) => {
+          matrixCodeOptionsByType[type] = Object.keys(mapByType[type])
+            .sort((a, b) => a.localeCompare(b, "vi", { numeric: true, sensitivity: "base" }))
+            .map((code) => {
+              return {
+                code,
+                count: mapByType[type][code]
+              };
+            });
+        });
+
+        status.className = "ok-box";
+        status.innerHTML =
+          "Đã tải mã từ kho câu hỏi.<br>" +
+          "Trắc nghiệm: <b>" + matrixCodeOptionsByType.multipleChoice.length + "</b> mã<br>" +
+          "Đúng/Sai: <b>" + matrixCodeOptionsByType.trueFalseGroup.length + "</b> mã<br>" +
+          "Trả lời ngắn: <b>" + matrixCodeOptionsByType.shortAnswer.length + "</b> mã";
+
+        const currentRows = document.querySelectorAll("#matrixRowsTable tr[id^='matrixRow']");
+        if (currentRows.length === 0) {
+          renderMatrixRows([]);
+        } else {
+          renderMatrixRows(getMatrixItemsFromRows());
+        }
+      } catch (error) {
+        console.error("Lỗi tải mã ma trận:", error);
+        status.className = "error-box";
+        status.innerHTML = "Không tải được mã từ kho câu hỏi Firebase.";
+      }
+    };
+
+    window.addMatrixRow = function(defaultItem) {
+      const rows = Array.from(document.querySelectorAll("#matrixRowsTable tr[id^='matrixRow']"));
+      const items = [];
+
+      rows.forEach((row) => {
+        try {
+          const section = row.querySelector(".matrix-section-select").value;
+          const questionType = row.querySelector(".matrix-type-select").value;
+          const code = row.querySelector(".matrix-code-select").value;
+          const quantity = Number(row.querySelector(".matrix-quantity-input").value || 1);
+
+          items.push(getMatrixItemStorageObject(section, questionType, code, quantity));
+        } catch (error) {
+          // Ignore incomplete row while adding a new row.
+        }
+      });
+
+      if (defaultItem) {
+        items.push(defaultItem);
+      } else {
+        const questionType = "multipleChoice";
+        const firstCodeOption = getMatrixCodeOptions(questionType)[0];
+        items.push(getMatrixItemStorageObject(
+          "PHẦN I",
+          questionType,
+          firstCodeOption ? firstCodeOption.code : "",
+          1
+        ));
+      }
+
+      renderMatrixRows(items);
+    };
+
+    window.removeMatrixRow = function(rowId) {
+      const row = document.getElementById(rowId);
+
+      if (row) {
+        row.remove();
+      }
+
+      const remainingRows = document.querySelectorAll("#matrixRowsTable tr[id^='matrixRow']");
+      if (remainingRows.length === 0) {
+        renderMatrixRows([]);
+      }
+    };
+
+    window.onMatrixTypeChanged = function(rowId) {
+      const row = document.getElementById(rowId);
+
+      if (!row) {
+        return;
+      }
+
+      const questionType = row.querySelector(".matrix-type-select").value;
+      const sectionSelect = row.querySelector(".matrix-section-select");
+      const codeSelect = row.querySelector(".matrix-code-select");
+      const firstCodeOption = getMatrixCodeOptions(questionType)[0];
+
+      sectionSelect.value = getRecommendedSectionForType(questionType);
+      codeSelect.innerHTML = getCodeSelectOptions(questionType, firstCodeOption ? firstCodeOption.code : "");
+    };
+
+    window.fillSampleMatrix = async function() {
       document.getElementById("matrixNameInput").value = "Đề theo ma trận mẫu 7 câu";
       document.getElementById("matrixDurationInput").value = "15";
       document.getElementById("matrixStatusInput").value = "open";
-      document.getElementById("matrixTextInput").value = getDefaultMatrixText();
+
+      if (
+        matrixCodeOptionsByType.multipleChoice.length === 0 &&
+        matrixCodeOptionsByType.trueFalseGroup.length === 0 &&
+        matrixCodeOptionsByType.shortAnswer.length === 0
+      ) {
+        await loadMatrixCodeOptions();
+      }
+
+      renderMatrixRows(getDefaultMatrixItems());
       previewMatrix();
     };
 
@@ -1151,7 +1481,7 @@
       const status = document.getElementById("matrixSaveStatus");
 
       try {
-        const items = parseMatrixText(document.getElementById("matrixTextInput").value);
+        const items = getMatrixItemsFromRows();
         const total = items.reduce((sum, item) => sum + Number(item.quantity || 0), 0);
 
         status.className = "ok-box";
@@ -1168,7 +1498,7 @@
       document.getElementById("matrixNameInput").value = "";
       document.getElementById("matrixDurationInput").value = "15";
       document.getElementById("matrixStatusInput").value = "open";
-      document.getElementById("matrixTextInput").value = "";
+      renderMatrixRows([]);
       document.getElementById("matrixSaveStatus").className = "notice";
       document.getElementById("matrixSaveStatus").innerHTML = "Chưa có ma trận.";
     };
@@ -1194,7 +1524,7 @@
       let items;
 
       try {
-        items = parseMatrixText(document.getElementById("matrixTextInput").value);
+        items = getMatrixItemsFromRows();
       } catch (error) {
         status.className = "error-box";
         status.innerText = error.message;
@@ -1218,6 +1548,7 @@
         status.className = "ok-box";
         status.innerHTML = "Đã lưu ma trận <b>" + escapeHtml(name) + "</b> vào Firebase.";
         await loadMatricesFromFirebase();
+        await loadOpenMatricesForStudent();
       } catch (error) {
         console.error("Lỗi lưu ma trận:", error);
         status.className = "error-box";
@@ -1313,6 +1644,14 @@
 
     window.loadMatrixIntoForm = async function(matrixFirebaseId) {
       try {
+        if (
+          matrixCodeOptionsByType.multipleChoice.length === 0 &&
+          matrixCodeOptionsByType.trueFalseGroup.length === 0 &&
+          matrixCodeOptionsByType.shortAnswer.length === 0
+        ) {
+          await loadMatrixCodeOptions();
+        }
+
         const matrices = await getAllMatricesFromFirebase();
         const matrix = matrices.find((item) => item.firebaseId === matrixFirebaseId);
 
@@ -1324,9 +1663,10 @@
         document.getElementById("matrixNameInput").value = (matrix.name || "") + " - bản chỉnh";
         document.getElementById("matrixDurationInput").value = matrix.durationMinutes || 15;
         document.getElementById("matrixStatusInput").value = matrix.status === "open" || matrix.isOpen === true ? "open" : "closed";
-        document.getElementById("matrixTextInput").value = matrixItemsToText(matrix.items || []);
+        renderMatrixRows(matrix.items || []);
         previewMatrix();
       } catch (error) {
+        console.error("Không tải được ma trận vào form:", error);
         alert("Không tải được ma trận vào form.");
       }
     };
@@ -2258,6 +2598,7 @@
       }
 
       if (sectionId === "matrixManagement") {
+        loadMatrixCodeOptions();
         loadMatricesFromFirebase();
       }
     };
