@@ -860,8 +860,7 @@
     };
 
     async function loadExamQuestionsFromFirebase() {
-      const q = query(collection(db, "questions"), orderBy("importedAt", "desc"));
-      const querySnapshot = await getDocs(q);
+      const querySnapshot = await getDocs(collection(db, "questions"));
 
       examQuestions = [];
 
@@ -872,6 +871,24 @@
         if (question.isActive !== false) {
           examQuestions.push(question);
         }
+      });
+
+      examQuestions.sort((a, b) => {
+        const aHasQuestionId = Boolean(a.questionId);
+        const bHasQuestionId = Boolean(b.questionId);
+
+        if (aHasQuestionId && !bHasQuestionId) {
+          return -1;
+        }
+
+        if (!aHasQuestionId && bHasQuestionId) {
+          return 1;
+        }
+
+        const aId = String(a.questionId || a.firebaseId || "");
+        const bId = String(b.questionId || b.firebaseId || "");
+
+        return aId.localeCompare(bId, "vi", { numeric: true });
       });
     }
 
@@ -1495,8 +1512,7 @@
       `;
 
       try {
-        const q = query(collection(db, "questions"), orderBy("importedAt", "desc"));
-        const querySnapshot = await getDocs(q);
+        const querySnapshot = await getDocs(collection(db, "questions"));
 
         if (querySnapshot.empty) {
           tableBody.innerHTML = `
@@ -1507,14 +1523,40 @@
           return;
         }
 
-        tableBody.innerHTML = "";
-
-        let index = 1;
+        const questionsForTable = [];
 
         querySnapshot.forEach((doc) => {
           const question = doc.data();
           question.firebaseId = doc.id;
 
+          if (question.isActive !== false) {
+            questionsForTable.push(question);
+          }
+        });
+
+        questionsForTable.sort((a, b) => {
+          const aHasQuestionId = Boolean(a.questionId);
+          const bHasQuestionId = Boolean(b.questionId);
+
+          if (aHasQuestionId && !bHasQuestionId) {
+            return -1;
+          }
+
+          if (!aHasQuestionId && bHasQuestionId) {
+            return 1;
+          }
+
+          const aId = String(a.questionId || a.firebaseId || "");
+          const bId = String(b.questionId || b.firebaseId || "");
+
+          return aId.localeCompare(bId, "vi", { numeric: true });
+        });
+
+        tableBody.innerHTML = "";
+
+        let index = 1;
+
+        questionsForTable.forEach((question) => {
           let answerText = "";
 
           if (question.questionType === "multipleChoice") {
