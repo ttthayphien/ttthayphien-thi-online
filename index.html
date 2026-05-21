@@ -652,10 +652,10 @@
               <th>Loại</th>
               <th>Mã</th>
               <th>Hiển thị</th>
-              <th>Nội dung / Ảnh</th>
-              <th>Đáp án</th>
               <th>Trạng thái</th>
               <th>Thao tác</th>
+              <th>Nội dung / Ảnh</th>
+              <th>Đáp án</th>
             </tr>
           </thead>
           <tbody id="questionBankFirebaseTable">
@@ -1550,10 +1550,10 @@
             <td>${escapeHtml(question.questionType || "")}</td>
             <td>${escapeHtml(getMainCode(question))}</td>
             <td>${escapeHtml(displayText)}</td>
-            <td>${escapeHtml(contentText)}</td>
-            <td>${escapeHtml(answerText)}</td>
             <td><span class="${statusClass}">${statusText}</span></td>
             <td>${actionHtml}</td>
+            <td>${escapeHtml(contentText)}</td>
+            <td>${escapeHtml(answerText)}</td>
           `;
 
           tableBody.appendChild(row);
