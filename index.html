@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>TT Thầy Phiên - Thi Online</title>
 
-  <!-- BẢN CODE: STEP 8.1 - HIỂN THỊ CÂU HỎI DẠNG ẢNH NGUYÊN CÂU -->
+  <!-- BẢN CODE: STEP 8.4 - SẮP XẾP CÂU HỎI THEO questionId TĂNG DẦN -->
 
   <script>
     window.MathJax = {
@@ -864,8 +864,7 @@
     };
 
     async function loadExamQuestionsFromFirebase() {
-      const q = query(collection(db, "questions"), orderBy("importedAt", "desc"));
-      const querySnapshot = await getDocs(q);
+      const querySnapshot = await getDocs(collection(db, "questions"));
 
       examQuestions = [];
 
@@ -876,6 +875,16 @@
         if (question.isActive !== false) {
           examQuestions.push(question);
         }
+      });
+
+      examQuestions.sort((a, b) => {
+        const aId = String(a.questionId || a.firebaseId || "");
+        const bId = String(b.questionId || b.firebaseId || "");
+
+        return aId.localeCompare(bId, "vi", {
+          numeric: true,
+          sensitivity: "base"
+        });
       });
     }
 
@@ -1499,8 +1508,7 @@
       `;
 
       try {
-        const q = query(collection(db, "questions"), orderBy("importedAt", "desc"));
-        const querySnapshot = await getDocs(q);
+        const querySnapshot = await getDocs(collection(db, "questions"));
 
         if (querySnapshot.empty) {
           tableBody.innerHTML = `
@@ -1511,13 +1519,36 @@
           return;
         }
 
-        tableBody.innerHTML = "";
-
-        let index = 1;
+        const questionsForTable = [];
 
         querySnapshot.forEach((doc) => {
           const question = doc.data();
           question.firebaseId = doc.id;
+          questionsForTable.push(question);
+        });
+
+        questionsForTable.sort((a, b) => {
+          const aActive = a.isActive === false ? 1 : 0;
+          const bActive = b.isActive === false ? 1 : 0;
+
+          if (aActive !== bActive) {
+            return aActive - bActive;
+          }
+
+          const aId = String(a.questionId || a.firebaseId || "");
+          const bId = String(b.questionId || b.firebaseId || "");
+
+          return aId.localeCompare(bId, "vi", {
+            numeric: true,
+            sensitivity: "base"
+          });
+        });
+
+        tableBody.innerHTML = "";
+
+        let index = 1;
+
+        questionsForTable.forEach((question) => {
 
           let answerText = "";
 
