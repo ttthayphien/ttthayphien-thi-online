@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>TT Thầy Phiên - Thi Online</title>
 
-  <!-- BẢN CODE: STEP 9.1 - ĐỀ THEO MA TRẬN CỐ ĐỊNH 7 CÂU -->
+  <!-- BẢN CODE: STEP 10.1 - HIỂN THỊ KẾT QUẢ, ĐÁP ÁN, LỜI GIẢI SAU KHI NỘP -->
 
   <script>
     window.MathJax = {
@@ -330,6 +330,86 @@
       border-radius: 12px;
       font-size: 18px;
       margin-top: 16px;
+    }
+
+    .result-review-card {
+      background: white;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 16px;
+      margin-top: 14px;
+    }
+
+    .result-review-card.correct {
+      border-color: #86efac;
+      background: #f0fdf4;
+    }
+
+    .result-review-card.wrong {
+      border-color: #fca5a5;
+      background: #fef2f2;
+    }
+
+    .result-review-card.partial {
+      border-color: #fdba74;
+      background: #fff7ed;
+    }
+
+    .result-review-title {
+      font-weight: bold;
+      margin-bottom: 8px;
+      color: #0f172a;
+    }
+
+    .result-review-line {
+      margin: 6px 0;
+      line-height: 1.5;
+    }
+
+    .result-answer-badge {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: #e2e8f0;
+      color: #0f172a;
+      font-weight: bold;
+      font-size: 13px;
+      margin-left: 4px;
+    }
+
+    .result-answer-badge.ok {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .result-answer-badge.bad {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .solution-box {
+      background: #ffffff;
+      border: 1px dashed #cbd5e1;
+      border-radius: 10px;
+      padding: 10px;
+      margin-top: 10px;
+      color: #334155;
+      white-space: pre-wrap;
+    }
+
+    .result-image-small {
+      margin-top: 10px;
+      padding: 8px;
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
+      background: #fff;
+      text-align: center;
+    }
+
+    .result-image-small img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
     }
 
     .hidden {
@@ -1413,6 +1493,173 @@
       };
     }
 
+
+    function getQuestionResultDetail(question, questionNumber) {
+      const answer = studentAnswers[String(questionNumber)];
+      const detail = {
+        questionNumber,
+        questionId: getQuestionId(question),
+        code: getMainCode(question),
+        questionType: question.questionType || "",
+        correctUnits: 0,
+        totalUnits: 0,
+        status: "wrong",
+        studentText: "Chưa trả lời",
+        correctText: "",
+        solutionText: question.solution || "",
+        imageUrl: hasQuestionImage(question) ? question.questionImageUrl : ""
+      };
+
+      if (question.questionType === "multipleChoice") {
+        detail.totalUnits = 1;
+        detail.studentText = answer || "Chưa chọn";
+        detail.correctText = question.correctAnswer || "";
+
+        if (answer && answer === question.correctAnswer) {
+          detail.correctUnits = 1;
+          detail.status = "correct";
+        }
+      } else if (question.questionType === "shortAnswer") {
+        detail.totalUnits = 1;
+        const studentAnswer = normalizeAnswer(answer);
+        const correctAnswer = normalizeAnswer(question.correctAnswer);
+        const acceptedAnswers = String(question.acceptedAnswers || "")
+          .split(";")
+          .map(normalizeAnswer)
+          .filter(Boolean);
+
+        detail.studentText = answer || "Chưa nhập";
+        detail.correctText = question.correctAnswer || "";
+
+        if (studentAnswer && (studentAnswer === correctAnswer || acceptedAnswers.includes(studentAnswer))) {
+          detail.correctUnits = 1;
+          detail.status = "correct";
+        }
+      } else if (question.questionType === "trueFalseGroup") {
+        const statements = Array.isArray(question.statements) ? question.statements : [];
+        detail.totalUnits = statements.length;
+
+        const studentParts = [];
+        const correctParts = [];
+
+        statements.forEach((statement) => {
+          const label = statement.label;
+          const studentValue = answer && answer[label] ? answer[label] : "Chưa chọn";
+          const correctValue = statement.correctAnswer || "";
+
+          studentParts.push(label + ": " + studentValue);
+          correctParts.push(label + ": " + correctValue);
+
+          if (studentValue === correctValue) {
+            detail.correctUnits++;
+          }
+        });
+
+        detail.studentText = studentParts.join("; ");
+        detail.correctText = correctParts.join("; ");
+
+        if (detail.correctUnits === detail.totalUnits && detail.totalUnits > 0) {
+          detail.status = "correct";
+        } else if (detail.correctUnits > 0) {
+          detail.status = "partial";
+        }
+      }
+
+      return detail;
+    }
+
+    function renderResultReview(gradeDetails) {
+      return gradeDetails.map((detail) => {
+        const statusText =
+          detail.status === "correct"
+            ? "Đúng"
+            : detail.status === "partial"
+              ? "Đúng một phần"
+              : "Sai";
+
+        const statusClass =
+          detail.status === "correct"
+            ? "ok"
+            : detail.status === "partial"
+              ? ""
+              : "bad";
+
+        const cardClass =
+          detail.status === "correct"
+            ? "correct"
+            : detail.status === "partial"
+              ? "partial"
+              : "wrong";
+
+        const imageHtml = detail.imageUrl
+          ? `
+            <div class="result-image-small">
+              <img src="${escapeHtml(detail.imageUrl)}" alt="Câu ${detail.questionNumber}" />
+            </div>
+          `
+          : "";
+
+        const solutionHtml = detail.solutionText
+          ? `
+            <div class="solution-box">
+              <b>Lời giải:</b><br>
+              ${escapeHtml(detail.solutionText)}
+            </div>
+          `
+          : `
+            <div class="solution-box">
+              <b>Lời giải:</b><br>
+              Chưa có lời giải trong dữ liệu câu hỏi.
+            </div>
+          `;
+
+        return `
+          <div class="result-review-card ${cardClass}">
+            <div class="result-review-title">
+              Câu ${detail.questionNumber}
+              <span class="result-answer-badge ${statusClass}">${statusText}</span>
+            </div>
+            <div class="question-meta">
+              ID: ${escapeHtml(detail.questionId)} |
+              Mã: ${escapeHtml(detail.code)} |
+              Loại: ${escapeHtml(detail.questionType)}
+            </div>
+            ${imageHtml}
+            <div class="result-review-line">
+              <b>Bài làm:</b> ${escapeHtml(detail.studentText)}
+            </div>
+            <div class="result-review-line">
+              <b>Đáp án đúng:</b> ${escapeHtml(detail.correctText)}
+            </div>
+            <div class="result-review-line">
+              <b>Số đơn vị đúng:</b> ${detail.correctUnits}/${detail.totalUnits}
+            </div>
+            ${solutionHtml}
+          </div>
+        `;
+      }).join("");
+    }
+
+    function buildResultHtml(submitMessage, grade, gradeDetails, usedMinutes, remainingSeconds) {
+      return `
+        <div class="result-box">
+          <p><b>${submitMessage}</b></p>
+          <p><b>Học sinh:</b> ${escapeHtml(student.name)}</p>
+          <p><b>Lớp:</b> ${escapeHtml(student.className)}</p>
+          <p><b>Số đơn vị đúng:</b> ${grade.correctUnits}/${grade.totalUnits}</p>
+          <p><b>Điểm mẫu:</b> ${grade.score.toFixed(2)}</p>
+          <p><b>Thời gian làm bài:</b> ${usedMinutes} phút ${remainingSeconds} giây</p>
+          <p id="saveStatus"><b>Đang lưu kết quả vào Firebase...</b></p>
+        </div>
+
+        <h3 style="margin-top: 22px;">Chi tiết bài làm</h3>
+        <p class="question-meta">
+          Điểm dưới đây là điểm mẫu để kiểm tra hệ thống. Công thức điểm chính thức sẽ quy định sau.
+        </p>
+        ${renderResultReview(gradeDetails)}
+      `;
+    }
+
     window.submitExam = async function(autoSubmit) {
       if (isSubmitted) {
         return;
@@ -1430,6 +1677,9 @@
       document.getElementById("submitButton").disabled = true;
 
       const grade = gradeExam();
+      const gradeDetails = examQuestions.map((question, index) => {
+        return getQuestionResultDetail(question, index + 1);
+      });
       const usedSeconds = examDurationMinutes * 60 - timeLeftSeconds;
       const usedMinutes = Math.floor(usedSeconds / 60);
       const remainingSeconds = usedSeconds % 60;
@@ -1438,17 +1688,8 @@
         ? "Hết giờ, hệ thống đã tự động nộp bài."
         : "Nộp bài thành công.";
 
-      document.getElementById("resultContent").innerHTML = `
-        <div class="result-box">
-          <p><b>${submitMessage}</b></p>
-          <p><b>Học sinh:</b> ${escapeHtml(student.name)}</p>
-          <p><b>Lớp:</b> ${escapeHtml(student.className)}</p>
-          <p><b>Số đơn vị đúng:</b> ${grade.correctUnits}/${grade.totalUnits}</p>
-          <p><b>Điểm mẫu:</b> ${grade.score.toFixed(2)}</p>
-          <p><b>Thời gian làm bài:</b> ${usedMinutes} phút ${remainingSeconds} giây</p>
-          <p id="saveStatus"><b>Đang lưu kết quả vào Firebase...</b></p>
-        </div>
-      `;
+      document.getElementById("resultContent").innerHTML =
+        buildResultHtml(submitMessage, grade, gradeDetails, usedMinutes, remainingSeconds);
 
       showScreen("resultScreen");
 
@@ -1465,6 +1706,7 @@
           usedTimeText: usedMinutes + " phút " + remainingSeconds + " giây",
           answers: studentAnswers,
           questionIds: examQuestions.map(q => getQuestionId(q)),
+          resultDetails: gradeDetails,
           autoSubmit: autoSubmit,
           createdAt: serverTimestamp()
         });
