@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>TT Thầy Phiên - Thi Online</title>
 
-  <!-- BẢN CODE: STEP 10.3 - HIỂN THỊ LỜI GIẢI DẠNG ẢNH solutionImageUrl -->
+  <!-- BẢN CODE: STEP 11.1 - GIÁO VIÊN TẠO MA TRẬN, HỌC SINH CHỌN MA TRẬN -->
 
   <script>
     window.MathJax = {
@@ -500,6 +500,37 @@
       margin-bottom: 12px;
     }
 
+    .matrix-format-help {
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      color: #1e3a8a;
+      padding: 12px;
+      border-radius: 10px;
+      margin: 12px 0;
+      line-height: 1.6;
+    }
+
+    .matrix-format-help code {
+      background: #dbeafe;
+      padding: 2px 5px;
+      border-radius: 4px;
+    }
+
+    .matrix-small {
+      font-size: 13px;
+      color: #64748b;
+      line-height: 1.5;
+    }
+
+    .matrix-item-list {
+      margin: 8px 0 0 18px;
+      padding: 0;
+    }
+
+    .matrix-item-list li {
+      margin: 3px 0;
+    }
+
     .ok-box {
       background: #ecfdf5;
       border: 1px solid #86efac;
@@ -579,18 +610,22 @@
       <div class="exam-list">
         <div class="exam-card">
           <h3>Đề thử từ kho Firebase</h3>
-          <p>Website sẽ lấy câu hỏi thật từ collection <b>questions</b>.</p>
+          <p>Website sẽ lấy toàn bộ câu hỏi đang bật trong collection <b>questions</b>.</p>
           <p>Thời gian: 15 phút</p>
           <p>Trạng thái: <span class="badge badge-open">Đang mở</span></p>
           <button onclick="startExam()">Vào làm bài</button>
         </div>
+      </div>
 
+      <h3 style="margin-top: 20px;">Đề theo ma trận giáo viên đã mở</h3>
+      <div id="openMatrixExamList" class="exam-list">
         <div class="exam-card">
-          <h3>Đề theo ma trận</h3>
-          <p>Lấy câu hỏi theo ma trận test 7 câu.</p>
-          <p>Trạng thái: <span class="badge badge-open">Đang mở</span></p>
-          <button onclick="startMatrixExam()">Vào làm bài</button>
+          <p>Đang tải danh sách ma trận...</p>
         </div>
+      </div>
+
+      <div class="notice">
+        Nếu chưa thấy ma trận mới, giáo viên cần vào Admin → Ma trận đề → đặt trạng thái <b>Đang mở</b>.
       </div>
     </section>
 
@@ -649,6 +684,7 @@
 
       <div class="admin-menu">
         <button onclick="showAdminSection('examManagement')">Quản lý kỳ thi</button>
+        <button onclick="showAdminSection('matrixManagement')">Ma trận đề</button>
         <button onclick="showAdminSection('importQuestions')">Nhập câu hỏi vào kho</button>
         <button onclick="showAdminSection('firebaseQuestionBank')">Kho câu hỏi Firebase</button>
         <button onclick="showAdminSection('studentResults')">Kết quả học sinh</button>
@@ -658,7 +694,7 @@
       <div class="admin-grid">
         <div class="admin-card">
           <h3>Kỳ thi</h3>
-          <p>Hiện đang dùng đề thử lấy toàn bộ câu hỏi trong Firebase.</p>
+          <p>Giáo viên có thể tạo nhiều ma trận và mở/khóa từng ma trận cho học sinh chọn.</p>
         </div>
 
         <div class="admin-card">
@@ -692,6 +728,63 @@
         <div class="notice">
           Bước này hỗ trợ câu hỏi dạng ảnh nguyên câu. Tạo ma trận đề sẽ làm ở bước sau.
         </div>
+      </div>
+
+      <div id="matrixManagement" class="admin-section hidden">
+        <h3>Tạo và quản lý ma trận đề</h3>
+
+        <div class="matrix-format-help">
+          <b>Cách nhập dòng ma trận:</b><br>
+          Mỗi dòng gồm 5 cột, ngăn cách bằng dấu <code>|</code>:<br>
+          <code>Phần | Tên phần | Loại câu | Mã câu | Số lượng</code><br><br>
+          Loại câu dùng một trong ba giá trị:
+          <code>multipleChoice</code>, <code>trueFalseGroup</code>, <code>shortAnswer</code>.
+          Với câu đúng/sai, mã sẽ được hiểu là <b>groupCode</b>.
+        </div>
+
+        <label>Tên ma trận / tên đề</label>
+        <input id="matrixNameInput" type="text" placeholder="Ví dụ: Đề kiểm tra thử 7 câu" />
+
+        <label>Thời gian làm bài, tính bằng phút</label>
+        <input id="matrixDurationInput" type="number" value="15" min="1" />
+
+        <label>Trạng thái</label>
+        <select id="matrixStatusInput">
+          <option value="open">Đang mở</option>
+          <option value="closed">Đang khóa</option>
+        </select>
+
+        <label>Nội dung ma trận</label>
+        <textarea id="matrixTextInput" placeholder="PHẦN I | Trắc nghiệm nhiều phương án lựa chọn | multipleChoice | S.12.01.1.1 | 1"></textarea>
+
+        <button onclick="fillSampleMatrix()">Điền ma trận mẫu 7 câu</button>
+        <button onclick="previewMatrix()">Kiểm tra ma trận</button>
+        <button class="success" onclick="saveMatrixToFirebase()">Lưu ma trận vào Firebase</button>
+        <button class="secondary" onclick="loadMatricesFromFirebase()">Tải lại danh sách ma trận</button>
+        <button class="danger" onclick="clearMatrixForm()">Xóa form</button>
+
+        <div id="matrixSaveStatus" class="notice">
+          Chưa có ma trận.
+        </div>
+
+        <h3>Danh sách ma trận đã lưu</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Tên ma trận</th>
+              <th>Thời gian</th>
+              <th>Trạng thái</th>
+              <th>Số dòng</th>
+              <th>Nội dung</th>
+              <th>Thao tác</th>
+            </tr>
+          </thead>
+          <tbody id="matrixListTable">
+            <tr>
+              <td colspan="6">Bấm “Tải lại danh sách ma trận”.</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
 
       <div id="importQuestions" class="admin-section hidden">
@@ -854,6 +947,11 @@
       }
     ];
 
+    let selectedExamMatrix = null;
+    let selectedMatrixFirebaseId = "";
+    let currentExamDurationMinutes = examDurationMinutes;
+    let studentVisibleMatrices = [];
+
     let timeLeftSeconds = examDurationMinutes * 60;
     let timerInterval = null;
     let isSubmitted = false;
@@ -943,7 +1041,369 @@
         "Học sinh: " + student.name + " - Lớp: " + student.className;
 
       showScreen("examSelectScreen");
+      loadOpenMatricesForStudent();
     };
+
+
+    function getDefaultMatrixText() {
+      return [
+        "PHẦN I | Trắc nghiệm nhiều phương án lựa chọn | multipleChoice | S.12.01.1.1 | 1",
+        "PHẦN I | Trắc nghiệm nhiều phương án lựa chọn | multipleChoice | S.12.01.1.2 | 2",
+        "PHẦN I | Trắc nghiệm nhiều phương án lựa chọn | multipleChoice | S.12.01.1.3 | 1",
+        "PHẦN II | Trắc nghiệm đúng sai | trueFalseGroup | S.MIX | 1",
+        "PHẦN II | Trắc nghiệm đúng sai | trueFalseGroup | S.11.11.1.MIX | 1",
+        "PHẦN III | Trả lời ngắn | shortAnswer | S.12.07.2.3 | 1"
+      ].join("\n");
+    }
+
+    function parseMatrixText(text) {
+      const lines = String(text || "")
+        .split(/\r?\n/)
+        .map((line) => line.trim())
+        .filter((line) => line && !line.startsWith("#"));
+
+      const items = [];
+
+      lines.forEach((line, index) => {
+        const parts = line.split("|").map((part) => part.trim());
+
+        if (parts.length !== 5) {
+          throw new Error("Dòng " + (index + 1) + " chưa đúng 5 cột: " + line);
+        }
+
+        const section = parts[0];
+        const sectionName = parts[1];
+        const questionType = parts[2];
+        const code = parts[3];
+        const quantity = Number(parts[4]);
+
+        if (!["multipleChoice", "trueFalseGroup", "shortAnswer"].includes(questionType)) {
+          throw new Error("Dòng " + (index + 1) + " có loại câu chưa hợp lệ: " + questionType);
+        }
+
+        if (!section || !sectionName || !code || !Number.isInteger(quantity) || quantity <= 0) {
+          throw new Error("Dòng " + (index + 1) + " thiếu dữ liệu hoặc số lượng không hợp lệ.");
+        }
+
+        const item = {
+          section,
+          sectionName,
+          questionType,
+          quantity
+        };
+
+        if (questionType === "trueFalseGroup") {
+          item.groupCode = code;
+        } else {
+          item.code = code;
+        }
+
+        items.push(item);
+      });
+
+      if (items.length === 0) {
+        throw new Error("Ma trận đang trống.");
+      }
+
+      return items;
+    }
+
+    function matrixItemsToHtml(items) {
+      return `
+        <ul class="matrix-item-list">
+          ${items.map((item) => {
+            const code = item.groupCode || item.code || "";
+            return `
+              <li>
+                ${escapeHtml(item.section)} -
+                ${escapeHtml(item.questionType)} -
+                <b>${escapeHtml(code)}</b>:
+                ${item.quantity} câu
+              </li>
+            `;
+          }).join("")}
+        </ul>
+      `;
+    }
+
+    function matrixItemsToText(items) {
+      return (items || []).map((item) => {
+        const code = item.groupCode || item.code || "";
+        return [
+          item.section || "",
+          item.sectionName || "",
+          item.questionType || "",
+          code,
+          item.quantity || 1
+        ].join(" | ");
+      }).join("\n");
+    }
+
+    window.fillSampleMatrix = function() {
+      document.getElementById("matrixNameInput").value = "Đề theo ma trận mẫu 7 câu";
+      document.getElementById("matrixDurationInput").value = "15";
+      document.getElementById("matrixStatusInput").value = "open";
+      document.getElementById("matrixTextInput").value = getDefaultMatrixText();
+      previewMatrix();
+    };
+
+    window.previewMatrix = function() {
+      const status = document.getElementById("matrixSaveStatus");
+
+      try {
+        const items = parseMatrixText(document.getElementById("matrixTextInput").value);
+        const total = items.reduce((sum, item) => sum + Number(item.quantity || 0), 0);
+
+        status.className = "ok-box";
+        status.innerHTML =
+          "Ma trận hợp lệ. Tổng số câu: <b>" + total + "</b>." +
+          matrixItemsToHtml(items);
+      } catch (error) {
+        status.className = "error-box";
+        status.innerText = error.message;
+      }
+    };
+
+    window.clearMatrixForm = function() {
+      document.getElementById("matrixNameInput").value = "";
+      document.getElementById("matrixDurationInput").value = "15";
+      document.getElementById("matrixStatusInput").value = "open";
+      document.getElementById("matrixTextInput").value = "";
+      document.getElementById("matrixSaveStatus").className = "notice";
+      document.getElementById("matrixSaveStatus").innerHTML = "Chưa có ma trận.";
+    };
+
+    window.saveMatrixToFirebase = async function() {
+      const status = document.getElementById("matrixSaveStatus");
+      const name = document.getElementById("matrixNameInput").value.trim();
+      const durationMinutes = Number(document.getElementById("matrixDurationInput").value || 15);
+      const matrixStatus = document.getElementById("matrixStatusInput").value;
+
+      if (!name) {
+        status.className = "error-box";
+        status.innerHTML = "Bạn chưa nhập tên ma trận.";
+        return;
+      }
+
+      if (!Number.isFinite(durationMinutes) || durationMinutes <= 0) {
+        status.className = "error-box";
+        status.innerHTML = "Thời gian làm bài chưa hợp lệ.";
+        return;
+      }
+
+      let items;
+
+      try {
+        items = parseMatrixText(document.getElementById("matrixTextInput").value);
+      } catch (error) {
+        status.className = "error-box";
+        status.innerText = error.message;
+        return;
+      }
+
+      try {
+        status.className = "notice";
+        status.innerHTML = "Đang lưu ma trận vào Firebase...";
+
+        await addDoc(collection(db, "examMatrices"), {
+          name,
+          durationMinutes,
+          status: matrixStatus,
+          isOpen: matrixStatus === "open",
+          items,
+          createdAt: serverTimestamp(),
+          updatedAt: serverTimestamp()
+        });
+
+        status.className = "ok-box";
+        status.innerHTML = "Đã lưu ma trận <b>" + escapeHtml(name) + "</b> vào Firebase.";
+        await loadMatricesFromFirebase();
+      } catch (error) {
+        console.error("Lỗi lưu ma trận:", error);
+        status.className = "error-box";
+        status.innerHTML = "Không lưu được ma trận vào Firebase.";
+      }
+    };
+
+    async function getAllMatricesFromFirebase() {
+      const snapshot = await getDocs(collection(db, "examMatrices"));
+      const matrices = [];
+
+      snapshot.forEach((documentSnapshot) => {
+        const matrix = documentSnapshot.data();
+        matrix.firebaseId = documentSnapshot.id;
+        matrices.push(matrix);
+      });
+
+      matrices.sort((a, b) => {
+        const aOpen = a.status === "open" || a.isOpen === true ? 0 : 1;
+        const bOpen = b.status === "open" || b.isOpen === true ? 0 : 1;
+
+        if (aOpen !== bOpen) {
+          return aOpen - bOpen;
+        }
+
+        return String(a.name || "").localeCompare(String(b.name || ""), "vi", {
+          numeric: true,
+          sensitivity: "base"
+        });
+      });
+
+      return matrices;
+    }
+
+    window.loadMatricesFromFirebase = async function() {
+      const tableBody = document.getElementById("matrixListTable");
+
+      if (!tableBody) {
+        return;
+      }
+
+      tableBody.innerHTML = `
+        <tr>
+          <td colspan="6">Đang tải danh sách ma trận...</td>
+        </tr>
+      `;
+
+      try {
+        const matrices = await getAllMatricesFromFirebase();
+
+        if (matrices.length === 0) {
+          tableBody.innerHTML = `
+            <tr>
+              <td colspan="6">Chưa có ma trận nào. Hãy tạo ma trận ở form phía trên.</td>
+            </tr>
+          `;
+          return;
+        }
+
+        tableBody.innerHTML = matrices.map((matrix) => {
+          const isOpen = matrix.status === "open" || matrix.isOpen === true;
+          const items = Array.isArray(matrix.items) ? matrix.items : [];
+
+          return `
+            <tr>
+              <td><b>${escapeHtml(matrix.name || "Không tên")}</b></td>
+              <td>${escapeHtml(matrix.durationMinutes || 15)} phút</td>
+              <td>
+                <span class="badge ${isOpen ? "badge-open" : "badge-lock"}">
+                  ${isOpen ? "Đang mở" : "Đang khóa"}
+                </span>
+              </td>
+              <td>${items.length}</td>
+              <td class="matrix-small">${matrixItemsToHtml(items)}</td>
+              <td>
+                <button onclick="loadMatrixIntoForm('${matrix.firebaseId}')">Sửa bằng cách tạo bản mới</button>
+                <button class="${isOpen ? "danger" : "success"}" onclick="toggleMatrixStatus('${matrix.firebaseId}', ${isOpen ? "false" : "true"})">
+                  ${isOpen ? "Khóa" : "Mở"}
+                </button>
+              </td>
+            </tr>
+          `;
+        }).join("");
+      } catch (error) {
+        console.error("Lỗi tải ma trận:", error);
+        tableBody.innerHTML = `
+          <tr>
+            <td colspan="6">Không tải được danh sách ma trận.</td>
+          </tr>
+        `;
+      }
+    };
+
+    window.loadMatrixIntoForm = async function(matrixFirebaseId) {
+      try {
+        const matrices = await getAllMatricesFromFirebase();
+        const matrix = matrices.find((item) => item.firebaseId === matrixFirebaseId);
+
+        if (!matrix) {
+          alert("Không tìm thấy ma trận.");
+          return;
+        }
+
+        document.getElementById("matrixNameInput").value = (matrix.name || "") + " - bản chỉnh";
+        document.getElementById("matrixDurationInput").value = matrix.durationMinutes || 15;
+        document.getElementById("matrixStatusInput").value = matrix.status === "open" || matrix.isOpen === true ? "open" : "closed";
+        document.getElementById("matrixTextInput").value = matrixItemsToText(matrix.items || []);
+        previewMatrix();
+      } catch (error) {
+        alert("Không tải được ma trận vào form.");
+      }
+    };
+
+    window.toggleMatrixStatus = async function(matrixFirebaseId, shouldOpen) {
+      try {
+        await updateDoc(doc(db, "examMatrices", matrixFirebaseId), {
+          status: shouldOpen ? "open" : "closed",
+          isOpen: shouldOpen,
+          updatedAt: serverTimestamp()
+        });
+
+        await loadMatricesFromFirebase();
+        await loadOpenMatricesForStudent();
+      } catch (error) {
+        console.error("Lỗi đổi trạng thái ma trận:", error);
+        alert("Không đổi được trạng thái ma trận.");
+      }
+    };
+
+    async function loadOpenMatricesForStudent() {
+      const container = document.getElementById("openMatrixExamList");
+
+      if (!container) {
+        return;
+      }
+
+      container.innerHTML = `
+        <div class="exam-card">
+          <p>Đang tải danh sách ma trận...</p>
+        </div>
+      `;
+
+      try {
+        const matrices = await getAllMatricesFromFirebase();
+        studentVisibleMatrices = matrices.filter((matrix) => {
+          return matrix.status === "open" || matrix.isOpen === true;
+        });
+
+        if (studentVisibleMatrices.length === 0) {
+          container.innerHTML = `
+            <div class="exam-card">
+              <h3>Chưa có đề theo ma trận đang mở</h3>
+              <p>Giáo viên cần vào Admin → Ma trận đề để tạo và mở ma trận.</p>
+            </div>
+          `;
+          return;
+        }
+
+        container.innerHTML = studentVisibleMatrices.map((matrix) => {
+          const items = Array.isArray(matrix.items) ? matrix.items : [];
+          const total = items.reduce((sum, item) => sum + Number(item.quantity || 0), 0);
+
+          return `
+            <div class="exam-card">
+              <h3>${escapeHtml(matrix.name || "Đề theo ma trận")}</h3>
+              <p>Thời gian: ${escapeHtml(matrix.durationMinutes || 15)} phút</p>
+              <p>Số câu: ${total}</p>
+              <p>Trạng thái: <span class="badge badge-open">Đang mở</span></p>
+              <details>
+                <summary>Xem ma trận</summary>
+                <div class="matrix-small">${matrixItemsToHtml(items)}</div>
+              </details>
+              <button onclick="startMatrixExam('${matrix.firebaseId}')">Vào làm bài</button>
+            </div>
+          `;
+        }).join("");
+      } catch (error) {
+        console.error("Lỗi tải ma trận cho học sinh:", error);
+        container.innerHTML = `
+          <div class="exam-card">
+            <h3>Không tải được ma trận</h3>
+            <p>Vui lòng thử tải lại trang.</p>
+          </div>
+        `;
+      }
+    }
 
     window.startExam = async function() {
       currentExamName = "Đề thử từ kho Firebase";
@@ -951,8 +1411,27 @@
       await beginExam(loadAllActiveQuestionsFromFirebase);
     };
 
-    window.startMatrixExam = async function() {
-      currentExamName = "Đề theo ma trận";
+    window.startMatrixExam = async function(matrixFirebaseId) {
+      selectedMatrixFirebaseId = matrixFirebaseId || "";
+      selectedExamMatrix = null;
+      currentExamDurationMinutes = examDurationMinutes;
+
+      if (selectedMatrixFirebaseId) {
+        const matrix = studentVisibleMatrices.find((item) => item.firebaseId === selectedMatrixFirebaseId);
+
+        if (!matrix) {
+          alert("Không tìm thấy ma trận này. Vui lòng tải lại trang.");
+          return;
+        }
+
+        selectedExamMatrix = Array.isArray(matrix.items) ? matrix.items : [];
+        currentExamName = matrix.name || "Đề theo ma trận";
+        currentExamDurationMinutes = Number(matrix.durationMinutes || examDurationMinutes);
+      } else {
+        selectedExamMatrix = examMatrix;
+        currentExamName = "Đề theo ma trận mẫu";
+      }
+
       document.getElementById("examTitle").innerText = currentExamName;
       await beginExam(loadMatrixQuestionsFromFirebase);
     };
@@ -960,7 +1439,7 @@
     async function beginExam(loaderFunction) {
       studentAnswers = {};
       isSubmitted = false;
-      timeLeftSeconds = examDurationMinutes * 60;
+      timeLeftSeconds = currentExamDurationMinutes * 60;
 
       document.getElementById("questionList").innerHTML = `
         <div class="box">Đang tải câu hỏi từ Firebase...</div>
@@ -1066,7 +1545,9 @@
       const usedFirebaseIds = new Set();
       const missingItems = [];
 
-      for (const item of examMatrix) {
+      const matrixItems = selectedExamMatrix || examMatrix;
+
+      for (const item of matrixItems) {
         const matchedQuestions = activeQuestions.filter((question) => {
           return !usedFirebaseIds.has(question.firebaseId) && questionMatchesMatrixItem(question, item);
         });
@@ -1761,6 +2242,7 @@
 
     window.showAdminSection = function(sectionId) {
       document.getElementById("examManagement").classList.add("hidden");
+      document.getElementById("matrixManagement").classList.add("hidden");
       document.getElementById("importQuestions").classList.add("hidden");
       document.getElementById("firebaseQuestionBank").classList.add("hidden");
       document.getElementById("studentResults").classList.add("hidden");
@@ -1773,6 +2255,10 @@
 
       if (sectionId === "firebaseQuestionBank") {
         loadQuestionBankFromFirebase();
+      }
+
+      if (sectionId === "matrixManagement") {
+        loadMatricesFromFirebase();
       }
     };
 
