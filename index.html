@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>TT Thầy Phiên - Thi Online</title>
 
-  <!-- BẢN CODE: STEP 10.1 - HIỂN THỊ KẾT QUẢ, ĐÁP ÁN, LỜI GIẢI SAU KHI NỘP -->
+  <!-- BẢN CODE: STEP 10.2 - IMPORT JSON THEO KIỂU CẬP NHẬT questionId + HIỂN THỊ LỜI GIẢI -->
 
   <script>
     window.MathJax = {
@@ -1859,31 +1859,85 @@
         return;
       }
 
-      status.innerHTML = "Đang nhập " + data.length + " câu hỏi vào Firebase...";
+      status.innerHTML =
+        "Đang kiểm tra questionId trong Firebase trước khi nhập/cập nhật...";
 
       try {
-        let importedCount = 0;
+        const existingSnapshot = await getDocs(collection(db, "questions"));
+        const existingByQuestionId = {};
+
+        existingSnapshot.forEach((documentSnapshot) => {
+          const existingQuestion = documentSnapshot.data();
+          const questionId = String(existingQuestion.questionId || "").trim();
+
+          if (!questionId) {
+            return;
+          }
+
+          if (!existingByQuestionId[questionId]) {
+            existingByQuestionId[questionId] = [];
+          }
+
+          existingByQuestionId[questionId].push(documentSnapshot.id);
+        });
+
+        let addedCount = 0;
+        let updatedQuestionCount = 0;
+        let updatedDocumentCount = 0;
+        let missingQuestionIdCount = 0;
 
         for (const question of data) {
+          const questionId = String(question.questionId || "").trim();
+
           const questionToSave = {
             ...question,
-            importedAt: serverTimestamp(),
+            questionId: questionId || question.questionId,
+            updatedAt: serverTimestamp(),
             isActive: question.isActive === false ? false : true
           };
 
-          await addDoc(collection(db, "questions"), questionToSave);
-          importedCount++;
+          if (!questionId) {
+            missingQuestionIdCount++;
+            await addDoc(collection(db, "questions"), {
+              ...questionToSave,
+              importedAt: serverTimestamp()
+            });
+            addedCount++;
+            continue;
+          }
+
+          const existingDocumentIds = existingByQuestionId[questionId] || [];
+
+          if (existingDocumentIds.length > 0) {
+            for (const existingDocumentId of existingDocumentIds) {
+              await updateDoc(doc(db, "questions", existingDocumentId), questionToSave);
+              updatedDocumentCount++;
+            }
+
+            updatedQuestionCount++;
+          } else {
+            await addDoc(collection(db, "questions"), {
+              ...questionToSave,
+              importedAt: serverTimestamp()
+            });
+            addedCount++;
+          }
         }
 
         status.className = "ok-box";
         status.innerHTML =
-          "Đã nhập thành công <b>" + importedCount + "</b> câu hỏi vào kho Firebase.";
+          "Nhập/cập nhật xong.<br>" +
+          "Câu thêm mới: <b>" + addedCount + "</b><br>" +
+          "QuestionId đã cập nhật: <b>" + updatedQuestionCount + "</b><br>" +
+          "Tổng document Firebase đã cập nhật: <b>" + updatedDocumentCount + "</b><br>" +
+          "Câu thiếu questionId phải thêm mới: <b>" + missingQuestionIdCount + "</b><br><br>" +
+          "Nếu trước đây có câu trùng questionId, hệ thống đã cập nhật tất cả các bản trùng đó.";
 
         document.getElementById("questionJsonInput").value = "";
       } catch (error) {
-        console.error("Lỗi nhập câu hỏi:", error);
+        console.error("Lỗi nhập/cập nhật câu hỏi:", error);
         status.className = "error-box";
-        status.innerHTML = "Không nhập được câu hỏi vào Firebase.";
+        status.innerHTML = "Không nhập/cập nhật được câu hỏi vào Firebase.";
       }
     };
 
