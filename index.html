@@ -654,11 +654,12 @@
               <th>Hiển thị</th>
               <th>Nội dung / Ảnh</th>
               <th>Đáp án</th>
+              <th>Thao tác</th>
             </tr>
           </thead>
           <tbody id="questionBankFirebaseTable">
             <tr>
-              <td colspan="7">Bấm “Tải lại kho câu hỏi” để xem dữ liệu.</td>
+              <td colspan="8">Bấm “Tải lại kho câu hỏi” để xem dữ liệu.</td>
             </tr>
           </tbody>
         </table>
@@ -705,6 +706,8 @@
       getDocs,
       query,
       orderBy,
+      doc,
+      updateDoc,
       serverTimestamp
     } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 
@@ -860,7 +863,8 @@
     };
 
     async function loadExamQuestionsFromFirebase() {
-      const querySnapshot = await getDocs(collection(db, "questions"));
+      const q = query(collection(db, "questions"), orderBy("importedAt", "desc"));
+      const querySnapshot = await getDocs(q);
 
       examQuestions = [];
 
@@ -871,24 +875,6 @@
         if (question.isActive !== false) {
           examQuestions.push(question);
         }
-      });
-
-      examQuestions.sort((a, b) => {
-        const aHasQuestionId = Boolean(a.questionId);
-        const bHasQuestionId = Boolean(b.questionId);
-
-        if (aHasQuestionId && !bHasQuestionId) {
-          return -1;
-        }
-
-        if (!aHasQuestionId && bHasQuestionId) {
-          return 1;
-        }
-
-        const aId = String(a.questionId || a.firebaseId || "");
-        const bId = String(b.questionId || b.firebaseId || "");
-
-        return aId.localeCompare(bId, "vi", { numeric: true });
       });
     }
 
@@ -1507,56 +1493,31 @@
 
       tableBody.innerHTML = `
         <tr>
-          <td colspan="7">Đang tải kho câu hỏi từ Firebase...</td>
+          <td colspan="8">Đang tải kho câu hỏi từ Firebase...</td>
         </tr>
       `;
 
       try {
-        const querySnapshot = await getDocs(collection(db, "questions"));
+        const q = query(collection(db, "questions"), orderBy("importedAt", "desc"));
+        const querySnapshot = await getDocs(q);
 
         if (querySnapshot.empty) {
           tableBody.innerHTML = `
             <tr>
-              <td colspan="7">Kho câu hỏi đang trống.</td>
+              <td colspan="8">Kho câu hỏi đang trống.</td>
             </tr>
           `;
           return;
         }
 
-        const questionsForTable = [];
+        tableBody.innerHTML = "";
+
+        let index = 1;
 
         querySnapshot.forEach((doc) => {
           const question = doc.data();
           question.firebaseId = doc.id;
 
-          if (question.isActive !== false) {
-            questionsForTable.push(question);
-          }
-        });
-
-        questionsForTable.sort((a, b) => {
-          const aHasQuestionId = Boolean(a.questionId);
-          const bHasQuestionId = Boolean(b.questionId);
-
-          if (aHasQuestionId && !bHasQuestionId) {
-            return -1;
-          }
-
-          if (!aHasQuestionId && bHasQuestionId) {
-            return 1;
-          }
-
-          const aId = String(a.questionId || a.firebaseId || "");
-          const bId = String(b.questionId || b.firebaseId || "");
-
-          return aId.localeCompare(bId, "vi", { numeric: true });
-        });
-
-        tableBody.innerHTML = "";
-
-        let index = 1;
-
-        questionsForTable.forEach((question) => {
           let answerText = "";
 
           if (question.questionType === "multipleChoice") {
@@ -1584,6 +1545,11 @@
             <td>${escapeHtml(displayText)}</td>
             <td>${escapeHtml(contentText)}</td>
             <td>${escapeHtml(answerText)}</td>
+            <td>
+              <button class="danger" onclick="deactivateQuestion('${question.firebaseId}', '${escapeHtml(getQuestionId(question))}')">
+                Tắt
+              </button>
+            </td>
           `;
 
           tableBody.appendChild(row);
@@ -1593,9 +1559,38 @@
         console.error("Lỗi tải kho câu hỏi:", error);
         tableBody.innerHTML = `
           <tr>
-            <td colspan="7">Không tải được kho câu hỏi từ Firebase.</td>
+            <td colspan="8">Không tải được kho câu hỏi từ Firebase.</td>
           </tr>
         `;
+      }
+    };
+
+
+    window.deactivateQuestion = async function(firebaseId, questionId) {
+      if (!firebaseId) {
+        alert("Không tìm thấy Firebase ID của câu hỏi.");
+        return;
+      }
+
+      const confirmDeactivate = confirm(
+        "Bạn có chắc muốn tắt câu hỏi " + questionId + " không?\\n\\n" +
+        "Câu hỏi sẽ không bị xóa khỏi Firebase, chỉ đổi isActive thành false."
+      );
+
+      if (!confirmDeactivate) {
+        return;
+      }
+
+      try {
+        await updateDoc(doc(db, "questions", firebaseId), {
+          isActive: false
+        });
+
+        alert("Đã tắt câu hỏi " + questionId + ".");
+        loadQuestionBankFromFirebase();
+      } catch (error) {
+        console.error("Lỗi tắt câu hỏi:", error);
+        alert("Không tắt được câu hỏi. Kiểm tra Firestore Rules hoặc kết nối Firebase.");
       }
     };
 
