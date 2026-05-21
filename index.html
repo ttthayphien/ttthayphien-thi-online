@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>TT Thầy Phiên - Thi Online</title>
 
-  <!-- BẢN CODE: STEP 8.4 - SẮP XẾP CÂU HỎI THEO questionId TĂNG DẦN -->
+  <!-- BẢN CODE: STEP 9.1 - ĐỀ THEO MA TRẬN CỐ ĐỊNH 7 CÂU -->
 
   <script>
     window.MathJax = {
@@ -507,9 +507,9 @@
 
         <div class="exam-card">
           <h3>Đề theo ma trận</h3>
-          <p>Sẽ làm ở bước sau.</p>
-          <p>Trạng thái: <span class="badge badge-lock">Chưa làm</span></p>
-          <button class="secondary" disabled>Chưa mở</button>
+          <p>Lấy câu hỏi theo ma trận test 7 câu.</p>
+          <p>Trạng thái: <span class="badge badge-open">Đang mở</span></p>
+          <button onclick="startMatrixExam()">Vào làm bài</button>
         </div>
       </div>
     </section>
@@ -518,7 +518,7 @@
       <div class="exam-layout">
         <div>
           <div class="box">
-            <h2>Đề thử từ kho Firebase</h2>
+            <h2 id="examTitle">Đề thử từ kho Firebase</h2>
             <div class="student-info" id="studentInfoExam"></div>
             <p><b>Hướng dẫn:</b> Nếu câu hỏi có ảnh nguyên câu, hãy xem ảnh và trả lời ở phần bên dưới ảnh.</p>
           </div>
@@ -726,8 +726,53 @@
 
     let student = { name: "", className: "" };
     const adminPassword = "123456";
-    const examName = "Đề thử từ kho Firebase";
+    let currentExamName = "Đề thử từ kho Firebase";
     const examDurationMinutes = 15;
+
+    const examMatrix = [
+      {
+        section: "PHẦN I",
+        sectionName: "Trắc nghiệm nhiều phương án lựa chọn",
+        questionType: "multipleChoice",
+        code: "S.12.01.1.1",
+        quantity: 1
+      },
+      {
+        section: "PHẦN I",
+        sectionName: "Trắc nghiệm nhiều phương án lựa chọn",
+        questionType: "multipleChoice",
+        code: "S.12.01.1.2",
+        quantity: 2
+      },
+      {
+        section: "PHẦN I",
+        sectionName: "Trắc nghiệm nhiều phương án lựa chọn",
+        questionType: "multipleChoice",
+        code: "S.12.01.1.3",
+        quantity: 1
+      },
+      {
+        section: "PHẦN II",
+        sectionName: "Trắc nghiệm đúng sai",
+        questionType: "trueFalseGroup",
+        groupCode: "S.MIX",
+        quantity: 1
+      },
+      {
+        section: "PHẦN II",
+        sectionName: "Trắc nghiệm đúng sai",
+        questionType: "trueFalseGroup",
+        groupCode: "S.11.11.1.MIX",
+        quantity: 1
+      },
+      {
+        section: "PHẦN III",
+        sectionName: "Trả lời ngắn",
+        questionType: "shortAnswer",
+        code: "S.12.07.2.3",
+        quantity: 1
+      }
+    ];
 
     let timeLeftSeconds = examDurationMinutes * 60;
     let timerInterval = null;
@@ -821,6 +866,18 @@
     };
 
     window.startExam = async function() {
+      currentExamName = "Đề thử từ kho Firebase";
+      document.getElementById("examTitle").innerText = currentExamName;
+      await beginExam(loadAllActiveQuestionsFromFirebase);
+    };
+
+    window.startMatrixExam = async function() {
+      currentExamName = "Đề theo ma trận";
+      document.getElementById("examTitle").innerText = currentExamName;
+      await beginExam(loadMatrixQuestionsFromFirebase);
+    };
+
+    async function beginExam(loaderFunction) {
       studentAnswers = {};
       isSubmitted = false;
       timeLeftSeconds = examDurationMinutes * 60;
@@ -835,13 +892,13 @@
         "Học sinh: " + student.name + " - Lớp: " + student.className;
 
       try {
-        await loadExamQuestionsFromFirebase();
+        await loaderFunction();
 
         if (examQuestions.length === 0) {
           document.getElementById("questionList").innerHTML = `
             <div class="box">
-              <h3>Chưa có câu hỏi trong kho Firebase</h3>
-              <p>Vào Admin → Nhập câu hỏi vào kho để thêm câu hỏi trước.</p>
+              <h3>Chưa có câu hỏi phù hợp</h3>
+              <p>Vào Admin → Kho câu hỏi Firebase để kiểm tra câu đang bật hoặc nhập thêm câu hỏi.</p>
             </div>
           `;
           return;
@@ -857,27 +914,26 @@
         console.error("Lỗi tải đề:", error);
         document.getElementById("questionList").innerHTML = `
           <div class="box error-box">
-            Không tải được câu hỏi từ Firebase. Kiểm tra collection questions hoặc Firestore Rules.
+            ${escapeHtml(error.message || "Không tải được câu hỏi từ Firebase.")}
           </div>
         `;
       }
-    };
+    }
 
-    async function loadExamQuestionsFromFirebase() {
+    async function getActiveQuestionsFromFirebase() {
       const querySnapshot = await getDocs(collection(db, "questions"));
-
-      examQuestions = [];
+      const activeQuestions = [];
 
       querySnapshot.forEach((doc) => {
         const question = doc.data();
         question.firebaseId = doc.id;
 
         if (question.isActive !== false) {
-          examQuestions.push(question);
+          activeQuestions.push(question);
         }
       });
 
-      examQuestions.sort((a, b) => {
+      activeQuestions.sort((a, b) => {
         const aId = String(a.questionId || a.firebaseId || "");
         const bId = String(b.questionId || b.firebaseId || "");
 
@@ -886,6 +942,87 @@
           sensitivity: "base"
         });
       });
+
+      return activeQuestions;
+    }
+
+    async function loadAllActiveQuestionsFromFirebase() {
+      examQuestions = await getActiveQuestionsFromFirebase();
+    }
+
+    function shuffleArray(array) {
+      const copied = [...array];
+
+      for (let index = copied.length - 1; index > 0; index--) {
+        const randomIndex = Math.floor(Math.random() * (index + 1));
+        const temp = copied[index];
+        copied[index] = copied[randomIndex];
+        copied[randomIndex] = temp;
+      }
+
+      return copied;
+    }
+
+    function questionMatchesMatrixItem(question, item) {
+      if (question.questionType !== item.questionType) {
+        return false;
+      }
+
+      if (item.questionType === "trueFalseGroup") {
+        return String(question.groupCode || question.code || "") === String(item.groupCode || item.code || "");
+      }
+
+      return String(question.code || "") === String(item.code || "");
+    }
+
+    function getMatrixItemLabel(item) {
+      const code = item.groupCode || item.code || "";
+      return item.section + " - " + item.questionType + " - " + code;
+    }
+
+    async function loadMatrixQuestionsFromFirebase() {
+      const activeQuestions = await getActiveQuestionsFromFirebase();
+      const selectedQuestions = [];
+      const usedFirebaseIds = new Set();
+      const missingItems = [];
+
+      for (const item of examMatrix) {
+        const matchedQuestions = activeQuestions.filter((question) => {
+          return !usedFirebaseIds.has(question.firebaseId) && questionMatchesMatrixItem(question, item);
+        });
+
+        if (matchedQuestions.length < item.quantity) {
+          missingItems.push({
+            label: getMatrixItemLabel(item),
+            needed: item.quantity,
+            available: matchedQuestions.length
+          });
+          continue;
+        }
+
+        const pickedQuestions = shuffleArray(matchedQuestions).slice(0, item.quantity);
+
+        pickedQuestions.forEach((question) => {
+          question.examSection = item.section;
+          question.examSectionName = item.sectionName;
+          selectedQuestions.push(question);
+          usedFirebaseIds.add(question.firebaseId);
+        });
+      }
+
+      if (missingItems.length > 0) {
+        const missingHtml = missingItems.map((item) => {
+          return item.label + ": cần " + item.needed + ", hiện có " + item.available;
+        }).join("\\n");
+
+        throw new Error(
+          "Kho câu hỏi chưa đủ để tạo đề theo ma trận.\\n\\n" +
+          missingHtml +
+          "\\n\\nVào Admin → Kho câu hỏi Firebase để kiểm tra câu đang bật hoặc nhập thêm câu hỏi."
+        );
+      }
+
+      examQuestions = selectedQuestions;
     }
 
     function startTimer() {
@@ -926,8 +1063,22 @@
       const questionList = document.getElementById("questionList");
       questionList.innerHTML = "";
 
+      let currentSection = "";
+
       examQuestions.forEach((question, index) => {
         const questionNumber = index + 1;
+
+        if (question.examSection && question.examSection !== currentSection) {
+          currentSection = question.examSection;
+          const sectionTitle = document.createElement("div");
+          sectionTitle.className = "box";
+          sectionTitle.innerHTML = `
+            <h3>${escapeHtml(question.examSection)}</h3>
+            <p>${escapeHtml(question.examSectionName || "")}</p>
+          `;
+          questionList.appendChild(sectionTitle);
+        }
+
         const card = document.createElement("div");
         card.className = "question-card";
         card.id = "question-" + questionNumber;
@@ -1305,7 +1456,7 @@
         await addDoc(collection(db, "examResults"), {
           studentName: student.name,
           className: student.className,
-          examName: examName,
+          examName: currentExamName,
           totalQuestions: examQuestions.length,
           correctCount: grade.correctUnits,
           totalUnits: grade.totalUnits,
