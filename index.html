@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>TT Thầy Phiên - Thi Online</title>
 
-  <!-- BẢN CODE: STEP 12.3 - TÍCH HỢP MỤC LỤC KNTT 10-11-12 VÀO MA TRẬN -->
+  <!-- BẢN CODE: STEP 12.3 - MỤC LỤC THPT TỪ FILE EXCEL MỚI, DROPDOWN CÓ TÊN CHƯƠNG/BÀI/DẠNG -->
 
   <script>
     window.MathJax = {
@@ -790,7 +790,7 @@
         <div class="matrix-format-help">
           <b>Quy ước ID mới:</b><br>
           Phần I/III: <code>T.Khối.Chương.Bài.Dạng.Mức</code>, ví dụ <code>T.10.01.02.03.1</code>.<br>
-          Cột <b>Nhóm</b> như Số/Hình chỉ dùng để lọc chương cho dễ chọn, không nằm trong ID. Danh mục chương-bài-dạng lấy từ file mục lục KNTT 10-11-12.<br>
+          Cột <b>Nhóm</b> lấy từ mục lục Excel, dùng để lọc Chương/Bài/Dạng cho dễ chọn, không nằm trong ID.<br>
           Phần II: mã cả câu theo phạm vi <code>T.MIX</code>, <code>T.10.MIX</code>,
           <code>T.10.01.MIX</code>, <code>T.10.01.02.MIX</code>; từng ý vẫn dùng mã đầy đủ
           <code>T.Khối.Chương.Bài.Dạng.Mức</code>.<br>
@@ -1078,1084 +1078,1066 @@
 
     const curriculumCatalog = {
       "10": {
-            "groups": {
-                  "Hình": {
-                        "chapters": {
-                              "03": {
-                                    "lessons": {
-                                          "05": {
-                                                "name": "Giá trị lượng giác của một góc từ 0° đến 180°",
-                                                "topics": {
-                                                      "01": "Câu hỏi lý thuyết",
-                                                      "02": "Xác định giá trị lượng giác của góc đặc biệt",
-                                                      "03": "Dấu giá trị lượng giác",
-                                                      "04": "Hệ thức liên quan đến giá trị lượng giác",
-                                                      "05": "Giá trị của biểu thức lượng giác có điều kiện",
-                                                      "06": "Tìm tham số để biểu thức thỏa mãn điều kiện cho trước",
-                                                      "07": "Hai góc bù nhau, phụ nhau",
-                                                      "08": "Bài toán tổng hợp"
-                                                }
-                                          },
-                                          "06": {
-                                                "name": "Hệ thức lượng trong tam giác",
-                                                "topics": {
-                                                      "01": "Câu hỏi lý thuyết",
-                                                      "02": "Xác định các yếu tố trong tam giác",
-                                                      "03": "Hệ thức liên hệ giữa các yếu tố của tam giác",
-                                                      "04": "Nhận dạng tam giác",
-                                                      "05": "Giải tam giác",
-                                                      "06": "Các bài toán thực tế về giải tam giác",
-                                                      "07": "Các bài toán tổng hợp",
-                                                      "08": "Toán thực tế"
-                                                }
-                                          }
-                                    },
-                                    "name": "Hệ thức lượng trong tam giác"
+            "Số": {
+                  "01": {
+                        "name": "Mệnh đề và tập hợp",
+                        "lessons": {
+                              "01": {
+                                    "name": "Mệnh đề",
+                                    "topics": {
+                                          "01": "Câu hỏi lý thuyết",
+                                          "02": "Xác định mệnh đề, mệnh đề chứa biến",
+                                          "03": "Xét tính đúng sai của một mệnh đề",
+                                          "04": "Phủ định một mệnh đề",
+                                          "05": "Mệnh đề kéo theo, mệnh đề đảo, mệnh đề tương đương",
+                                          "06": "Áp dụng mệnh đề vào suy luận toán học",
+                                          "07": "Toán thực tế"
+                                    }
                               },
-                              "04": {
-                                    "lessons": {
-                                          "07": {
-                                                "name": "Các khái niệm mở đầu",
-                                                "topics": {
-                                                      "01": "Câu hỏi lý thuyết",
-                                                      "02": "Đếm, nhận dạng vectơ",
-                                                      "03": "Đếm, nhận dạng vectơ cùng phương, cùng hướng",
-                                                      "04": "Đếm, nhận dạng vectơ bằng nhau",
-                                                      "05": "Các bài toán về vectơ không",
-                                                      "06": "Xét các mệnh đề về vectơ và khái niệm liên quan",
-                                                      "07": "Bài toán tổng hợp, toán thực tế, liên môn",
-                                                      "08": "Toán thực tế"
-                                                }
-                                          },
-                                          "08": {
-                                                "name": "Tổng và hiệu của hai vectơ",
-                                                "topics": {
-                                                      "01": "Các câu hỏi lý thuyết",
-                                                      "02": "Chứng minh đẳng thức vectơ",
-                                                      "03": "Tính độ dài vectơ tổng, hiệu",
-                                                      "04": "Tìm tập hợp điểm thoả điều kiện cho trước",
-                                                      "05": "Tìm GTLN, GTNN liên quan đến tổng, hiệu các vectơ",
-                                                      "06": "Bài toán tổng hợp khác(nhiều kiến thức vectơ ,v.v)",
-                                                      "07": "Xác định tính chất của hình",
-                                                      "08": "Toán thực tế"
-                                                }
-                                          },
-                                          "09": {
-                                                "name": "Tích của một vectơ với một số",
-                                                "topics": {
-                                                      "01": "Câu hỏi lý thuyết",
-                                                      "02": "Chứng minh đẳng thức vectơ",
-                                                      "03": "Tính độ dài vectơ liên quan đến tích vectơ với một số",
-                                                      "04": "Phân tích 1 vectơ theo hai vectơ không cùng phương",
-                                                      "05": "Chứng minh tính chất song song",
-                                                      "06": "Tìm tập hợp điểm thoả điều kiện cho trước",
-                                                      "07": "Các bài toán vectơ liên quan đến diều kiện thẳng hàng, đồng quy của ba điểm",
-                                                      "08": "Các bài toán về giá trị lớn nhất, nhỏ nhất",
-                                                      "09": "Bài toán thực tế, liên môn",
-                                                      "10": "Toán thực tế"
-                                                }
-                                          },
-                                          "10": {
-                                                "name": "Vectơ trong mặt phẳng tọa độ",
-                                                "topics": {
-                                                      "01": "Câu hỏi lý thuyết",
-                                                      "02": "Các câu hỏi trên một trục toạ độ (O,e)",
-                                                      "03": "Xác định toạ độ điểm, toạ độ vectơ",
-                                                      "04": "Sự cùng phương, cùng hướng của 2 vectơ",
-                                                      "05": "Ba điểm thẳng hàng, hai đường thẳng song song",
-                                                      "06": "Chứng minh đẳng thức vectơ theo toạ độ",
-                                                      "07": "Phân tích một vectơ theo 2 vectơ không cùng phương",
-                                                      "08": "Tìm tham số thoả mối liên hệ về vectơ",
-                                                      "09": "Toán thực tế"
-                                                }
-                                          },
-                                          "11": {
-                                                "name": "Tích vô hướng của hai vectơ",
-                                                "topics": {
-                                                      "01": "Các câu hỏi lý thuyết",
-                                                      "02": "Xác định góc giữa hai vectơ bằng định nghĩa",
-                                                      "03": "Xác định góc giữa hai vectơ bằng tích vô hướng",
-                                                      "04": "Tính TVH của hai vectơ bằng định nghĩa, tính chất",
-                                                      "05": "Tính TVH của hai vectơ bằng biểu thức toạ độ",
-                                                      "06": "Ứng dụng TVH vào quan hệ vuông góc",
-                                                      "07": "Bài toán về độ dài, khoảng cách, chu vi, diện tích",
-                                                      "08": "Tìm điểm thỏa mãn đẳng thức về tích vô hướng",
-                                                      "09": "Tìm điểm đặc biệt trong tam giác",
-                                                      "10": "Tập hợp điểm",
-                                                      "11": "Bài toán cực trị",
-                                                      "12": "Toán thực tế, ứng dụng của tích vô hướng"
-                                                }
-                                          }
-                                    },
-                                    "name": "Vectơ"
-                              },
-                              "07": {
-                                    "lessons": {
-                                          "19": {
-                                                "name": "Phương trình đường thẳng",
-                                                "topics": {
-                                                      "01": "Các câu hỏi lý thuyết",
-                                                      "02": "Xác định VTCP, VTPT của đường thẳng",
-                                                      "03": "Viết PTĐT khi biết yếu tố về điểm, VTCP,VTPT",
-                                                      "04": "Viết PTĐT khi biết yếu tố song song, vuông góc",
-                                                      "05": "Bài toán về hình chiếu, điểm đối xứng"
-                                                }
-                                          },
-                                          "20": {
-                                                "name": "Vị trí tương đối giữa hai đường thẳng. Góc và khoảng cách",
-                                                "topics": {
-                                                      "01": "Vị trí tương đối liên quan điểm, đường thẳng",
-                                                      "02": "Viết PTĐT liên quan đến các đường trong tam giác",
-                                                      "03": "Viết PTĐT liên quan đến tứ giác, ngũ giác,…",
-                                                      "04": "Viết PTĐT liên quan đến góc, khoảng cách, diện tích,…",
-                                                      "05": "Tìm điểm thỏa mãn điều kiện cho trước liên quan đến ĐT, đa giác,…",
-                                                      "06": "Bài toán về hình chiếu, điểm đối xứng",
-                                                      "07": "Bài toán liên quan đến khoảng cách, diện tích, góc",
-                                                      "08": "Bài toán cực trị",
-                                                      "09": "Toán thực tế"
-                                                }
-                                          },
-                                          "21": {
-                                                "name": "Phương trình đường tròn",
-                                                "topics": {
-                                                      "01": "Các câu hỏi lý thuyết",
-                                                      "02": "Nhận dạng phương trình đường tròn",
-                                                      "03": "Tìm toạ độ tâm, tính bán kính của đường tròn",
-                                                      "04": "Viết phương trình đường tròn biết tâm và bán kính",
-                                                      "05": "Viết phương trình đường tròn qua hai, ba điểm",
-                                                      "06": "Viết phương trình đường tròn sử dụng điều kiện tiếp xúc",
-                                                      "07": "Tiếp tuyến với đường tròn",
-                                                      "08": "Bài toán liên quan đến hình vuông",
-                                                      "09": "Bài toán liên quan đến hình chữ nhật",
-                                                      "10": "Bài toán liên quan đến hình bình hành",
-                                                      "11": "Bài toán liên quan đến hình thang",
-                                                      "12": "Bài toán tổng hợp về tam giác",
-                                                      "13": "Tương giao của đường tròn",
-                                                      "14": "Bài toán cực trị",
-                                                      "15": "Bài toán tổng hợp",
-                                                      "16": "Toán thực tế"
-                                                }
-                                          },
-                                          "22": {
-                                                "name": "Ba đường conic",
-                                                "topics": {
-                                                      "01": "Các câu hỏi lý thuyết",
-                                                      "02": "Nhận dạng phương trình conic",
-                                                      "03": "Xác định các yếu tố của conic",
-                                                      "04": "Viết phương trình đường conic",
-                                                      "05": "Tiếp tuyến của đường conic",
-                                                      "06": "Bài toán liên quan đến tương giao của elip",
-                                                      "07": "Bài toán tổng hợp",
-                                                      "08": "Toán thực tế"
-                                                }
-                                          }
-                                    },
-                                    "name": "Phương pháp tọa độ trong mặt phẳng"
+                              "02": {
+                                    "name": "Tập hợp và các phép toán trên tập hợp",
+                                    "topics": {
+                                          "01": "Câu hỏi lý thuyết",
+                                          "02": "Xác định một tập hợp",
+                                          "03": "Các phép toán về giao, hợp, hiệu của hai tập hợp",
+                                          "04": "Tập hợp con của một tập hợp, hai tập hợp bằng nhau",
+                                          "05": "Toán thực tế, ứng dụng của tập hợp",
+                                          "06": "Viết các tập hợp dưới dạng khoảng, đoạn, nửa khoảng",
+                                          "07": "Các phép toán về giao, hợp, hiệu của hai tập hợp",
+                                          "08": "Bài toán tham số về giao, hợp, hiệu của các tập hợp",
+                                          "09": "Toán thực tế"
+                                    }
                               }
                         }
                   },
-                  "Số": {
-                        "chapters": {
-                              "01": {
-                                    "lessons": {
-                                          "01": {
-                                                "name": "Mệnh đề",
-                                                "topics": {
-                                                      "01": "Câu hỏi lý thuyết",
-                                                      "02": "Xác định mệnh đề, mệnh đề chứa biến",
-                                                      "03": "Xét tính đúng sai của một mệnh đề",
-                                                      "04": "Phủ định một mệnh đề",
-                                                      "05": "Mệnh đề kéo theo, mệnh đề đảo, mệnh đề tương đương",
-                                                      "06": "Áp dụng mệnh đề vào suy luận toán học",
-                                                      "07": "Toán thực tế"
-                                                }
-                                          },
-                                          "02": {
-                                                "name": "Tập hợp và các phép toán trên tập hợp",
-                                                "topics": {
-                                                      "01": "Câu hỏi lý thuyết",
-                                                      "02": "Xác định một tập hợp",
-                                                      "03": "Các phép toán về giao, hợp, hiệu của hai tập hợp",
-                                                      "04": "Tập hợp con của một tập hợp, hai tập hợp bằng nhau",
-                                                      "05": "Toán thực tế, ứng dụng của tập hợp",
-                                                      "06": "Viết các tập hợp dưới dạng khoảng, đoạn, nửa khoảng",
-                                                      "07": "Các phép toán về giao, hợp, hiệu của hai tập hợp",
-                                                      "08": "Bài toán tham số về giao, hợp, hiệu của các tập hợp",
-                                                      "09": "Toán thực tế"
-                                                }
-                                          }
-                                    },
-                                    "name": "Mệnh đề và tập hợp"
+                  "02": {
+                        "name": "Bất phương trình và hệ bất phương trình bậc nhất hai ẩn",
+                        "lessons": {
+                              "03": {
+                                    "name": "Bất phương trình bậc nhất hai ẩn",
+                                    "topics": {
+                                          "01": "Câu hỏi lý thuyết",
+                                          "02": "Xác định điểm thuộc miền nghiệm của BPT dựa vào đồ thị",
+                                          "03": "Xác định điểm thuộc miền nghiệm của BPT dựa vào biểu thức",
+                                          "04": "Cho BPT, xác định miền nghiệm",
+                                          "05": "Cho miền nghiệm, xác định BPT",
+                                          "06": "Bài toán thực tế"
+                                    }
                               },
-                              "02": {
-                                    "lessons": {
-                                          "03": {
-                                                "name": "Bất phương trình bậc nhất hai ẩn",
-                                                "topics": {
-                                                      "01": "Câu hỏi lý thuyết",
-                                                      "02": "Xác định điểm thuộc miền nghiệm của BPT dựa vào đồ thị",
-                                                      "03": "Xác định điểm thuộc miền nghiệm của BPT dựa vào biểu thức",
-                                                      "04": "Cho BPT, xác định miền nghiệm",
-                                                      "05": "Cho miền nghiệm, xác định BPT",
-                                                      "06": "Bài toán thực tế"
-                                                }
-                                          },
-                                          "04": {
-                                                "name": "Hệ bất phương trình bậc nhất hai ẩn",
-                                                "topics": {
-                                                      "01": "Câu hỏi lý thuyết",
-                                                      "02": "Xác định điểm thuộc miền nghiệm của  hệ BPT dựa vào đồ thị",
-                                                      "03": "Xác định điểm thuộc miền nghiệm của hệ BPT dựa vào biểu thức",
-                                                      "04": "Cho hệ BPT, xác định miền nghiệm",
-                                                      "05": "Cho miền nghiệm, xác định hệ BPT",
-                                                      "06": "Tìm GTLN, GTNN của biểu thức F(x,y)",
-                                                      "07": "Bài toán thực tế"
-                                                }
-                                          }
-                                    },
-                                    "name": "Bất phương trình và hệ bất phương trình bậc nhất hai ẩn"
+                              "04": {
+                                    "name": "Hệ bất phương trình bậc nhất hai ẩn",
+                                    "topics": {
+                                          "01": "Câu hỏi lý thuyết",
+                                          "02": "Xác định điểm thuộc miền nghiệm của  hệ BPT dựa vào đồ thị",
+                                          "03": "Xác định điểm thuộc miền nghiệm của hệ BPT dựa vào biểu thức",
+                                          "04": "Cho hệ BPT, xác định miền nghiệm",
+                                          "05": "Cho miền nghiệm, xác định hệ BPT",
+                                          "06": "Tìm GTLN, GTNN của biểu thức F(x,y)",
+                                          "07": "Bài toán thực tế"
+                                    }
+                              }
+                        }
+                  },
+                  "05": {
+                        "name": "Các số đặc trưng đo xu thế trung tâm cho mẫu số liệu không ghép nhóm",
+                        "lessons": {
+                              "12": {
+                                    "name": "Số gần đúng và sai số",
+                                    "topics": {
+                                          "01": "Câu hỏi lý thuyết",
+                                          "02": "Viết số gần đúng với độ chính xác cho trước",
+                                          "03": "Tính toán số gần đúng, sai số",
+                                          "04": "Chữ số đáng tin (chữ số chắc) của số gần dúng",
+                                          "05": "Cách việt chuẩn số gần đúng",
+                                          "06": "Toán thực tế"
+                                    }
                               },
+                              "13": {
+                                    "name": "Các số đặc trưng đo xu thế trung tâm",
+                                    "topics": {
+                                          "01": "Câu hỏi lý thuyết",
+                                          "02": "Tính số trung bình, trung vị, tứ phân vị, mốt",
+                                          "03": "Giải thích ý nghĩa, vai trò, kết luận từ đặc trưng đo xu thế trung tâm"
+                                    }
+                              },
+                              "14": {
+                                    "name": "Các số đặc trưng đo độ phân tán",
+                                    "topics": {
+                                          "01": "Câu hỏi lý thuyết",
+                                          "02": "Xác định khoảng biến thiên, khoảng tứ phân vị, phương sai, độ lệch chuẩn.",
+                                          "03": "Nêu ý nghĩa các số đặc trưng đo độ phân tán",
+                                          "04": "Phát hiện các giá trị bất thường",
+                                          "05": "Toán thực tế"
+                                    }
+                              }
+                        }
+                  },
+                  "06": {
+                        "name": "Hàm số, đồ thị và ứng dụng",
+                        "lessons": {
+                              "15": {
+                                    "name": "Hàm số",
+                                    "topics": {
+                                          "01": "Câu hỏi lý thuyết",
+                                          "02": "Điểm và đồ thị , BBT của hàm số",
+                                          "03": "Tính giá trị của hàm số tại x0 cho trước",
+                                          "04": "Tìm tập xác định của hàm số",
+                                          "05": "Tìm m để hàm số xác định trên khoảng cho trước",
+                                          "06": "Tính đồng biến, nghịch biến của hàm số",
+                                          "07": "Tính chẵn, lẻ của hàm số không tham số",
+                                          "08": "Tìm m để hàm số chẵn, lẻ",
+                                          "09": "Toán thực tế, ứng dụng của hàm số",
+                                          "10": "Tịnh tiến đồ thị"
+                                    }
+                              },
+                              "16": {
+                                    "name": "Hàm số bậc hai",
+                                    "topics": {
+                                          "01": "Câu hỏi lý thuyết",
+                                          "02": "Nhận dạng BBT, đồ thị hàm số liên quan hàm bậc 2 (nhiều công thức và không chứa GTTĐ)",
+                                          "03": "Nhận dạng BBT, đồ thị hàm số liên quan hàm bậc 2 (chứa GTTĐ)",
+                                          "04": "Tọa độ đỉnh, trục đối xứng",
+                                          "05": "Tính đơn điệu của hàm số bậc hai (không tham số)",
+                                          "06": "Tính đơn điệu của hàm số bậc hai (có tham số)",
+                                          "07": "Xác định hàm số bậc hai",
+                                          "08": "Các bài toán về điểm liên quan  parabol",
+                                          "09": "Bài toán tương giao",
+                                          "10": "Min-Max, tập giá trị liên quan hàm bậc hai",
+                                          "11": "Bài toán về phương trình,bất phương trình  liên quan hàm bậc 2(dùng đồ thị, BBT)",
+                                          "12": "Tiếp tuyến của parabol",
+                                          "13": "Tịnh tiến parabol",
+                                          "14": "Toán thực tế về hàm số bậc hai"
+                                    }
+                              },
+                              "17": {
+                                    "name": "Dấu của tam thức bậc hai",
+                                    "topics": {
+                                          "01": "Câu hỏi lý thuyết",
+                                          "02": "Xét dấu, bảng xét dấu của một tam thức bậc hai",
+                                          "03": "Xét dấu biểu thức nhờ dấu của các đa thức bậc nhất, bậc hai",
+                                          "04": "Phương trình bậc hai luôn có nghiệm hoặc luôn vô nghiệm",
+                                          "05": "Tìm GTLN - GTNN và chứng minh bất đẳng thức",
+                                          "06": "Điều kiện m để tam thức bậc hai thỏa điều kiện về dấu",
+                                          "07": "Bài toán thực tế"
+                                    }
+                              },
+                              "18": {
+                                    "name": "Phương trình quy về phương trình bậc hai",
+                                    "topics": {
+                                          "01": "Câu hỏi lý thuyết",
+                                          "02": "Phương trình căn(A) bằng B",
+                                          "03": "Phương trình căn(A) bằng căn(B)",
+                                          "04": "Phương trình vô tỷ - đặt ẩn phụ"
+                                    }
+                              }
+                        }
+                  },
+                  "08": {
+                        "name": "Đại số tổ hợp",
+                        "lessons": {
+                              "23": {
+                                    "name": "Quy tắc đếm",
+                                    "topics": {
+                                          "01": "Câu hỏi lý thuyết",
+                                          "02": "Quy tắc cộng",
+                                          "03": "Quy tắc nhân",
+                                          "04": "Bài toán kết hợp quy tắc cộng và nhân"
+                                    }
+                              },
+                              "24": {
+                                    "name": "Hoán vị, chỉnh hợp và tổ hợp",
+                                    "topics": {
+                                          "01": "Câu hỏi lý thuyết",
+                                          "02": "Bài toán đếm sử dụng P, A, C",
+                                          "03": "Bài toán đếm liên quan đến hình học",
+                                          "04": "Hoán vị vòng tròn",
+                                          "05": "Hoán vị lặp",
+                                          "06": "Đếm bằng phương pháp vách ngăn",
+                                          "07": "Bài toán đếm bằng PP chia kẹo Euler",
+                                          "08": "Giải PT, BPT, HPT liên quan đến P, A, C",
+                                          "09": "Bài toán đếm liên quan đến tham số",
+                                          "10": "Bài toán tính tổng các số được lập, tổng hợp khác",
+                                          "11": "Toán thực tế"
+                                    }
+                              },
+                              "25": {
+                                    "name": "Nhị thức Newton",
+                                    "topics": {
+                                          "01": "Câu hỏi lý thuyết",
+                                          "02": "Khai triển một nhị thức Newton",
+                                          "03": "Tìm hệ số, số hạng trong khai triển nhị thức Newton",
+                                          "04": "Hệ số lớn nhất,nhỏ nhất trong khai triển",
+                                          "05": "Bài toán liên quan đến tính tổng các hệ số",
+                                          "06": "Toán thực tế"
+                                    }
+                              }
+                        }
+                  },
+                  "09": {
+                        "name": "Tính xác suất theo định nghĩa cổ điển",
+                        "lessons": {
+                              "26": {
+                                    "name": "Biến cố và định nghĩa cổ điển của xác suất",
+                                    "topics": {
+                                          "01": "Câu hỏi lý thuyết",
+                                          "02": "Mô tả không gian mẫu, biến cố",
+                                          "03": "Mối liên hệ giữa các biến cố",
+                                          "04": "Tính xác suất bằng định nghĩa",
+                                          "05": "Toán thực tế"
+                                    }
+                              }
+                        }
+                  }
+            },
+            "Hình học": {
+                  "03": {
+                        "name": "Hệ thức lượng trong tam giác",
+                        "lessons": {
                               "05": {
-                                    "lessons": {
-                                          "12": {
-                                                "name": "Số gần đúng và sai số",
-                                                "topics": {
-                                                      "01": "Câu hỏi lý thuyết",
-                                                      "02": "Viết số gần đúng với độ chính xác cho trước",
-                                                      "03": "Tính toán số gần đúng, sai số",
-                                                      "04": "Chữ số đáng tin (chữ số chắc) của số gần dúng",
-                                                      "05": "Cách việt chuẩn số gần đúng",
-                                                      "06": "Toán thực tế"
-                                                }
-                                          },
-                                          "13": {
-                                                "name": "Các số đặc trưng đo xu thế trung tâm",
-                                                "topics": {
-                                                      "01": "Câu hỏi lý thuyết",
-                                                      "02": "Tính số trung bình, trung vị, tứ phân vị, mốt",
-                                                      "03": "Giải thích ý nghĩa, vai trò, kết luận từ đặc trưng đo xu thế trung tâm"
-                                                }
-                                          },
-                                          "14": {
-                                                "name": "Các số đặc trưng đo độ phân tán",
-                                                "topics": {
-                                                      "01": "Câu hỏi lý thuyết",
-                                                      "02": "Xác định khoảng biến thiên, khoảng tứ phân vị, phương sai, độ lệch chuẩn.",
-                                                      "03": "Nêu ý nghĩa các số đặc trưng đo độ phân tán",
-                                                      "04": "Phát hiện các giá trị bất thường",
-                                                      "05": "Toán thực tế"
-                                                }
-                                          }
-                                    },
-                                    "name": "Các số đặc trưng đo xu thế trung tâm cho mẫu số liệu không ghép nhóm"
+                                    "name": "Giá trị lượng giác của một góc từ 0° đến 180°",
+                                    "topics": {
+                                          "01": "Câu hỏi lý thuyết",
+                                          "02": "Xác định giá trị lượng giác của góc đặc biệt",
+                                          "03": "Dấu giá trị lượng giác",
+                                          "04": "Hệ thức liên quan đến giá trị lượng giác",
+                                          "05": "Giá trị của biểu thức lượng giác có điều kiện",
+                                          "06": "Tìm tham số để biểu thức thỏa mãn điều kiện cho trước",
+                                          "07": "Hai góc bù nhau, phụ nhau",
+                                          "08": "Bài toán tổng hợp"
+                                    }
                               },
                               "06": {
-                                    "lessons": {
-                                          "15": {
-                                                "name": "Hàm số",
-                                                "topics": {
-                                                      "01": "Câu hỏi lý thuyết",
-                                                      "02": "Điểm và đồ thị , BBT của hàm số",
-                                                      "03": "Tính giá trị của hàm số tại x0 cho trước",
-                                                      "04": "Tìm tập xác định của hàm số",
-                                                      "05": "Tìm m để hàm số xác định trên khoảng cho trước",
-                                                      "06": "Tính đồng biến, nghịch biến của hàm số",
-                                                      "07": "Tính chẵn, lẻ của hàm số không tham số",
-                                                      "08": "Tìm m để hàm số chẵn, lẻ",
-                                                      "09": "Toán thực tế, ứng dụng của hàm số",
-                                                      "10": "Tịnh tiến đồ thị"
-                                                }
-                                          },
-                                          "16": {
-                                                "name": "Hàm số bậc hai",
-                                                "topics": {
-                                                      "01": "Câu hỏi lý thuyết",
-                                                      "02": "Nhận dạng BBT, đồ thị hàm số liên quan hàm bậc 2 (nhiều công thức và không chứa GTTĐ)",
-                                                      "03": "Nhận dạng BBT, đồ thị hàm số liên quan hàm bậc 2 (chứa GTTĐ)",
-                                                      "04": "Tọa độ đỉnh, trục đối xứng",
-                                                      "05": "Tính đơn điệu của hàm số bậc hai (không tham số)",
-                                                      "06": "Tính đơn điệu của hàm số bậc hai (có tham số)",
-                                                      "07": "Xác định hàm số bậc hai",
-                                                      "08": "Các bài toán về điểm liên quan  parabol",
-                                                      "09": "Bài toán tương giao",
-                                                      "10": "Min-Max, tập giá trị liên quan hàm bậc hai",
-                                                      "11": "Bài toán về phương trình,bất phương trình  liên quan hàm bậc 2(dùng đồ thị, BBT)",
-                                                      "12": "Tiếp tuyến của parabol",
-                                                      "13": "Tịnh tiến parabol",
-                                                      "14": "Toán thực tế về hàm số bậc hai"
-                                                }
-                                          },
-                                          "17": {
-                                                "name": "Dấu của tam thức bậc hai",
-                                                "topics": {
-                                                      "01": "Câu hỏi lý thuyết",
-                                                      "02": "Xét dấu, bảng xét dấu của một tam thức bậc hai",
-                                                      "03": "Xét dấu biểu thức nhờ dấu của các đa thức bậc nhất, bậc hai",
-                                                      "04": "Phương trình bậc hai luôn có nghiệm hoặc luôn vô nghiệm",
-                                                      "05": "Tìm GTLN - GTNN và chứng minh bất đẳng thức",
-                                                      "06": "Điều kiện m để tam thức bậc hai thỏa điều kiện về dấu",
-                                                      "07": "Bài toán thực tế"
-                                                }
-                                          },
-                                          "18": {
-                                                "name": "Phương trình quy về phương trình bậc hai",
-                                                "topics": {
-                                                      "01": "Câu hỏi lý thuyết",
-                                                      "02": "Phương trình căn(A) bằng B",
-                                                      "03": "Phương trình căn(A) bằng căn(B)",
-                                                      "04": "Phương trình vô tỷ - đặt ẩn phụ"
-                                                }
-                                          }
-                                    },
-                                    "name": "Hàm số, đồ thị và ứng dụng"
+                                    "name": "Hệ thức lượng trong tam giác",
+                                    "topics": {
+                                          "01": "Câu hỏi lý thuyết",
+                                          "02": "Xác định các yếu tố trong tam giác",
+                                          "03": "Hệ thức liên hệ giữa các yếu tố của tam giác",
+                                          "04": "Nhận dạng tam giác",
+                                          "05": "Giải tam giác",
+                                          "06": "Các bài toán thực tế về giải tam giác",
+                                          "07": "Các bài toán tổng hợp",
+                                          "08": "Toán thực tế"
+                                    }
+                              }
+                        }
+                  },
+                  "04": {
+                        "name": "Vectơ",
+                        "lessons": {
+                              "07": {
+                                    "name": "Các khái niệm mở đầu",
+                                    "topics": {
+                                          "01": "Câu hỏi lý thuyết",
+                                          "02": "Đếm, nhận dạng vectơ",
+                                          "03": "Đếm, nhận dạng vectơ cùng phương, cùng hướng",
+                                          "04": "Đếm, nhận dạng vectơ bằng nhau",
+                                          "05": "Các bài toán về vectơ không",
+                                          "06": "Xét các mệnh đề về vectơ và khái niệm liên quan",
+                                          "07": "Bài toán tổng hợp, toán thực tế, liên môn",
+                                          "08": "Toán thực tế"
+                                    }
                               },
                               "08": {
-                                    "lessons": {
-                                          "23": {
-                                                "name": "Quy tắc đếm",
-                                                "topics": {
-                                                      "01": "Câu hỏi lý thuyết",
-                                                      "02": "Quy tắc cộng",
-                                                      "03": "Quy tắc nhân",
-                                                      "04": "Bài toán kết hợp quy tắc cộng và nhân"
-                                                }
-                                          },
-                                          "24": {
-                                                "name": "Hoán vị, chỉnh hợp và tổ hợp",
-                                                "topics": {
-                                                      "01": "Câu hỏi lý thuyết",
-                                                      "02": "Bài toán đếm sử dụng P, A, C",
-                                                      "03": "Bài toán đếm liên quan đến hình học",
-                                                      "04": "Hoán vị vòng tròn",
-                                                      "05": "Hoán vị lặp",
-                                                      "06": "Đếm bằng phương pháp vách ngăn",
-                                                      "07": "Bài toán đếm bằng PP chia kẹo Euler",
-                                                      "08": "Giải PT, BPT, HPT liên quan đến P, A, C",
-                                                      "09": "Bài toán đếm liên quan đến tham số",
-                                                      "10": "Bài toán tính tổng các số được lập, tổng hợp khác",
-                                                      "11": "Toán thực tế"
-                                                }
-                                          },
-                                          "25": {
-                                                "name": "Nhị thức Newton",
-                                                "topics": {
-                                                      "01": "Câu hỏi lý thuyết",
-                                                      "02": "Khai triển một nhị thức Newton",
-                                                      "03": "Tìm hệ số, số hạng trong khai triển nhị thức Newton",
-                                                      "04": "Hệ số lớn nhất,nhỏ nhất trong khai triển",
-                                                      "05": "Bài toán liên quan đến tính tổng các hệ số",
-                                                      "06": "Toán thực tế"
-                                                }
-                                          }
-                                    },
-                                    "name": "Đại số tổ hợp"
+                                    "name": "Tổng và hiệu của hai vectơ",
+                                    "topics": {
+                                          "01": "Các câu hỏi lý thuyết",
+                                          "02": "Chứng minh đẳng thức vectơ",
+                                          "03": "Tính độ dài vectơ tổng, hiệu",
+                                          "04": "Tìm tập hợp điểm thoả điều kiện cho trước",
+                                          "05": "Tìm GTLN, GTNN liên quan đến tổng, hiệu các vectơ",
+                                          "06": "Bài toán tổng hợp khác(nhiều kiến thức vectơ ,v.v)",
+                                          "07": "Xác định tính chất của hình",
+                                          "08": "Toán thực tế"
+                                    }
                               },
                               "09": {
-                                    "lessons": {
-                                          "26": {
-                                                "name": "Biến cố và định nghĩa cổ điển của xác suất",
-                                                "topics": {
-                                                      "01": "Câu hỏi lý thuyết",
-                                                      "02": "Mô tả không gian mẫu, biến cố",
-                                                      "03": "Mối liên hệ giữa các biến cố",
-                                                      "04": "Tính xác suất bằng định nghĩa",
-                                                      "05": "Toán thực tế"
-                                                }
-                                          }
-                                    },
-                                    "name": "Tính xác suất theo định nghĩa cổ điển"
+                                    "name": "Tích của một vectơ với một số",
+                                    "topics": {
+                                          "01": "Câu hỏi lý thuyết",
+                                          "02": "Chứng minh đẳng thức vectơ",
+                                          "03": "Tính độ dài vectơ liên quan đến tích vectơ với một số",
+                                          "04": "Phân tích 1 vectơ theo hai vectơ không cùng phương",
+                                          "05": "Chứng minh tính chất song song",
+                                          "06": "Tìm tập hợp điểm thoả điều kiện cho trước",
+                                          "07": "Các bài toán vectơ liên quan đến diều kiện thẳng hàng, đồng quy của ba điểm",
+                                          "08": "Các bài toán về giá trị lớn nhất, nhỏ nhất",
+                                          "09": "Bài toán thực tế, liên môn",
+                                          "10": "Toán thực tế"
+                                    }
+                              },
+                              "10": {
+                                    "name": "Vectơ trong mặt phẳng tọa độ",
+                                    "topics": {
+                                          "01": "Câu hỏi lý thuyết",
+                                          "02": "Các câu hỏi trên một trục toạ độ (O,e)",
+                                          "03": "Xác định toạ độ điểm, toạ độ vectơ",
+                                          "04": "Sự cùng phương, cùng hướng của 2 vectơ",
+                                          "05": "Ba điểm thẳng hàng, hai đường thẳng song song",
+                                          "06": "Chứng minh đẳng thức vectơ theo toạ độ",
+                                          "07": "Phân tích một vectơ theo 2 vectơ không cùng phương",
+                                          "08": "Tìm tham số thoả mối liên hệ về vectơ",
+                                          "09": "Toán thực tế"
+                                    }
+                              },
+                              "11": {
+                                    "name": "Tích vô hướng của hai vectơ",
+                                    "topics": {
+                                          "01": "Các câu hỏi lý thuyết",
+                                          "02": "Xác định góc giữa hai vectơ bằng định nghĩa",
+                                          "03": "Xác định góc giữa hai vectơ bằng tích vô hướng",
+                                          "04": "Tính TVH của hai vectơ bằng định nghĩa, tính chất",
+                                          "05": "Tính TVH của hai vectơ bằng biểu thức toạ độ",
+                                          "06": "Ứng dụng TVH vào quan hệ vuông góc",
+                                          "07": "Bài toán về độ dài, khoảng cách, chu vi, diện tích",
+                                          "08": "Tìm điểm thỏa mãn đẳng thức về tích vô hướng",
+                                          "09": "Tìm điểm đặc biệt trong tam giác",
+                                          "10": "Tập hợp điểm",
+                                          "11": "Bài toán cực trị",
+                                          "12": "Toán thực tế, ứng dụng của tích vô hướng"
+                                    }
+                              }
+                        }
+                  },
+                  "07": {
+                        "name": "Phương pháp tọa độ trong mặt phẳng",
+                        "lessons": {
+                              "19": {
+                                    "name": "Phương trình đường thẳng",
+                                    "topics": {
+                                          "01": "Các câu hỏi lý thuyết",
+                                          "02": "Xác định VTCP, VTPT của đường thẳng",
+                                          "03": "Viết PTĐT khi biết yếu tố về điểm, VTCP,VTPT",
+                                          "04": "Viết PTĐT khi biết yếu tố song song, vuông góc",
+                                          "05": "Bài toán về hình chiếu, điểm đối xứng"
+                                    }
+                              },
+                              "20": {
+                                    "name": "Vị trí tương đối giữa hai đường thẳng. Góc và khoảng cách",
+                                    "topics": {
+                                          "01": "Vị trí tương đối liên quan điểm, đường thẳng",
+                                          "02": "Viết PTĐT liên quan đến các đường trong tam giác",
+                                          "03": "Viết PTĐT liên quan đến tứ giác, ngũ giác,…",
+                                          "04": "Viết PTĐT liên quan đến góc, khoảng cách, diện tích,…",
+                                          "05": "Tìm điểm thỏa mãn điều kiện cho trước liên quan đến ĐT, đa giác,…",
+                                          "06": "Bài toán về hình chiếu, điểm đối xứng",
+                                          "07": "Bài toán liên quan đến khoảng cách, diện tích, góc",
+                                          "08": "Bài toán cực trị",
+                                          "09": "Toán thực tế"
+                                    }
+                              },
+                              "21": {
+                                    "name": "Phương trình đường tròn",
+                                    "topics": {
+                                          "01": "Các câu hỏi lý thuyết",
+                                          "02": "Nhận dạng phương trình đường tròn",
+                                          "03": "Tìm toạ độ tâm, tính bán kính của đường tròn",
+                                          "04": "Viết phương trình đường tròn biết tâm và bán kính",
+                                          "05": "Viết phương trình đường tròn qua hai, ba điểm",
+                                          "06": "Viết phương trình đường tròn sử dụng điều kiện tiếp xúc",
+                                          "07": "Tiếp tuyến với đường tròn",
+                                          "08": "Bài toán liên quan đến hình vuông",
+                                          "09": "Bài toán liên quan đến hình chữ nhật",
+                                          "10": "Bài toán liên quan đến hình bình hành",
+                                          "11": "Bài toán liên quan đến hình thang",
+                                          "12": "Bài toán tổng hợp về tam giác",
+                                          "13": "Tương giao của đường tròn",
+                                          "14": "Bài toán cực trị",
+                                          "15": "Bài toán tổng hợp",
+                                          "16": "Toán thực tế"
+                                    }
+                              },
+                              "22": {
+                                    "name": "Ba đường conic",
+                                    "topics": {
+                                          "01": "Các câu hỏi lý thuyết",
+                                          "02": "Nhận dạng phương trình conic",
+                                          "03": "Xác định các yếu tố của conic",
+                                          "04": "Viết phương trình đường conic",
+                                          "05": "Tiếp tuyến của đường conic",
+                                          "06": "Bài toán liên quan đến tương giao của elip",
+                                          "07": "Bài toán tổng hợp",
+                                          "08": "Toán thực tế"
+                                    }
                               }
                         }
                   }
             }
       },
       "11": {
-            "groups": {
-                  "Hình": {
-                        "chapters": {
-                              "04": {
-                                    "lessons": {
-                                          "10": {
-                                                "name": "Đường thẳng và mặt phẳng trong không gian",
-                                                "topics": {
-                                                      "01": "Câu hỏi lý thuyết",
-                                                      "02": "Các quan hệ cơ bản của điểm, đường thẳng, mặt phẳng",
-                                                      "03": "Giao tuyến của hai mặt phẳng",
-                                                      "04": "Giao điểm của đường thẳng và mặt phẳng",
-                                                      "05": "Xác định thiết diện",
-                                                      "06": "Chứng minh ba điểm thẳng hàng đồng quy và ba đường thẳng đồng quy",
-                                                      "07": "Bài toán điểm cố định",
-                                                      "08": "Tìm quỹ tích điểm",
-                                                      "09": "Bài toán thực tế"
-                                                }
-                                          },
-                                          "11": {
-                                                "name": "Hai đường thẳng song song",
-                                                "topics": {
-                                                      "01": "Câu hỏi lý thuyết",
-                                                      "02": "Vị trí tương đối của hai đường thẳng",
-                                                      "03": "Chứng minh hai đường thẳng song song",
-                                                      "04": "Tìm giao tuyến của hai mặt phẳng chứa các ĐT song song",
-                                                      "05": "Tìm giao điểm của đường thẳng và mặt phẳng có các ĐT song song",
-                                                      "06": "Xác định thiết diện dựa vào hai đường thẳng song song",
-                                                      "07": "Tính diện tích thiết diện, đoạn thẳng dựa vào hai ĐT song song",
-                                                      "08": "Bài toán tỉ số",
-                                                      "09": "Bài toán tổng hợp khác",
-                                                      "10": "Bài toán thực tế"
-                                                }
-                                          },
-                                          "12": {
-                                                "name": "Đường thẳng và mặt phẳng song song",
-                                                "topics": {
-                                                      "01": "Câu hỏi lý thuyết",
-                                                      "02": "Vị trí tương đối của đường thẳng và mặt phẳng",
-                                                      "03": "CM đường thẳng song song với mặt phẳng",
-                                                      "04": "Xác định giao tuyến của hai mặt phẳng có ĐT song song MP",
-                                                      "05": "Xác định giao điểm có quan hệ ĐT song song MP",
-                                                      "06": "Xác định thiết diện cắt bới MP song song với ĐT",
-                                                      "07": "Tính diện tích thiết diện",
-                                                      "08": "Bài toán tỉ số",
-                                                      "09": "Bài toán thực tế"
-                                                }
-                                          },
-                                          "13": {
-                                                "name": "Hai mặt phẳng song song",
-                                                "topics": {
-                                                      "01": "Câu hỏi lý thuyết",
-                                                      "02": "Vị trí tương đối của hai mặt phẳng",
-                                                      "03": "CM hai mặt phẳng song song",
-                                                      "04": "Xác định giao tuyến của hai mặt phẳng dựa vào quan hệ song song của hai MP",
-                                                      "05": "Xác định thiết diện cắt bởi MP song song với MP khác",
-                                                      "06": "Tính diện tích thiết diện cắt bởi MP song song với MP khác",
-                                                      "07": "Ứng dụng định lý Thales",
-                                                      "08": "Các bài toán tổng hợp",
-                                                      "09": "Bài toán thực tế"
-                                                }
-                                          },
-                                          "14": {
-                                                "name": "Phép chiếu song song",
-                                                "topics": {
-                                                      "01": "Câu hỏi lý thuyết",
-                                                      "02": "Xác định hình biểu diễn của một hình trong KG",
-                                                      "03": "Xác định ảnh của một điểm, đường thẳng qua phép chiếu song song",
-                                                      "04": "Bài toán thực tế"
-                                                }
-                                          }
-                                    },
-                                    "name": "Quan hệ song song trong không gian"
+            "Số": {
+                  "01": {
+                        "name": "Hàm số lượng giác và phương trình lượng giác",
+                        "lessons": {
+                              "01": {
+                                    "name": "Giá trị lượng giác của góc lượng giác",
+                                    "topics": {
+                                          "01": "Câu hỏi lý thuyết",
+                                          "02": "Đơn vị đo góc",
+                                          "03": "Xét dấu các giá trị lượng giác",
+                                          "04": "Rút gọn biểu thức lượng giác",
+                                          "05": "Tính giá trị biểu thức lượng giác, khi biết 1 giá trị lượng giác bằng số",
+                                          "06": "Giá trị lượng giác của các cung có liên quan đặc biệt",
+                                          "07": "Tìm GTLN - GTNN của biểu thức lượng giác",
+                                          "08": "Bài toán tổng hợp",
+                                          "09": "Toán thực tế, ứng dụng, liên môn"
+                                    }
                               },
-                              "07": {
-                                    "lessons": {
-                                          "22": {
-                                                "name": "Hai đường thẳng vuông góc",
-                                                "topics": {
-                                                      "01": "Câu hỏi lí thuyết",
-                                                      "02": "Xác định góc giữa hai đường thẳng",
-                                                      "03": "CM hai đường vuông góc",
-                                                      "04": "Cực trị liên quan đến góc giữa hai ĐT"
-                                                }
-                                          },
-                                          "23": {
-                                                "name": "Đường thẳng vuông góc với mặt phẳng",
-                                                "topics": {
-                                                      "01": "Câu hỏi kiểm tra lí thuyết và tính chất",
-                                                      "02": "Xác định quan hệ vuông góc giữa đường thẳng và mặt phẳng, đường thẳng và đường thẳng",
-                                                      "03": "Xác định góc giữa mặt phẳng và đường thẳng, đường thẳng và đường thẳng",
-                                                      "04": "Thiết diện, tính diện tích thiết diện",
-                                                      "05": "Cực trị liên quan đến góc ĐT-ĐT, ĐT-MP",
-                                                      "06": "Bài toán thực tế"
-                                                }
-                                          },
-                                          "24": {
-                                                "name": "Phép chiếu vuông góc. Góc giữa đường thẳng và mặt phẳng",
-                                                "topics": {
-                                                      "01": "Phép chiếu vuông góc",
-                                                      "02": "Xác định góc giữa đường thẳng và mặt phẳng",
-                                                      "03": "Toán thực tế"
-                                                }
-                                          },
-                                          "25": {
-                                                "name": "Hai mặt phẳng vuông góc",
-                                                "topics": {
-                                                      "01": "Câu hỏi lí thuyết, tính chất",
-                                                      "02": "Xác định quan hệ vuông góc giữa hai MP, MP và ĐT, hai ĐT",
-                                                      "03": "Xác định góc giữa hai mặt phẳng",
-                                                      "04": "Thiết diện, diện tích thiết diện",
-                                                      "05": "Cực trị liên quan đến góc",
-                                                      "06": "Ứng dụng công thức hình chiếu"
-                                                }
-                                          },
-                                          "26": {
-                                                "name": "Khoảng cách",
-                                                "topics": {
-                                                      "01": "Câu hỏi lí thuyết",
-                                                      "02": "Khoảng cách từ một điểm đến một đường thẳng",
-                                                      "03": "Khoảng cách từ một điểm đến một mặt phẳng",
-                                                      "04": "Khoảng cách giữa hai đường thẳng chéo nhau",
-                                                      "05": "Xác định đường vuông góc chung của hai đường thẳng chéo nhau",
-                                                      "06": "Khoảng cách giữa hai điểm",
-                                                      "07": "Cực trị hình học",
-                                                      "08": "Khoảng cách giữa các đối tượng song song",
-                                                      "09": "Bài toán thực tế"
-                                                }
-                                          },
-                                          "27": {
-                                                "name": "Thể tích",
-                                                "topics": {
-                                                      "01": "Câu hỏi lý thuyết",
-                                                      "02": "Thể tích hình chóp có cạnh bên vuông góc",
-                                                      "03": "Thể tích hình chóp có mặt vuông góc đáy",
-                                                      "04": "Thể tích khối chóp có các cạnh bên bằng nhau",
-                                                      "05": "Thể tích khối chóp đa giác đều",
-                                                      "06": "Thể tích lăng trụ đứng",
-                                                      "07": "Thể tích lăng trụ xiên"
-                                                }
-                                          }
-                                    },
-                                    "name": "Quan hệ vuông góc trong không gian"
+                              "02": {
+                                    "name": "Công thức lượng giác",
+                                    "topics": {
+                                          "01": "Câu hỏi lý thuyết",
+                                          "02": "Dạng toán áp dụng công thức cộng lượng giác",
+                                          "03": "Dạng toán áp dụng công thức nhân đôi, công thức hạ bậc",
+                                          "04": "Dạng toán áp công thức biến tổng thành tích và tích thành tổng",
+                                          "05": "Dạng công thức nhân ba",
+                                          "06": "Dạng kết hợp công thức lượng giác",
+                                          "07": "Dạng tìm GTLN, GTNN của biểu thức lượng giác",
+                                          "08": "Dạng đẳng thức trong tam giác",
+                                          "09": "Dạng sử dụng định lý sin và định lý cosin trong tam giác",
+                                          "10": "Dạng nhận dạng tam giác",
+                                          "11": "Toán thực tế, ứng dụng, liên môn"
+                                    }
+                              },
+                              "03": {
+                                    "name": "Hàm số lượng giác",
+                                    "topics": {
+                                          "01": "Câu hỏi lý thuyết",
+                                          "02": "Tập xác định của hàm số lượng giác",
+                                          "03": "Tính đơn điệu của hàm số lượng giác",
+                                          "04": "Tính chẵn lẻ của hàm số lượng giác",
+                                          "05": "Tính tuần hoàn của hàm số lượng giác",
+                                          "06": "Tập giá trị và Max-Min của hàm số lượng giác",
+                                          "07": "BBT và đồ thị của HSLG",
+                                          "08": "Toán thực tế"
+                                    }
+                              },
+                              "04": {
+                                    "name": "Phương trình lượng giác cơ bản",
+                                    "topics": {
+                                          "01": "Câu hỏi lý thuyết",
+                                          "02": "Khái niệm phương trình tương đương",
+                                          "03": "Phương trình sinx = a, không tham số",
+                                          "04": "Phương trình cosx = a, không tham số",
+                                          "05": "Phương trình tanx = a, không tham số",
+                                          "06": "Phương trình cotx = a, không tham số",
+                                          "07": "ĐK tham số để phương trình cơ bản có nghiệm",
+                                          "08": "ĐK tham số để phương trình cơ bản có nghiệm trong khoảng, đoạn, thỏa mãn đẳng thức , BĐT",
+                                          "09": "Toán thực tế"
+                                    }
                               }
                         }
                   },
-                  "Số": {
-                        "chapters": {
-                              "01": {
-                                    "lessons": {
-                                          "01": {
-                                                "name": "Giá trị lượng giác của góc lượng giác",
-                                                "topics": {
-                                                      "01": "Câu hỏi lý thuyết",
-                                                      "02": "Đơn vị đo góc",
-                                                      "03": "Xét dấu các giá trị lượng giác",
-                                                      "04": "Rút gọn biểu thức lượng giác",
-                                                      "05": "Tính giá trị biểu thức lượng giác, khi biết 1 giá trị lượng giác bằng số",
-                                                      "06": "Giá trị lượng giác của các cung có liên quan đặc biệt",
-                                                      "07": "Tìm GTLN - GTNN của biểu thức lượng giác",
-                                                      "08": "Bài toán tổng hợp",
-                                                      "09": "Toán thực tế, ứng dụng, liên môn"
-                                                }
-                                          },
-                                          "02": {
-                                                "name": "Công thức lượng giác",
-                                                "topics": {
-                                                      "01": "Câu hỏi lý thuyết",
-                                                      "02": "Dạng toán áp dụng công thức cộng lượng giác",
-                                                      "03": "Dạng toán áp dụng công thức nhân đôi, công thức hạ bậc",
-                                                      "04": "Dạng toán áp công thức biến tổng thành tích và tích thành tổng",
-                                                      "05": "Dạng công thức nhân ba",
-                                                      "06": "Dạng kết hợp công thức lượng giác",
-                                                      "07": "Dạng tìm GTLN, GTNN của biểu thức lượng giác",
-                                                      "08": "Dạng đẳng thức trong tam giác",
-                                                      "09": "Dạng sử dụng định lý sin và định lý cosin trong tam giác",
-                                                      "10": "Dạng nhận dạng tam giác",
-                                                      "11": "Toán thực tế, ứng dụng, liên môn"
-                                                }
-                                          },
-                                          "03": {
-                                                "name": "Hàm số lượng giác",
-                                                "topics": {
-                                                      "01": "Câu hỏi lý thuyết",
-                                                      "02": "Tập xác định của hàm số lượng giác",
-                                                      "03": "Tính đơn điệu của hàm số lượng giác",
-                                                      "04": "Tính chẵn lẻ của hàm số lượng giác",
-                                                      "05": "Tính tuần hoàn của hàm số lượng giác",
-                                                      "06": "Tập giá trị và Max-Min của hàm số lượng giác",
-                                                      "07": "BBT và đồ thị của HSLG",
-                                                      "08": "Toán thực tế"
-                                                }
-                                          },
-                                          "04": {
-                                                "name": "Phương trình lượng giác cơ bản",
-                                                "topics": {
-                                                      "01": "Câu hỏi lý thuyết",
-                                                      "02": "Khái niệm phương trình tương đương",
-                                                      "03": "Phương trình sinx = a, không tham số",
-                                                      "04": "Phương trình cosx = a, không tham số",
-                                                      "05": "Phương trình tanx = a, không tham số",
-                                                      "06": "Phương trình cotx = a, không tham số",
-                                                      "07": "ĐK tham số để phương trình cơ bản có nghiệm",
-                                                      "08": "ĐK tham số để phương trình cơ bản có nghiệm trong khoảng, đoạn, thỏa mãn đẳng thức , BĐT",
-                                                      "09": "Toán thực tế"
-                                                }
-                                          }
-                                    },
-                                    "name": "Hàm số lượng giác và phương trình lượng giác"
-                              },
-                              "02": {
-                                    "lessons": {
-                                          "05": {
-                                                "name": "Dãy số",
-                                                "topics": {
-                                                      "01": "Bài toán liên quan định nghĩa dãy số",
-                                                      "02": "Xác định các số hạng của dãy số",
-                                                      "03": "Xác định thứ tự của số hạng",
-                                                      "04": "Số hạng tổng quát của dãy số",
-                                                      "05": "Dãy số tăng, dãy số giảm",
-                                                      "06": "Dãy số bị chặn",
-                                                      "07": "Tính tổng hoặc ứng dụng",
-                                                      "08": "Toán thực tế, liên môn về dãy số"
-                                                }
-                                          },
-                                          "06": {
-                                                "name": "Cấp số cộng",
-                                                "topics": {
-                                                      "01": "Câu hỏi lý thuyết",
-                                                      "02": "Nhận dạng, khai triển cấp số cộng",
-                                                      "03": "Xác định U1, d, n, Un, Sn (cụ thể)",
-                                                      "04": "Xác định Un, Sn (tổng quát)",
-                                                      "05": "Bài toán khác liên quan tổng của CSC",
-                                                      "06": "Điều kiện để dãy số thành CSC",
-                                                      "07": "ĐK để nghiệm pt lập thành CSC",
-                                                      "08": "Toán đố, toán thực tế, liên môn về CSC"
-                                                }
-                                          },
-                                          "07": {
-                                                "name": "Cấp số nhân",
-                                                "topics": {
-                                                      "01": "Câu hỏi lý thuyết",
-                                                      "02": "Nhận dạng, khai triển cấp số nhân",
-                                                      "03": "Xác định U1, q, n, Un, Sn (cụ thể)",
-                                                      "04": "Xác định Un, Sn (tổng quát)",
-                                                      "05": "Bài toán khác liên quan tổng của CSN",
-                                                      "06": "Điều kiện để dãy số thành CSN",
-                                                      "07": "ĐK để nghiệm pt lập thành CSN",
-                                                      "08": "Toán tổng hợp cả CSC và CSN",
-                                                      "09": "Toán đố, toán thực tế, liên môn về CSN"
-                                                }
-                                          }
-                                    },
-                                    "name": "Dãy số. Cấp số cộng và cấp số nhân"
-                              },
-                              "03": {
-                                    "lessons": {
-                                          "08": {
-                                                "name": "Mẫu số liệu ghép nhóm",
-                                                "topics": {
-                                                      "01": "Câu hỏi lý thuyết",
-                                                      "02": "Mẫu số liệu ghép nhóm",
-                                                      "03": "Toán thực tế"
-                                                }
-                                          },
-                                          "09": {
-                                                "name": "Các số đặc trưng đo xu thế trung tâm",
-                                                "topics": {
-                                                      "01": "Câu hỏi lý thuyết",
-                                                      "02": "Số trung bình",
-                                                      "03": "Trung vị",
-                                                      "04": "Tứ phân vị",
-                                                      "05": "Mốt",
-                                                      "06": "Bài tập tổng hợp",
-                                                      "07": "Toán thực tế"
-                                                }
-                                          }
-                                    },
-                                    "name": "Các số đặc trưng đo xu thế trung tâm của mẫu số liệu ghép nhóm"
-                              },
+                  "02": {
+                        "name": "Dãy số. Cấp số cộng và cấp số nhân",
+                        "lessons": {
                               "05": {
-                                    "lessons": {
-                                          "15": {
-                                                "name": "Giới hạn của dãy số",
-                                                "topics": {
-                                                      "01": "Câu hỏi lý thuyết",
-                                                      "02": "Dãy số có giới hạn 0",
-                                                      "03": "Giới hạn của dãy phân thức hữu tỷ",
-                                                      "04": "Dùng lượng liên hợp",
-                                                      "05": "Dãy số phân thức có a^n",
-                                                      "06": "Dãy phân thức chứa căn",
-                                                      "07": "Dãy số có giới hạn vô cực",
-                                                      "08": "Cấp số nhân lùi vô hạn",
-                                                      "09": "Nguyên lý kẹp",
-                                                      "10": "Giới hạn của dãy truy hồi",
-                                                      "11": "Toán thực tế, liên môn liên quan đến giới hạn dãy số",
-                                                      "12": "Liên quan cấp số cộng, cấp số nhân",
-                                                      "13": "Các dạng toán khác"
-                                                }
-                                          },
-                                          "16": {
-                                                "name": "Giới hạn của hàm số",
-                                                "topics": {
-                                                      "01": "Câu hỏi lý thuyết",
-                                                      "02": "Thay số x0 trực tiếp",
-                                                      "03": "Dạng 0/0 phân thức hữu tỷ",
-                                                      "04": "Dạng 0/0 dùng lượng liên hợp",
-                                                      "05": "Giới hạn một bên",
-                                                      "06": "Giới hạn bằng vô cùng",
-                                                      "07": "Dạng vô cùng chia vô cùng",
-                                                      "08": "Dạng vô cùng trừ vô cùng",
-                                                      "09": "Toán thực tế, liên môn về giới hạn hàm số",
-                                                      "10": "Áp dụng nguyên lý kẹp",
-                                                      "11": "Giới hạn liên quan đến hàm ẩn",
-                                                      "12": "Tìm tham số liên quan đến giới hạn"
-                                                }
-                                          },
-                                          "17": {
-                                                "name": "Hàm số liên tục",
-                                                "topics": {
-                                                      "01": "Câu hỏi lý thuyết và tính chất",
-                                                      "02": "Xét tính liên tục bằng đồ thị",
-                                                      "03": "Hàm số liên tục tại một điểm không tham số",
-                                                      "04": "Hàm số liên tục trên khoảng, đoạn không tham số",
-                                                      "05": "Bài toán chứa tham số về tính liên tục",
-                                                      "06": "Chứng minh phương trình có nghiệm không tham số",
-                                                      "07": "Toán thực tế, liên môn về hàm số liên tục",
-                                                      "08": "Chứng minh phương trình có nghiệm chứa tham số"
-                                                }
-                                          }
-                                    },
-                                    "name": "Giới hạn. Hàm số liên tục"
+                                    "name": "Dãy số",
+                                    "topics": {
+                                          "01": "Bài toán liên quan định nghĩa dãy số",
+                                          "02": "Xác định các số hạng của dãy số",
+                                          "03": "Xác định thứ tự của số hạng",
+                                          "04": "Số hạng tổng quát của dãy số",
+                                          "05": "Dãy số tăng, dãy số giảm",
+                                          "06": "Dãy số bị chặn",
+                                          "07": "Tính tổng hoặc ứng dụng",
+                                          "08": "Toán thực tế, liên môn về dãy số"
+                                    }
                               },
                               "06": {
-                                    "lessons": {
-                                          "18": {
-                                                "name": "Lũy thừa với số mũ thực",
-                                                "topics": {
-                                                      "01": "Câu hỏi lý thuyết",
-                                                      "02": "Thực hiện phép tính",
-                                                      "03": "Thu gọn biểu thức lũy thừa",
-                                                      "04": "So sánh các lũy thừa",
-                                                      "05": "Toán thực tế"
-                                                }
-                                          },
-                                          "19": {
-                                                "name": "Lôgarit",
-                                                "topics": {
-                                                      "01": "Câu hỏi lý thuyết",
-                                                      "02": "Tính giá trị biểu thức chứa lôgarit",
-                                                      "03": "Biểu diễn lôgarit này theo lôgarit khác",
-                                                      "04": "Toán thực tế"
-                                                }
-                                          },
-                                          "20": {
-                                                "name": "Hàm số mũ và hàm số lôgarit",
-                                                "topics": {
-                                                      "01": "Câu hỏi Lý thuyết, tập xác định của hàm số mũ, logarit",
-                                                      "02": "Sự biến thiên liên quan hàm số mũ, logarit",
-                                                      "03": "Đọc đồ thị liên hàm số mũ, lôgarit",
-                                                      "04": "Bài toán lãi suất",
-                                                      "05": "Bài toán thực tế liên môn"
-                                                }
-                                          },
-                                          "21": {
-                                                "name": "Phương trình, bất phương trình mũ và lôgarit",
-                                                "topics": {
-                                                      "01": "Câu hỏi lý thuyết",
-                                                      "02": "Dạng BPT lôgarit cơ bản",
-                                                      "03": "PP đưa về cùng cơ số",
-                                                      "04": "Toán thực tế"
-                                                }
-                                          }
-                                    },
-                                    "name": "Hàm số mũ và hàm số lôgarit"
+                                    "name": "Cấp số cộng",
+                                    "topics": {
+                                          "01": "Câu hỏi lý thuyết",
+                                          "02": "Nhận dạng, khai triển cấp số cộng",
+                                          "03": "Xác định U1, d, n, Un, Sn (cụ thể)",
+                                          "04": "Xác định Un, Sn (tổng quát)",
+                                          "05": "Bài toán khác liên quan tổng của CSC",
+                                          "06": "Điều kiện để dãy số thành CSC",
+                                          "07": "ĐK để nghiệm pt lập thành CSC",
+                                          "08": "Toán đố, toán thực tế, liên môn về CSC"
+                                    }
                               },
+                              "07": {
+                                    "name": "Cấp số nhân",
+                                    "topics": {
+                                          "01": "Câu hỏi lý thuyết",
+                                          "02": "Nhận dạng, khai triển cấp số nhân",
+                                          "03": "Xác định U1, q, n, Un, Sn (cụ thể)",
+                                          "04": "Xác định Un, Sn (tổng quát)",
+                                          "05": "Bài toán khác liên quan tổng của CSN",
+                                          "06": "Điều kiện để dãy số thành CSN",
+                                          "07": "ĐK để nghiệm pt lập thành CSN",
+                                          "08": "Toán tổng hợp cả CSC và CSN",
+                                          "09": "Toán đố, toán thực tế, liên môn về CSN"
+                                    }
+                              }
+                        }
+                  },
+                  "03": {
+                        "name": "Các số đặc trưng đo xu thế trung tâm của mẫu số liệu ghép nhóm",
+                        "lessons": {
                               "08": {
-                                    "lessons": {
-                                          "28": {
-                                                "name": "Phương trình, bất phương trình mũ và lôgarit",
-                                                "topics": {
-                                                      "01": "Biến cố hợp",
-                                                      "02": "Biến cố giao",
-                                                      "03": "Biến cố độc lập",
-                                                      "04": "Tính xác suất bằng công thức cộng xác suất",
-                                                      "05": "Tính xác suất bằng công thức nhân xác suất",
-                                                      "06": "Toán tổng hợp về hai công thức xác suất",
-                                                      "07": "Toán thực tế"
-                                                }
-                                          }
-                                    },
-                                    "name": "Các quy tắc tính xác suất"
+                                    "name": "Mẫu số liệu ghép nhóm",
+                                    "topics": {
+                                          "01": "Câu hỏi lý thuyết",
+                                          "02": "Mẫu số liệu ghép nhóm",
+                                          "03": "Toán thực tế"
+                                    }
                               },
                               "09": {
-                                    "lessons": {
-                                          "29": {
-                                                "name": "Đạo hàm và ý nghĩa của đạo hàm",
-                                                "topics": {
-                                                      "01": "Câu hỏi lý thuyết",
-                                                      "02": "Đạo hàm bằng định nghĩa",
-                                                      "03": "Điều kiện để hàm số có đạo hàm",
-                                                      "04": "Tính đạo hàm số đa thức và chứa căn đơn giản",
-                                                      "05": "Tính đạo hàm số đa thức hữu tỷ",
-                                                      "06": "Tính đạo hàm các hàm số lượng giác",
-                                                      "07": "Tính đạo hàm số mũ và logarit",
-                                                      "08": "Tính đạo hàm số hỗn hợp, hàm hợp",
-                                                      "09": "Mối liên hệ giữa hàm số và đạo hàm các cấp",
-                                                      "10": "Bài toán quãng đường, vận tốc, gia tốc"
-                                                }
-                                          },
-                                          "30": {
-                                                "name": "Tiếp tuyến",
-                                                "topics": {
-                                                      "01": "Câu hỏi lý thuyết",
-                                                      "02": "Xác định toạ độ tiếp điểm, giao điểm",
-                                                      "03": "Tìm hệ số góc của tiếp tuyến",
-                                                      "04": "Tiếp tuyến tại điểm",
-                                                      "05": "Tiếp tuyến cho sẵn hsg k, song song hoặc vuông góc",
-                                                      "06": "Tiếp tuyến đi qua một điểm",
-                                                      "07": "Tiếp tuyến thoả ĐK khác",
-                                                      "08": "Tổng hợp tiếp tuyến và kiến thức liên quan",
-                                                      "09": "Toán thực tế"
-                                                }
-                                          }
-                                    },
-                                    "name": "Đạo hàm"
+                                    "name": "Các số đặc trưng đo xu thế trung tâm",
+                                    "topics": {
+                                          "01": "Câu hỏi lý thuyết",
+                                          "02": "Số trung bình",
+                                          "03": "Trung vị",
+                                          "04": "Tứ phân vị",
+                                          "05": "Mốt",
+                                          "06": "Bài tập tổng hợp",
+                                          "07": "Toán thực tế"
+                                    }
+                              }
+                        }
+                  },
+                  "05": {
+                        "name": "Giới hạn. Hàm số liên tục",
+                        "lessons": {
+                              "15": {
+                                    "name": "Giới hạn của dãy số",
+                                    "topics": {
+                                          "01": "Câu hỏi lý thuyết",
+                                          "02": "Dãy số có giới hạn 0",
+                                          "03": "Giới hạn của dãy phân thức hữu tỷ",
+                                          "04": "Dùng lượng liên hợp",
+                                          "05": "Dãy số phân thức có a^n",
+                                          "06": "Dãy phân thức chứa căn",
+                                          "07": "Dãy số có giới hạn vô cực",
+                                          "08": "Cấp số nhân lùi vô hạn",
+                                          "09": "Nguyên lý kẹp",
+                                          "10": "Giới hạn của dãy truy hồi",
+                                          "11": "Toán thực tế, liên môn liên quan đến giới hạn dãy số",
+                                          "12": "Liên quan cấp số cộng, cấp số nhân",
+                                          "13": "Các dạng toán khác"
+                                    }
+                              },
+                              "16": {
+                                    "name": "Giới hạn của hàm số",
+                                    "topics": {
+                                          "01": "Câu hỏi lý thuyết",
+                                          "02": "Thay số x0 trực tiếp",
+                                          "03": "Dạng 0/0 phân thức hữu tỷ",
+                                          "04": "Dạng 0/0 dùng lượng liên hợp",
+                                          "05": "Giới hạn một bên",
+                                          "06": "Giới hạn bằng vô cùng",
+                                          "07": "Dạng vô cùng chia vô cùng",
+                                          "08": "Dạng vô cùng trừ vô cùng",
+                                          "09": "Toán thực tế, liên môn về giới hạn hàm số",
+                                          "10": "Áp dụng nguyên lý kẹp",
+                                          "11": "Giới hạn liên quan đến hàm ẩn",
+                                          "12": "Tìm tham số liên quan đến giới hạn"
+                                    }
+                              },
+                              "17": {
+                                    "name": "Hàm số liên tục",
+                                    "topics": {
+                                          "01": "Câu hỏi lý thuyết và tính chất",
+                                          "02": "Xét tính liên tục bằng đồ thị",
+                                          "03": "Hàm số liên tục tại một điểm không tham số",
+                                          "04": "Hàm số liên tục trên khoảng, đoạn không tham số",
+                                          "05": "Bài toán chứa tham số về tính liên tục",
+                                          "06": "Chứng minh phương trình có nghiệm không tham số",
+                                          "07": "Toán thực tế, liên môn về hàm số liên tục",
+                                          "08": "Chứng minh phương trình có nghiệm chứa tham số"
+                                    }
+                              }
+                        }
+                  },
+                  "06": {
+                        "name": "Hàm số mũ và hàm số lôgarit",
+                        "lessons": {
+                              "18": {
+                                    "name": "Lũy thừa với số mũ thực",
+                                    "topics": {
+                                          "01": "Câu hỏi lý thuyết",
+                                          "02": "Thực hiện phép tính",
+                                          "03": "Thu gọn biểu thức lũy thừa",
+                                          "04": "So sánh các lũy thừa",
+                                          "05": "Toán thực tế"
+                                    }
+                              },
+                              "19": {
+                                    "name": "Lôgarit",
+                                    "topics": {
+                                          "01": "Câu hỏi lý thuyết",
+                                          "02": "Tính giá trị biểu thức chứa lôgarit",
+                                          "03": "Biểu diễn lôgarit này theo lôgarit khác",
+                                          "04": "Toán thực tế"
+                                    }
+                              },
+                              "20": {
+                                    "name": "Hàm số mũ và hàm số lôgarit",
+                                    "topics": {
+                                          "01": "Câu hỏi Lý thuyết, tập xác định của hàm số mũ, logarit",
+                                          "02": "Sự biến thiên liên quan hàm số mũ, logarit",
+                                          "03": "Đọc đồ thị liên hàm số mũ, lôgarit",
+                                          "04": "Bài toán lãi suất",
+                                          "05": "Bài toán thực tế liên môn"
+                                    }
+                              },
+                              "21": {
+                                    "name": "Phương trình, bất phương trình mũ và lôgarit",
+                                    "topics": {
+                                          "01": "Câu hỏi lý thuyết",
+                                          "02": "Dạng BPT lôgarit cơ bản",
+                                          "03": "PP đưa về cùng cơ số",
+                                          "04": "Toán thực tế"
+                                    }
+                              }
+                        }
+                  },
+                  "08": {
+                        "name": "Các quy tắc tính xác suất",
+                        "lessons": {
+                              "28": {
+                                    "name": "Các quy tắc tính xác suất",
+                                    "topics": {
+                                          "01": "Biến cố hợp",
+                                          "02": "Biến cố giao",
+                                          "03": "Biến cố độc lập",
+                                          "04": "Tính xác suất bằng công thức cộng xác suất",
+                                          "05": "Tính xác suất bằng công thức nhân xác suất",
+                                          "06": "Toán tổng hợp về hai công thức xác suất",
+                                          "07": "Toán thực tế"
+                                    }
+                              }
+                        }
+                  },
+                  "09": {
+                        "name": "Đạo hàm",
+                        "lessons": {
+                              "29": {
+                                    "name": "Đạo hàm và ý nghĩa của đạo hàm",
+                                    "topics": {
+                                          "01": "Câu hỏi lý thuyết",
+                                          "02": "Đạo hàm bằng định nghĩa",
+                                          "03": "Điều kiện để hàm số có đạo hàm",
+                                          "04": "Tính đạo hàm số đa thức và chứa căn đơn giản",
+                                          "05": "Tính đạo hàm số đa thức hữu tỷ",
+                                          "06": "Tính đạo hàm các hàm số lượng giác",
+                                          "07": "Tính đạo hàm số mũ và logarit",
+                                          "08": "Tính đạo hàm số hỗn hợp, hàm hợp",
+                                          "09": "Mối liên hệ giữa hàm số và đạo hàm các cấp",
+                                          "10": "Bài toán quãng đường, vận tốc, gia tốc"
+                                    }
+                              },
+                              "30": {
+                                    "name": "Tiếp tuyến",
+                                    "topics": {
+                                          "01": "Câu hỏi lý thuyết",
+                                          "02": "Xác định toạ độ tiếp điểm, giao điểm",
+                                          "03": "Tìm hệ số góc của tiếp tuyến",
+                                          "04": "Tiếp tuyến tại điểm",
+                                          "05": "Tiếp tuyến cho sẵn hsg k, song song hoặc vuông góc",
+                                          "06": "Tiếp tuyến đi qua một điểm",
+                                          "07": "Tiếp tuyến thoả ĐK khác",
+                                          "08": "Tổng hợp tiếp tuyến và kiến thức liên quan",
+                                          "09": "Toán thực tế"
+                                    }
+                              }
+                        }
+                  }
+            },
+            "Hình học": {
+                  "04": {
+                        "name": "Quan hệ song song trong không gian",
+                        "lessons": {
+                              "10": {
+                                    "name": "Đường thẳng và mặt phẳng trong không gian",
+                                    "topics": {
+                                          "01": "Câu hỏi lý thuyết",
+                                          "02": "Các quan hệ cơ bản của điểm, đường thẳng, mặt phẳng",
+                                          "03": "Giao tuyến của hai mặt phẳng",
+                                          "04": "Giao điểm của đường thẳng và mặt phẳng",
+                                          "05": "Xác định thiết diện",
+                                          "06": "Chứng minh ba điểm thẳng hàng đồng quy và ba đường thẳng đồng quy",
+                                          "07": "Bài toán điểm cố định",
+                                          "08": "Tìm quỹ tích điểm",
+                                          "09": "Bài toán thực tế"
+                                    }
+                              },
+                              "11": {
+                                    "name": "Hai đường thẳng song song",
+                                    "topics": {
+                                          "01": "Câu hỏi lý thuyết",
+                                          "02": "Vị trí tương đối của hai đường thẳng",
+                                          "03": "Chứng minh hai đường thẳng song song",
+                                          "04": "Tìm giao tuyến của hai mặt phẳng chứa các ĐT song song",
+                                          "05": "Tìm giao điểm của đường thẳng và mặt phẳng có các ĐT song song",
+                                          "06": "Xác định thiết diện dựa vào hai đường thẳng song song",
+                                          "07": "Tính diện tích thiết diện, đoạn thẳng dựa vào hai ĐT song song",
+                                          "08": "Bài toán tỉ số",
+                                          "09": "Bài toán tổng hợp khác",
+                                          "10": "Bài toán thực tế"
+                                    }
+                              },
+                              "12": {
+                                    "name": "Đường thẳng và mặt phẳng song song",
+                                    "topics": {
+                                          "01": "Câu hỏi lý thuyết",
+                                          "02": "Vị trí tương đối của đường thẳng và mặt phẳng",
+                                          "03": "CM đường thẳng song song với mặt phẳng",
+                                          "04": "Xác định giao tuyến của hai mặt phẳng có ĐT song song MP",
+                                          "05": "Xác định giao điểm có quan hệ ĐT song song MP",
+                                          "06": "Xác định thiết diện cắt bới MP song song với ĐT",
+                                          "07": "Tính diện tích thiết diện",
+                                          "08": "Bài toán tỉ số",
+                                          "09": "Bài toán thực tế"
+                                    }
+                              },
+                              "13": {
+                                    "name": "Hai mặt phẳng song song",
+                                    "topics": {
+                                          "01": "Câu hỏi lý thuyết",
+                                          "02": "Vị trí tương đối của hai mặt phẳng",
+                                          "03": "CM hai mặt phẳng song song",
+                                          "04": "Xác định giao tuyến của hai mặt phẳng dựa vào quan hệ song song của hai MP",
+                                          "05": "Xác định thiết diện cắt bởi MP song song với MP khác",
+                                          "06": "Tính diện tích thiết diện cắt bởi MP song song với MP khác",
+                                          "07": "Ứng dụng định lý Thales",
+                                          "08": "Các bài toán tổng hợp",
+                                          "09": "Bài toán thực tế"
+                                    }
+                              },
+                              "14": {
+                                    "name": "Phép chiếu song song",
+                                    "topics": {
+                                          "01": "Câu hỏi lý thuyết",
+                                          "02": "Xác định hình biểu diễn của một hình trong KG",
+                                          "03": "Xác định ảnh của một điểm, đường thẳng qua phép chiếu song song",
+                                          "04": "Bài toán thực tế"
+                                    }
+                              }
+                        }
+                  },
+                  "07": {
+                        "name": "Quan hệ vuông góc trong không gian",
+                        "lessons": {
+                              "22": {
+                                    "name": "Hai đường thẳng vuông góc",
+                                    "topics": {
+                                          "01": "Câu hỏi lí thuyết",
+                                          "02": "Xác định góc giữa hai đường thẳng",
+                                          "03": "CM hai đường vuông góc",
+                                          "04": "Cực trị liên quan đến góc giữa hai ĐT"
+                                    }
+                              },
+                              "23": {
+                                    "name": "Đường thẳng vuông góc với mặt phẳng",
+                                    "topics": {
+                                          "01": "Câu hỏi kiểm tra lí thuyết và tính chất",
+                                          "02": "Xác định quan hệ vuông góc giữa đường thẳng và mặt phẳng, đường thẳng và đường thẳng",
+                                          "03": "Xác định góc giữa mặt phẳng và đường thẳng, đường thẳng và đường thẳng",
+                                          "04": "Thiết diện, tính diện tích thiết diện",
+                                          "05": "Cực trị liên quan đến góc ĐT-ĐT, ĐT-MP",
+                                          "06": "Bài toán thực tế"
+                                    }
+                              },
+                              "24": {
+                                    "name": "Phép chiếu vuông góc. Góc giữa đường thẳng và mặt phẳng",
+                                    "topics": {
+                                          "01": "Phép chiếu vuông góc",
+                                          "02": "Xác định góc giữa đường thẳng và mặt phẳng",
+                                          "03": "Toán thực tế"
+                                    }
+                              },
+                              "25": {
+                                    "name": "Hai mặt phẳng vuông góc",
+                                    "topics": {
+                                          "01": "Câu hỏi lí thuyết, tính chất",
+                                          "02": "Xác định quan hệ vuông góc giữa hai MP, MP và ĐT, hai ĐT",
+                                          "03": "Xác định góc giữa hai mặt phẳng",
+                                          "04": "Thiết diện, diện tích thiết diện",
+                                          "05": "Cực trị liên quan đến góc",
+                                          "06": "Ứng dụng công thức hình chiếu"
+                                    }
+                              },
+                              "26": {
+                                    "name": "Khoảng cách",
+                                    "topics": {
+                                          "01": "Câu hỏi lí thuyết",
+                                          "02": "Khoảng cách từ một điểm đến một đường thẳng",
+                                          "03": "Khoảng cách từ một điểm đến một mặt phẳng",
+                                          "04": "Khoảng cách giữa hai đường thẳng chéo nhau",
+                                          "05": "Xác định đường vuông góc chung của hai đường thẳng chéo nhau",
+                                          "06": "Khoảng cách giữa hai điểm",
+                                          "07": "Cực trị hình học",
+                                          "08": "Khoảng cách giữa các đối tượng song song",
+                                          "09": "Bài toán thực tế"
+                                    }
+                              },
+                              "27": {
+                                    "name": "Thể tích",
+                                    "topics": {
+                                          "01": "Câu hỏi lý thuyết",
+                                          "02": "Thể tích hình chóp có cạnh bên vuông góc",
+                                          "03": "Thể tích hình chóp có mặt vuông góc đáy",
+                                          "04": "Thể tích khối chóp có các cạnh bên bằng nhau",
+                                          "05": "Thể tích khối chóp đa giác đều",
+                                          "06": "Thể tích lăng trụ đứng",
+                                          "07": "Thể tích lăng trụ xiên"
+                                    }
                               }
                         }
                   }
             }
       },
       "12": {
-            "groups": {
-                  "Hình": {
-                        "chapters": {
+            "Số": {
+                  "01": {
+                        "name": "Ứng dụng đạo hàm để khảo sát và vẽ đồ thị hàm số",
+                        "lessons": {
+                              "01": {
+                                    "name": "Tính đơn điệu của hàm số",
+                                    "topics": {
+                                          "01": "Câu hỏi lý thuyết và tính chất về tính đơn điệu",
+                                          "02": "Tính đơn điệu của hàm số biết công thức f (x) (không GTTĐ)",
+                                          "03": "Tính đơn điệu của hàm số biết các đồ thị",
+                                          "04": "Tính đơn điệu của hàm số biết các BBT, BXD",
+                                          "05": "Tính đơn điệu của hàm số liên quan biểu thức đạo hàm",
+                                          "06": "Bài toán thực tế có sử dụng sự biến thiên của hàm số",
+                                          "07": "Tìm tham số để hàm b1 trên b1 đơn điệu",
+                                          "08": "Tìm tham số để hàm số không chứa căn đơn điệu",
+                                          "09": "Các dạng khác hàm số đơn điệu"
+                                    }
+                              },
                               "02": {
-                                    "lessons": {
-                                          "12": {
-                                                "name": "Vectơ trong không gian",
-                                                "topics": {
-                                                      "01": "Câu hỏi lý thuyết",
-                                                      "02": "Đẳng thức véc-tơ (tổng, hiệu, tích 1 số với vectơ)",
-                                                      "03": "Phân tích véc-tơ theo các véc-tơ cho trước",
-                                                      "04": "Điều kiện đồng phẳng của ba véc-tơ, ĐK đồng phẳng của bốn điểm trong KG",
-                                                      "05": "Ba điểm thẳng hàng, hai đường thẳng song song, tính độ dài đoạn thẳng",
-                                                      "06": "Bài toán thực tế"
-                                                }
-                                          },
-                                          "13": {
-                                                "name": "Hệ tọa độ trong không gian",
-                                                "topics": {
-                                                      "01": "Câu hỏi lý thuyết",
-                                                      "02": "Tọa độ điểm liên quan tính chất đa giác",
-                                                      "03": "Tích vô hướng và ứng dụng (độ dài,góc,khoảng cách…)",
-                                                      "04": "Tích có hướng và ứng dụng (thể tích, cm vuông góc,…)",
-                                                      "05": "Bài toán thực tế"
-                                                }
-                                          }
-                                    },
-                                    "name": "Vectơ và hệ tọa độ trong không gian"
+                                    "name": "Cực trị của hàm số",
+                                    "topics": {
+                                          "01": "Câu hỏi lý thuyết và tính chất về cực trị",
+                                          "02": "Cực trị của hàm số cho bởi một công thức (Không GTTĐ)",
+                                          "03": "Cực trị của hàm số biết các đồ thị (Không GTTĐ)",
+                                          "04": "Cực trị của hàm số biết các BBT, BXD số (Không GTTĐ)",
+                                          "05": "Cực trị của hàm số liên quan biểu thức đạo hàm (Không GTTĐ)",
+                                          "06": "Bài toán thực tế liên quan đến cực trị hàm số",
+                                          "07": "Tìm tham số để f (x) đạt cực trị tại 1 điểm x0 cho trước (Không GTTĐ)",
+                                          "08": "Tìm tham số để f (x) có cực trị, không có cực trị (Không GTTĐ)",
+                                          "09": "Tìm tham số để f (x) có m cực đại, n cực tiểu; có p cực trị (Không GTTĐ)",
+                                          "10": "Tìm tham số liên quan đến cực trị của hàm đa thức bậc 3 thỏa mãn ĐK (Không GTTĐ)",
+                                          "11": "Tìm tham số liên quan đến cực trị của hàm số khác thỏa mãn ĐK (Không GTTĐ)"
+                                    }
+                              },
+                              "03": {
+                                    "name": "Giá trị lớn nhất và giá trị nhỏ nhất của hàm số",
+                                    "topics": {
+                                          "01": "Câu hỏi lý thuyết về MAX - MIN",
+                                          "02": "GTLN, GTNN của f (x) trên đoạn biết biểu thức f (x)",
+                                          "03": "GTLN, GTNN của f (x) trên khoảng biết biểu thức f (x)",
+                                          "04": "GTLN, GTNN của hàm số g (x) biết các BBT, đồ thị",
+                                          "05": "GTLN, GTNN của hàm số bằng PP đặt ẩn phụ",
+                                          "06": "Sử dụng các đánh giá, BĐT cổ điển cho hàm một biến",
+                                          "07": "GTLN, GTNN của hàm số chứa dấu GTTĐ",
+                                          "08": "Bài toán thực tế liên quan đến GTLN-GTNN",
+                                          "09": "Tìm m để hs f (x) có GTLN, GTNN thỏa mãn đk cho trước"
+                                    }
+                              },
+                              "04": {
+                                    "name": "Đường tiệm cận của đồ thị hàm số",
+                                    "topics": {
+                                          "01": "Câu hỏi lý thuyết về tiệm cận",
+                                          "02": "Tiệm cận của đồ thị hàm số không chứa căn thức",
+                                          "03": "Tiệm cận đồ thị hàm số f (x) dựa vào BBT",
+                                          "04": "Tiệm cận đồ thị hàm số f (x) dựa vào đồ thị",
+                                          "05": "Bài toán liên quan đến đường tiệm cận (độ dài, khoảng cách, diện tích, …)",
+                                          "06": "Bài toán thực tế"
+                                    }
                               },
                               "05": {
-                                    "lessons": {
-                                          "14": {
-                                                "name": "Phương trình mặt phẳng",
-                                                "topics": {
-                                                      "01": "Xác định VTPT",
-                                                      "02": "Viết phương trình mặt phẳng không dùng PT đường thẳng",
-                                                      "03": "Vị trí tương đối liên quan mặt phẳng – điểm",
-                                                      "04": "Tìm tọa độ điểm liên quan đến mặt phẳng, điểm thuộc MP.",
-                                                      "05": "Khoảng cách liên quan đến mặt phẳng và bài toán liên quan",
-                                                      "06": "PTMP theo đoạn chắn",
-                                                      "07": "Hình chiếu của điểm lên mặt phẳng và bài toán liên quan",
-                                                      "08": "PTMP liên quan đến khoảng cách,không dùng PTĐT",
-                                                      "09": "Các bài toán cực trị không dùng PT đường thẳng",
-                                                      "10": "Ứng dụng thực tế"
-                                                }
-                                          },
-                                          "15": {
-                                                "name": "Phương trình đường thẳng trong không gian",
-                                                "topics": {
-                                                      "01": "Câu hỏi liên quan đến VTCP của đường thẳng",
-                                                      "02": "Viết phương trình đường thẳng biết yếu tố điểm, vectơ, song song hay vuông góc (với đường thẳng , mặt phẳng)",
-                                                      "03": "Viết phương trình đường thẳng liên quan đến tương giao",
-                                                      "04": "Viết phương trình đường thẳng liên quan đến góc, khoảng cách, diện tích,…",
-                                                      "05": "Tọa độ điểm liên quan đến đường thẳng và bài toán liên quan",
-                                                      "06": "Tọa độ giao điểm liên quan đến đường thẳng và các bài toán liên quan",
-                                                      "07": "Phương trình mặt phẳng liên quan đến đường thẳng",
-                                                      "08": "Bài toán về khoảng cách liên quan đến đường thẳng",
-                                                      "09": "Câu hỏi về VTTĐ liên quan đến đường thẳng (song song, nằm trên,…)",
-                                                      "10": "Hình chiếu của điểm lên đường thẳng và bài toán liên quan",
-                                                      "11": "Câu hỏi tổng hợp đường thẳng, mặt phẳng, mặt tròn xoay",
-                                                      "12": "Các bài toán cực trị liên quan đến đường thẳng",
-                                                      "13": "Ứng dụng thực tế"
-                                                }
-                                          },
-                                          "16": {
-                                                "name": "Góc",
-                                                "topics": {
-                                                      "01": "Câu hỏi lý thuyết",
-                                                      "02": "Tính góc giữa hai đường thẳng, giữa đường thẳng và mặt phẳng, giữa hai mặt phẳng",
-                                                      "03": "Viết phương trình mặt phẳng liên quan đến góc",
-                                                      "04": "Viết phương trình đường thẳng liên quan đến góc",
-                                                      "05": "Bài tập tổng hợp, cực trị về góc",
-                                                      "06": "Bài toán thực tế"
-                                                }
-                                          },
-                                          "17": {
-                                                "name": "Phương trình mặt cầu",
-                                                "topics": {
-                                                      "01": "Câu hỏi lý thuyết",
-                                                      "02": "Xác định tâm, bán kính, diện tích, thể tích của cầu",
-                                                      "03": "Viết phương trình mặt cầu biết tâm và bán kính",
-                                                      "04": "Viết phương trình mặt cầu liên quan đến điều kiện tiếp xúc",
-                                                      "05": "Viết phương trình mặt cầu qua 3, 4 điểm",
-                                                      "06": "Xét VTTĐ của mặt cầu, mặt phẳng, đường thẳng",
-                                                      "07": "Vị trí tương đối của hai mặt cầu, điểm với mặt cầu",
-                                                      "08": "Bài toán quỹ tích",
-                                                      "09": "Các bài toán cực trị liên quan đến điểm, mặt cầu",
-                                                      "10": "Bài toán thực tế"
-                                                }
-                                          },
-                                          "18": {
-                                                "name": "Ứng dụng phương pháp tọa độ",
-                                                "topics": {
-                                                      "01": "Bài toán HHKG",
-                                                      "02": "Bài toán đại số"
-                                                }
-                                          }
-                                    },
-                                    "name": "Phương pháp tọa độ trong không gian"
+                                    "name": "Khảo sát sự biến thiên và vẽ đồ thị của hàm số",
+                                    "topics": {
+                                          "01": "Nhận dạng hàm số - đồ thị",
+                                          "02": "Nhận dạng hàm số - BBT",
+                                          "03": "Tính chất đồ thị - hàm số - đạo hàm",
+                                          "04": "Đồ thị hàm số cho bởi nhiều công thức",
+                                          "05": "Phép biến đổi đồ thị",
+                                          "06": "Tương giao của hai đồ thị"
+                                    }
+                              },
+                              "06": {
+                                    "name": "Ứng dụng đạo hàm để giải quyết một số vấn đề thực tiễn",
+                                    "topics": {
+                                          "01": "Câu hỏi lý thuyết",
+                                          "02": "Bài toán vật lí",
+                                          "03": "Bài toán tối ưu",
+                                          "04": "Bài toán khác"
+                                    }
                               }
                         }
                   },
-                  "Số": {
-                        "chapters": {
-                              "01": {
-                                    "lessons": {
-                                          "01": {
-                                                "name": "Tính đơn điệu của hàm số",
-                                                "topics": {
-                                                      "01": "Câu hỏi lý thuyết và tính chất về tính đơn điệu",
-                                                      "02": "Tính đơn điệu của hàm số biết công thức f (x) (không GTTĐ)",
-                                                      "03": "Tính đơn điệu của hàm số biết các đồ thị",
-                                                      "04": "Tính đơn điệu của hàm số biết các BBT, BXD",
-                                                      "05": "Tính đơn điệu của hàm số liên quan biểu thức đạo hàm",
-                                                      "06": "Bài toán thực tế có sử dụng sự biến thiên của hàm số",
-                                                      "07": "Tìm tham số để hàm b1 trên b1 đơn điệu",
-                                                      "08": "Tìm tham số để hàm số không chứa căn đơn điệu",
-                                                      "09": "Các dạng khác hàm số đơn điệu"
-                                                }
-                                          },
-                                          "02": {
-                                                "name": "Cực trị của hàm số",
-                                                "topics": {
-                                                      "01": "Câu hỏi lý thuyết và tính chất về cực trị",
-                                                      "02": "Cực trị của hàm số cho bởi một công thức (Không GTTĐ)",
-                                                      "03": "Cực trị của hàm số biết các đồ thị (Không GTTĐ)",
-                                                      "04": "Cực trị của hàm số biết các BBT, BXD số (Không GTTĐ)",
-                                                      "05": "Cực trị của hàm số liên quan biểu thức đạo hàm (Không GTTĐ)",
-                                                      "06": "Bài toán thực tế liên quan đến cực trị hàm số",
-                                                      "07": "Tìm tham số để f (x) đạt cực trị tại 1 điểm x0 cho trước (Không GTTĐ)",
-                                                      "08": "Tìm tham số để f (x) có cực trị, không có cực trị (Không GTTĐ)",
-                                                      "09": "Tìm tham số để f (x) có m cực đại, n cực tiểu; có p cực trị (Không GTTĐ)",
-                                                      "10": "Tìm tham số liên quan đến cực trị của hàm đa thức bậc 3 thỏa mãn ĐK (Không GTTĐ)",
-                                                      "11": "Tìm tham số liên quan đến cực trị của hàm số khác thỏa mãn ĐK (Không GTTĐ)"
-                                                }
-                                          },
-                                          "03": {
-                                                "name": "Giá trị lớn nhất và giá trị nhỏ nhất của hàm số",
-                                                "topics": {
-                                                      "01": "Câu hỏi lý thuyết về MAX - MIN",
-                                                      "02": "GTLN, GTNN của f (x) trên đoạn biết biểu thức f (x)",
-                                                      "03": "GTLN, GTNN của f (x) trên khoảng biết biểu thức f (x)",
-                                                      "04": "GTLN, GTNN của hàm số g (x) biết các BBT, đồ thị",
-                                                      "05": "GTLN, GTNN của hàm số bằng PP đặt ẩn phụ",
-                                                      "06": "Sử dụng các đánh giá, BĐT cổ điển cho hàm một biến",
-                                                      "07": "GTLN, GTNN của hàm số chứa dấu GTTĐ",
-                                                      "08": "Bài toán thực tế liên quan đến GTLN-GTNN",
-                                                      "09": "Tìm m để hs f (x) có GTLN, GTNN thỏa mãn đk cho trước"
-                                                }
-                                          },
-                                          "04": {
-                                                "name": "Đường tiệm cận của đồ thị hàm số",
-                                                "topics": {
-                                                      "01": "Câu hỏi lý thuyết về tiệm cận",
-                                                      "02": "Tiệm cận của đồ thị hàm số không chứa căn thức",
-                                                      "03": "Tiệm cận đồ thị hàm số f (x) dựa vào BBT",
-                                                      "04": "Tiệm cận đồ thị hàm số f (x) dựa vào đồ thị",
-                                                      "05": "Bài toán liên quan đến đường tiệm cận (độ dài, khoảng cách, diện tích, …)",
-                                                      "06": "Bài toán thực tế"
-                                                }
-                                          },
-                                          "05": {
-                                                "name": "Khảo sát sự biến thiên và vẽ đồ thị của hàm số",
-                                                "topics": {
-                                                      "01": "Nhận dạng hàm số - đồ thị",
-                                                      "02": "Nhận dạng hàm số - BBT",
-                                                      "03": "Tính chất đồ thị - hàm số - đạo hàm",
-                                                      "04": "Đồ thị hàm số cho bởi nhiều công thức",
-                                                      "05": "Phép biến đổi đồ thị",
-                                                      "06": "Tương giao của hai đồ thị"
-                                                }
-                                          },
-                                          "06": {
-                                                "name": "Ứng dụng đạo hàm để giải quyết một số vấn đề thực tiễn",
-                                                "topics": {
-                                                      "01": "Câu hỏi lý thuyết",
-                                                      "02": "Bài toán vật lí",
-                                                      "03": "Bài toán tối ưu",
-                                                      "04": "Bài toán khác"
-                                                }
-                                          }
-                                    },
-                                    "name": "Ứng dụng đạo hàm để khảo sát và vẽ đồ thị hàm số"
+                  "03": {
+                        "name": "Các số đặc trưng đo mức độ phân tán của mẫu số liệu ghép nhóm",
+                        "lessons": {
+                              "07": {
+                                    "name": "Các số đặc trưng đo mức độ phân tán của mẫu số liệu ghép nhóm",
+                                    "topics": {
+                                          "01": "Khoảng biến thiên và khoảng tứ phân vị",
+                                          "02": "Phương sai và độ lệch chuẩn",
+                                          "03": "Bài toán tổng hợp",
+                                          "04": "Bài toán thực tế"
+                                    }
+                              }
+                        }
+                  },
+                  "04": {
+                        "name": "Nguyên hàm và tích phân",
+                        "lessons": {
+                              "08": {
+                                    "name": "Nguyên hàm",
+                                    "topics": {
+                                          "01": "Định nghĩa, tính chất của nguyên hàm",
+                                          "02": "Nguyên hàm của hàm số cơ bản, gần cơ bản",
+                                          "03": "Nguyên hàm dạng khác",
+                                          "04": "Ứng dụng nguyên hàm"
+                                    }
                               },
-                              "03": {
-                                    "lessons": {
-                                          "07": {
-                                                "name": "Ứng dụng đạo hàm để giải quyết một số vấn đề thực tiễn",
-                                                "topics": {
-                                                      "01": "Khoảng biến thiên và khoảng tứ phân vị",
-                                                      "02": "Phương sai và độ lệch chuẩn",
-                                                      "03": "Bài toán tổng hợp",
-                                                      "04": "Bài toán thực tế"
-                                                }
-                                          }
-                                    },
-                                    "name": "Các số đặc trưng đo mức độ phân tán của mẫu số liệu ghép nhóm"
+                              "09": {
+                                    "name": "Tích phân",
+                                    "topics": {
+                                          "01": "Câu hỏi lý thuyết",
+                                          "02": "Tích phân cơ bản",
+                                          "03": "Tích phân của hàm số chứa dấu GTTĐ",
+                                          "04": "Tích phân hàm số hữu tỷ",
+                                          "05": "Tích phân hàm số nhiều công thức",
+                                          "06": "Tích phân dựa vào đồ thị"
+                                    }
                               },
-                              "04": {
-                                    "lessons": {
-                                          "08": {
-                                                "name": "Nguyên hàm",
-                                                "topics": {
-                                                      "01": "Định nghĩa, tính chất của nguyên hàm",
-                                                      "02": "Nguyên hàm của hàm số cơ bản, gần cơ bản",
-                                                      "03": "Nguyên hàm dạng khác",
-                                                      "04": "Ứng dụng nguyên hàm"
-                                                }
-                                          },
-                                          "09": {
-                                                "name": "Tích phân",
-                                                "topics": {
-                                                      "01": "Câu hỏi lý thuyết",
-                                                      "02": "Tích phân cơ bản",
-                                                      "03": "Tích phân của hàm số chứa dấu GTTĐ",
-                                                      "04": "Tích phân hàm số hữu tỷ",
-                                                      "05": "Tích phân hàm số nhiều công thức",
-                                                      "06": "Tích phân dựa vào đồ thị"
-                                                }
-                                          },
-                                          "10": {
-                                                "name": "Ứng dụng hình học của tích phân",
-                                                "topics": {
-                                                      "01": "Câu hỏi lý thuyết",
-                                                      "02": "Diện tích hình phẳng được giới hạn bởi các đồ thị hàm xác định",
-                                                      "03": "Thể tích giới hạn bởi các đồ thị (tròn xoay) hàm xác định",
-                                                      "04": "Thể tích tính theo mặt cắt S (x)",
-                                                      "05": "Ứng dụng vào tính tổng khai triển nhị thức",
-                                                      "06": "Bài toán thực tế sử dụng diện tích hình phẳng",
-                                                      "07": "Bài toán thực tế và ứng dụng thể tích",
-                                                      "08": "Ứng dụng vào bài toán chuyển động",
-                                                      "09": "Ứng dụng tích phân vào đại số (min-max, cực trị, so sánh, đơn điệu, …)",
-                                                      "10": "Diện tích khi biết dạng các đồ thị hoặc hàm ẩn",
-                                                      "11": "Thể tích khi biết dạng các đồ thị hoặc hàm ẩn",
-                                                      "12": "Ứng dụng thực tế khác của tích phân"
-                                                }
-                                          }
-                                    },
-                                    "name": "Nguyên hàm và tích phân"
+                              "10": {
+                                    "name": "Ứng dụng hình học của tích phân",
+                                    "topics": {
+                                          "01": "Câu hỏi lý thuyết",
+                                          "02": "Diện tích hình phẳng được giới hạn bởi các đồ thị hàm xác định",
+                                          "03": "Thể tích giới hạn bởi các đồ thị (tròn xoay) hàm xác định",
+                                          "04": "Thể tích tính theo mặt cắt S (x)",
+                                          "05": "Ứng dụng vào tính tổng khai triển nhị thức",
+                                          "06": "Bài toán thực tế sử dụng diện tích hình phẳng",
+                                          "07": "Bài toán thực tế và ứng dụng thể tích",
+                                          "08": "Ứng dụng vào bài toán chuyển động",
+                                          "09": "Ứng dụng tích phân vào đại số (min-max, cực trị, so sánh, đơn điệu, …)",
+                                          "10": "Diện tích khi biết dạng các đồ thị hoặc hàm ẩn",
+                                          "11": "Thể tích khi biết dạng các đồ thị hoặc hàm ẩn",
+                                          "12": "Ứng dụng thực tế khác của tích phân"
+                                    }
+                              }
+                        }
+                  },
+                  "06": {
+                        "name": "Xác suất có điều kiện",
+                        "lessons": {
+                              "11": {
+                                    "name": "Xác suất có điều kiện",
+                                    "topics": {
+                                          "01": "Câu hỏi lí thuyết",
+                                          "02": "Xác suất có điều kiện",
+                                          "03": "Xác suất toàn phần và công thức Bayes",
+                                          "04": "Bài toán tổng hợp",
+                                          "05": "Bài toán thực tế"
+                                    }
+                              }
+                        }
+                  }
+            },
+            "Hình học": {
+                  "02": {
+                        "name": "Vectơ và hệ tọa độ trong không gian",
+                        "lessons": {
+                              "12": {
+                                    "name": "Vectơ trong không gian",
+                                    "topics": {
+                                          "01": "Câu hỏi lý thuyết",
+                                          "02": "Đẳng thức véc-tơ (tổng, hiệu, tích 1 số với vectơ)",
+                                          "03": "Phân tích véc-tơ theo các véc-tơ cho trước",
+                                          "04": "Điều kiện đồng phẳng của ba véc-tơ, ĐK đồng phẳng của bốn điểm trong KG",
+                                          "05": "Ba điểm thẳng hàng, hai đường thẳng song song, tính độ dài đoạn thẳng",
+                                          "06": "Bài toán thực tế"
+                                    }
                               },
-                              "06": {
-                                    "lessons": {
-                                          "11": {
-                                                "name": "Ứng dụng hình học của tích phân",
-                                                "topics": {
-                                                      "01": "Câu hỏi lí thuyết",
-                                                      "02": "Xác suất có điều kiện",
-                                                      "03": "Xác suất toàn phần và công thức Bayes",
-                                                      "04": "Bài toán tổng hợp",
-                                                      "05": "Bài toán thực tế"
-                                                }
-                                          }
-                                    },
-                                    "name": "Xác suất"
+                              "13": {
+                                    "name": "Hệ tọa độ trong không gian",
+                                    "topics": {
+                                          "01": "Câu hỏi lý thuyết",
+                                          "02": "Tọa độ điểm liên quan tính chất đa giác",
+                                          "03": "Tích vô hướng và ứng dụng (độ dài,góc,khoảng cách…)",
+                                          "04": "Tích có hướng và ứng dụng (thể tích, cm vuông góc,…)",
+                                          "05": "Bài toán thực tế"
+                                    }
+                              }
+                        }
+                  },
+                  "05": {
+                        "name": "Phương pháp tọa độ trong không gian",
+                        "lessons": {
+                              "14": {
+                                    "name": "Phương trình mặt phẳng",
+                                    "topics": {
+                                          "01": "Xác định VTPT",
+                                          "02": "Viết phương trình mặt phẳng không dùng PT đường thẳng",
+                                          "03": "Vị trí tương đối liên quan mặt phẳng – điểm",
+                                          "04": "Tìm tọa độ điểm liên quan đến mặt phẳng, điểm thuộc MP.",
+                                          "05": "Khoảng cách liên quan đến mặt phẳng và bài toán liên quan",
+                                          "06": "PTMP theo đoạn chắn",
+                                          "07": "Hình chiếu của điểm lên mặt phẳng và bài toán liên quan",
+                                          "08": "PTMP liên quan đến khoảng cách,không dùng PTĐT",
+                                          "09": "Các bài toán cực trị không dùng PT đường thẳng",
+                                          "10": "Ứng dụng thực tế"
+                                    }
+                              },
+                              "15": {
+                                    "name": "Phương trình đường thẳng trong không gian",
+                                    "topics": {
+                                          "01": "Câu hỏi liên quan đến VTCP của đường thẳng",
+                                          "02": "Viết phương trình đường thẳng biết yếu tố điểm, vectơ, song song hay vuông góc (với đường thẳng , mặt phẳng)",
+                                          "03": "Viết phương trình đường thẳng liên quan đến tương giao",
+                                          "04": "Viết phương trình đường thẳng liên quan đến góc, khoảng cách, diện tích,…",
+                                          "05": "Tọa độ điểm liên quan đến đường thẳng và bài toán liên quan",
+                                          "06": "Tọa độ giao điểm liên quan đến đường thẳng và các bài toán liên quan",
+                                          "07": "Phương trình mặt phẳng liên quan đến đường thẳng",
+                                          "08": "Bài toán về khoảng cách liên quan đến đường thẳng",
+                                          "09": "Câu hỏi về VTTĐ liên quan đến đường thẳng (song song, nằm trên,…)",
+                                          "10": "Hình chiếu của điểm lên đường thẳng và bài toán liên quan",
+                                          "11": "Câu hỏi tổng hợp đường thẳng, mặt phẳng, mặt tròn xoay",
+                                          "12": "Các bài toán cực trị liên quan đến đường thẳng",
+                                          "13": "Ứng dụng thực tế"
+                                    }
+                              },
+                              "16": {
+                                    "name": "Góc",
+                                    "topics": {
+                                          "01": "Câu hỏi lý thuyết",
+                                          "02": "Tính góc giữa hai đường thẳng, giữa đường thẳng và mặt phẳng, giữa hai mặt phẳng",
+                                          "03": "Viết phương trình mặt phẳng liên quan đến góc",
+                                          "04": "Viết phương trình đường thẳng liên quan đến góc",
+                                          "05": "Bài tập tổng hợp, cực trị về góc",
+                                          "06": "Bài toán thực tế"
+                                    }
+                              },
+                              "17": {
+                                    "name": "Phương trình mặt cầu",
+                                    "topics": {
+                                          "01": "Câu hỏi lý thuyết",
+                                          "02": "Xác định tâm, bán kính, diện tích, thể tích của cầu",
+                                          "03": "Viết phương trình mặt cầu biết tâm và bán kính",
+                                          "04": "Viết phương trình mặt cầu liên quan đến điều kiện tiếp xúc",
+                                          "05": "Viết phương trình mặt cầu qua 3, 4 điểm",
+                                          "06": "Xét VTTĐ của mặt cầu, mặt phẳng, đường thẳng",
+                                          "07": "Vị trí tương đối của hai mặt cầu, điểm với mặt cầu",
+                                          "08": "Bài toán quỹ tích",
+                                          "09": "Các bài toán cực trị liên quan đến điểm, mặt cầu",
+                                          "10": "Bài toán thực tế"
+                                    }
+                              },
+                              "18": {
+                                    "name": "Ứng dụng phương pháp tọa độ",
+                                    "topics": {
+                                          "01": "Bài toán HHKG",
+                                          "02": "Bài toán đại số"
+                                    }
                               }
                         }
                   }
@@ -2163,7 +2145,7 @@
       }
 };
 
-    const matrixKnowledgeGroups = ["Tổng hợp", "Số", "Hình"];
+    const matrixKnowledgeGroups = ["Tổng hợp"];
 
     let matrixRowCounter = 0;
 
@@ -2452,51 +2434,124 @@
       }).join("");
     }
 
-    function catalogToOptionArray(obj) {
-      return Object.keys(obj || {})
-        .sort((a, b) => String(a).localeCompare(String(b), "vi", { numeric: true, sensitivity: "base" }))
-        .map((code) => {
-          const item = obj[code] || {};
-          return {
-            code,
-            name: item.name || ""
-          };
-        });
-    }
+    function selectCodeNameOptions(options, selected, fallbackLabel) {
+      const safeOptions = Array.isArray(options) ? options : [];
 
-    function optionArrayToSelectOptions(options, selected, fallbackLabel) {
-      if (!options || options.length === 0) {
+      if (safeOptions.length === 0) {
         return `<option value="">${escapeHtml(fallbackLabel || "Chưa có dữ liệu")}</option>`;
       }
 
-      return options.map((option) => {
-        const label = option.name ? option.code + " - " + option.name : option.code;
-        return `<option value="${escapeHtml(option.code)}" ${String(option.code) === String(selected) ? "selected" : ""}>${escapeHtml(label)}</option>`;
+      return safeOptions.map((option) => {
+        const value = typeof option === "string" ? option : option.value;
+        const label = typeof option === "string" ? option : option.label;
+
+        return `<option value="${escapeHtml(value)}" ${String(value) === String(selected) ? "selected" : ""}>${escapeHtml(label)}</option>`;
       }).join("");
     }
 
-    function getCatalogGradeOptions(selected) {
-      const grades = Object.keys(curriculumCatalog || {}).sort((a, b) => a.localeCompare(b, "vi", { numeric: true }));
-      return selectOptions(grades, selected, "Khối");
+    function getCatalogGrades() {
+      return Object.keys(curriculumCatalog).sort((a, b) => {
+        return Number(a) - Number(b);
+      });
     }
 
-    function getKnowledgeGroupOptionsForGrade(grade, selected) {
-      const gradeData = curriculumCatalog[String(grade || "")] || { groups: {} };
-      const groups = Object.keys(gradeData.groups || {}).sort((a, b) => a.localeCompare(b, "vi"));
-      const values = ["Tổng hợp", ...groups.filter((group) => group !== "Tổng hợp")];
+    function getCatalogGroupsForGrade(grade) {
+      const gradeCatalog = curriculumCatalog[String(grade || "")] || {};
+      return ["Tổng hợp", ...Object.keys(gradeCatalog)];
+    }
 
-      return values.map((groupName) => {
+    function getKnowledgeGroupOptions(grade, selected) {
+      return getCatalogGroupsForGrade(grade).map((groupName) => {
         return `<option value="${escapeHtml(groupName)}" ${groupName === selected ? "selected" : ""}>${escapeHtml(groupName)}</option>`;
       }).join("");
     }
 
+    function getAllChaptersForGrade(grade) {
+      const gradeCatalog = curriculumCatalog[String(grade || "")] || {};
+      const chapterMap = {};
+
+      Object.keys(gradeCatalog).forEach((groupName) => {
+        Object.keys(gradeCatalog[groupName] || {}).forEach((chapterCode) => {
+          const chapter = gradeCatalog[groupName][chapterCode];
+          chapterMap[chapterCode] = chapter.name || "";
+        });
+      });
+
+      return Object.keys(chapterMap)
+        .sort()
+        .map((code) => {
+          return {
+            value: code,
+            label: code + " - " + chapterMap[code]
+          };
+        });
+    }
+
+    function getChapterOptions(grade, groupName) {
+      const gradeCatalog = curriculumCatalog[String(grade || "")] || {};
+
+      if (!groupName || groupName === "Tổng hợp") {
+        return getAllChaptersForGrade(grade);
+      }
+
+      const groupCatalog = gradeCatalog[groupName] || {};
+
+      return Object.keys(groupCatalog)
+        .sort()
+        .map((code) => {
+          return {
+            value: code,
+            label: code + " - " + (groupCatalog[code].name || "")
+          };
+        });
+    }
+
+    function findChapterInCatalog(grade, chapter) {
+      const gradeCatalog = curriculumCatalog[String(grade || "")] || {};
+
+      for (const groupName of Object.keys(gradeCatalog)) {
+        if (gradeCatalog[groupName] && gradeCatalog[groupName][chapter]) {
+          return gradeCatalog[groupName][chapter];
+        }
+      }
+
+      return null;
+    }
+
+    function getLessonOptions(grade, chapter) {
+      const chapterObj = findChapterInCatalog(grade, chapter);
+      const lessons = chapterObj && chapterObj.lessons ? chapterObj.lessons : {};
+
+      return Object.keys(lessons)
+        .sort()
+        .map((code) => {
+          return {
+            value: code,
+            label: code + " - " + (lessons[code].name || "")
+          };
+        });
+    }
+
+    function getTopicOptions(grade, chapter, lesson) {
+      const chapterObj = findChapterInCatalog(grade, chapter);
+      const lessons = chapterObj && chapterObj.lessons ? chapterObj.lessons : {};
+      const topics = lessons[lesson] && lessons[lesson].topics ? lessons[lesson].topics : {};
+
+      return Object.keys(topics)
+        .sort()
+        .map((code) => {
+          return {
+            value: code,
+            label: code + " - " + (topics[code] || "")
+          };
+        });
+    }
+
     function inferKnowledgeGroup(grade, chapter) {
-      const gradeData = curriculumCatalog[String(grade || "")] || { groups: {} };
+      const gradeCatalog = curriculumCatalog[String(grade || "")] || {};
 
-      for (const groupName of Object.keys(gradeData.groups || {})) {
-        const group = gradeData.groups[groupName] || { chapters: {} };
-
-        if (group.chapters && group.chapters[String(chapter || "")]) {
+      for (const groupName of Object.keys(gradeCatalog)) {
+        if (gradeCatalog[groupName] && gradeCatalog[groupName][chapter]) {
           return groupName;
         }
       }
@@ -2504,77 +2559,22 @@
       return "Tổng hợp";
     }
 
-    function getChapterOptionsForCatalog(grade, groupName) {
-      const gradeData = curriculumCatalog[String(grade || "")] || { groups: {} };
-      const chapterMap = {};
-
-      if (!groupName || groupName === "Tổng hợp") {
-        Object.keys(gradeData.groups || {}).forEach((groupKey) => {
-          Object.assign(chapterMap, (gradeData.groups[groupKey] || {}).chapters || {});
-        });
-      } else {
-        Object.assign(chapterMap, ((gradeData.groups || {})[groupName] || {}).chapters || {});
-      }
-
-      return catalogToOptionArray(chapterMap);
-    }
-
-    function getLessonOptionsForCatalog(grade, chapter) {
-      const gradeData = curriculumCatalog[String(grade || "")] || { groups: {} };
-
-      for (const groupName of Object.keys(gradeData.groups || {})) {
-        const chapterObj = (((gradeData.groups[groupName] || {}).chapters || {})[String(chapter || "")]);
-
-        if (chapterObj) {
-          return catalogToOptionArray(chapterObj.lessons || {});
-        }
-      }
-
-      return [];
-    }
-
-    function getTopicOptionsForCatalog(grade, chapter, lesson) {
-      const gradeData = curriculumCatalog[String(grade || "")] || { groups: {} };
-
-      for (const groupName of Object.keys(gradeData.groups || {})) {
-        const chapterObj = (((gradeData.groups[groupName] || {}).chapters || {})[String(chapter || "")]);
-        const lessonObj = chapterObj && ((chapterObj.lessons || {})[String(lesson || "")]);
-
-        if (lessonObj) {
-          return Object.keys(lessonObj.topics || {})
-            .sort((a, b) => String(a).localeCompare(String(b), "vi", { numeric: true, sensitivity: "base" }))
-            .map((code) => {
-              return {
-                code,
-                name: lessonObj.topics[code] || ""
-              };
-            });
-        }
-      }
-
-      return [];
-    }
-
-    function setSelectHtmlAndKeepValue(selectElement, optionsHtml, fallbackValue) {
+    function setSelectOptions(selectElement, options, selectedValue, fallbackLabel) {
       if (!selectElement) {
         return;
       }
 
-      const oldValue = selectElement.value;
-      selectElement.innerHTML = optionsHtml;
+      selectElement.innerHTML = selectCodeNameOptions(options, selectedValue, fallbackLabel);
+      const values = (Array.isArray(options) ? options : []).map((option) => {
+        return typeof option === "string" ? option : option.value;
+      });
 
-      const availableValues = Array.from(selectElement.options).map((option) => option.value);
-
-      if (availableValues.includes(oldValue)) {
-        selectElement.value = oldValue;
-      } else if (fallbackValue && availableValues.includes(fallbackValue)) {
-        selectElement.value = fallbackValue;
-      } else if (selectElement.options.length > 0) {
-        selectElement.selectedIndex = 0;
+      if (!values.includes(selectedValue) && values.length > 0) {
+        selectElement.value = values[0];
       }
     }
 
-    function updateNormalCatalogSelects(rowId, changedLevel) {
+    function updateNormalCatalogSelectors(rowId, changedLevel) {
       const row = document.getElementById(rowId);
 
       if (!row) {
@@ -2588,28 +2588,40 @@
       const topicSelect = row.querySelector(".normal-topic-select");
 
       if (changedLevel === "grade") {
-        setSelectHtmlAndKeepValue(
-          groupSelect,
-          getKnowledgeGroupOptionsForGrade(gradeSelect.value, groupSelect.value),
-          "Tổng hợp"
+        const currentGroup = groupSelect.value || "Tổng hợp";
+        groupSelect.innerHTML = getKnowledgeGroupOptions(gradeSelect.value, currentGroup);
+        if (!Array.from(groupSelect.options).some((option) => option.value === currentGroup)) {
+          groupSelect.value = "Tổng hợp";
+        }
+      }
+
+      if (changedLevel === "grade" || changedLevel === "group") {
+        setSelectOptions(
+          chapterSelect,
+          getChapterOptions(gradeSelect.value, groupSelect.value),
+          chapterSelect.value,
+          "Chương"
         );
       }
 
-      if (["grade", "group"].includes(changedLevel)) {
-        const chapterOptions = getChapterOptionsForCatalog(gradeSelect.value, groupSelect.value);
-        setSelectHtmlAndKeepValue(chapterSelect, optionArrayToSelectOptions(chapterOptions, chapterSelect.value, "Chương"));
+      if (changedLevel === "grade" || changedLevel === "group" || changedLevel === "chapter") {
+        setSelectOptions(
+          lessonSelect,
+          getLessonOptions(gradeSelect.value, chapterSelect.value),
+          lessonSelect.value,
+          "Bài"
+        );
       }
 
-      if (["grade", "group", "chapter"].includes(changedLevel)) {
-        const lessonOptions = getLessonOptionsForCatalog(gradeSelect.value, chapterSelect.value);
-        setSelectHtmlAndKeepValue(lessonSelect, optionArrayToSelectOptions(lessonOptions, lessonSelect.value, "Bài"));
-      }
-
-      const topicOptions = getTopicOptionsForCatalog(gradeSelect.value, chapterSelect.value, lessonSelect.value);
-      setSelectHtmlAndKeepValue(topicSelect, optionArrayToSelectOptions(topicOptions, topicSelect.value, "Dạng"));
+      setSelectOptions(
+        topicSelect,
+        getTopicOptions(gradeSelect.value, chapterSelect.value, lessonSelect.value),
+        topicSelect.value,
+        "Dạng"
+      );
     }
 
-    function updateTrueFalseCatalogSelects(rowId, changedLevel) {
+    function updateTrueFalseCatalogSelectors(rowId, changedLevel) {
       const row = document.getElementById(rowId);
 
       if (!row) {
@@ -2622,49 +2634,60 @@
       const lessonSelect = row.querySelector(".tf-lesson-select");
 
       if (changedLevel === "grade") {
-        setSelectHtmlAndKeepValue(
-          groupSelect,
-          getKnowledgeGroupOptionsForGrade(gradeSelect.value, groupSelect.value),
-          "Tổng hợp"
+        const currentGroup = groupSelect.value || "Tổng hợp";
+        groupSelect.innerHTML = getKnowledgeGroupOptions(gradeSelect.value, currentGroup);
+        if (!Array.from(groupSelect.options).some((option) => option.value === currentGroup)) {
+          groupSelect.value = "Tổng hợp";
+        }
+      }
+
+      if (changedLevel === "grade" || changedLevel === "group") {
+        setSelectOptions(
+          chapterSelect,
+          getChapterOptions(gradeSelect.value, groupSelect.value),
+          chapterSelect.value,
+          "Chương"
         );
       }
 
-      if (["grade", "group"].includes(changedLevel)) {
-        const chapterOptions = getChapterOptionsForCatalog(gradeSelect.value, groupSelect.value);
-        setSelectHtmlAndKeepValue(chapterSelect, optionArrayToSelectOptions(chapterOptions, chapterSelect.value, "Chương"));
+      if (changedLevel === "grade" || changedLevel === "group" || changedLevel === "chapter") {
+        setSelectOptions(
+          lessonSelect,
+          getLessonOptions(gradeSelect.value, chapterSelect.value),
+          lessonSelect.value,
+          "Bài"
+        );
       }
 
-      const lessonOptions = getLessonOptionsForCatalog(gradeSelect.value, chapterSelect.value);
-      setSelectHtmlAndKeepValue(lessonSelect, optionArrayToSelectOptions(lessonOptions, lessonSelect.value, "Bài"));
       updateTrueFalseScopeInputs(rowId);
     }
 
-    window.onNormalGradeOrGroupChanged = function(rowId) {
-      updateNormalCatalogSelects(rowId, "grade");
+    window.onNormalGradeChanged = function(rowId) {
+      updateNormalCatalogSelectors(rowId, "grade");
     };
 
     window.onNormalGroupChanged = function(rowId) {
-      updateNormalCatalogSelects(rowId, "group");
+      updateNormalCatalogSelectors(rowId, "group");
     };
 
     window.onNormalChapterChanged = function(rowId) {
-      updateNormalCatalogSelects(rowId, "chapter");
+      updateNormalCatalogSelectors(rowId, "chapter");
     };
 
     window.onNormalLessonChanged = function(rowId) {
-      updateNormalCatalogSelects(rowId, "lesson");
+      updateNormalCatalogSelectors(rowId, "lesson");
     };
 
-    window.onTrueFalseGradeOrGroupChanged = function(rowId) {
-      updateTrueFalseCatalogSelects(rowId, "grade");
+    window.onTrueFalseGradeChanged = function(rowId) {
+      updateTrueFalseCatalogSelectors(rowId, "grade");
     };
 
     window.onTrueFalseGroupChanged = function(rowId) {
-      updateTrueFalseCatalogSelects(rowId, "group");
+      updateTrueFalseCatalogSelectors(rowId, "group");
     };
 
     window.onTrueFalseChapterChanged = function(rowId) {
-      updateTrueFalseCatalogSelects(rowId, "chapter");
+      updateTrueFalseCatalogSelectors(rowId, "chapter");
     };
 
     function renderNormalRows(items) {
@@ -2692,7 +2715,10 @@
         const parsed = parseKnowledgeCode(code);
         const part = item.section || (item.questionType === "shortAnswer" ? "PHẦN III" : "PHẦN I");
         const knowledgeGroup = item.knowledgeGroup || inferKnowledgeGroup(parsed.grade, parsed.chapter);
-        const chapterOptions = getChapterOptionsForCatalog(parsed.grade, knowledgeGroup);
+        const gradeOptions = getCatalogGrades();
+        const chapterOptions = getChapterOptions(parsed.grade, knowledgeGroup);
+        const lessonOptions = getLessonOptions(parsed.grade, parsed.chapter);
+        const topicOptions = getTopicOptions(parsed.grade, parsed.chapter, parsed.lesson);
         const levelCounts = { "1": "", "2": "", "3": "", "4": "" };
 
         if (parsed.level) {
@@ -2708,22 +2734,22 @@
               </select>
             </td>
             <td>
-              <select class="normal-subject-select">${selectOptions(matrixTaxonomy.subjects, parsed.subject || "T", "Môn")}</select>
+              <select class="normal-subject-select">${selectOptions(["T"], parsed.subject || "T", "Môn")}</select>
             </td>
             <td>
-              <select class="normal-grade-select" onchange="onNormalGradeOrGroupChanged('${rowId}')">${getCatalogGradeOptions(parsed.grade)}</select>
+              <select class="normal-grade-select" onchange="onNormalGradeChanged('${rowId}')">${selectOptions(gradeOptions, parsed.grade, "Khối")}</select>
             </td>
             <td>
-              <select class="normal-group-select" onchange="onNormalGroupChanged('${rowId}')">${getKnowledgeGroupOptionsForGrade(parsed.grade, knowledgeGroup)}</select>
+              <select class="normal-group-select" onchange="onNormalGroupChanged('${rowId}')">${getKnowledgeGroupOptions(parsed.grade, knowledgeGroup)}</select>
             </td>
             <td>
-              <select class="normal-chapter-select" onchange="onNormalChapterChanged('${rowId}')">${optionArrayToSelectOptions(chapterOptions, parsed.chapter, "Chương")}</select>
+              <select class="normal-chapter-select" onchange="onNormalChapterChanged('${rowId}')">${selectCodeNameOptions(chapterOptions, parsed.chapter, "Chương")}</select>
             </td>
             <td>
-              <select class="normal-lesson-select" onchange="onNormalLessonChanged('${rowId}')">${optionArrayToSelectOptions(getLessonOptionsForCatalog(parsed.grade, parsed.chapter), parsed.lesson, "Bài")}</select>
+              <select class="normal-lesson-select" onchange="onNormalLessonChanged('${rowId}')">${selectCodeNameOptions(lessonOptions, parsed.lesson, "Bài")}</select>
             </td>
             <td>
-              <select class="normal-topic-select">${optionArrayToSelectOptions(getTopicOptionsForCatalog(parsed.grade, parsed.chapter, parsed.lesson), parsed.topic, "Dạng")}</select>
+              <select class="normal-topic-select">${selectCodeNameOptions(topicOptions, parsed.topic, "Dạng")}</select>
             </td>
             <td><input class="matrix-level-input normal-m1-input" type="number" min="0" value="${levelCounts["1"]}" /></td>
             <td><input class="matrix-level-input normal-m2-input" type="number" min="0" value="${levelCounts["2"]}" /></td>
@@ -2760,7 +2786,9 @@
         const parsed = parseGroupCode(groupCode);
         const scope = item.scope || getScopeFromGroupCode(groupCode);
         const knowledgeGroup = item.knowledgeGroup || inferKnowledgeGroup(parsed.grade, parsed.chapter);
-        const chapterOptions = getChapterOptionsForCatalog(parsed.grade, knowledgeGroup);
+        const gradeOptions = getCatalogGrades();
+        const chapterOptions = getChapterOptions(parsed.grade, knowledgeGroup);
+        const lessonOptions = getLessonOptions(parsed.grade, parsed.chapter);
         const exactLevels = item.exactLevels || {};
 
         return `
@@ -2774,19 +2802,19 @@
               </select>
             </td>
             <td>
-              <select class="tf-subject-select">${selectOptions(matrixTaxonomy.subjects, parsed.subject || "T", "Môn")}</select>
+              <select class="tf-subject-select">${selectOptions(["T"], parsed.subject || "T", "Môn")}</select>
             </td>
             <td>
-              <select class="tf-grade-select" onchange="onTrueFalseGradeOrGroupChanged('${rowId}')">${getCatalogGradeOptions(parsed.grade)}</select>
+              <select class="tf-grade-select" onchange="onTrueFalseGradeChanged('${rowId}')">${selectOptions(gradeOptions, parsed.grade, "Khối")}</select>
             </td>
             <td>
-              <select class="tf-group-select" onchange="onTrueFalseGroupChanged('${rowId}')">${getKnowledgeGroupOptionsForGrade(parsed.grade, knowledgeGroup)}</select>
+              <select class="tf-group-select" onchange="onTrueFalseGroupChanged('${rowId}')">${getKnowledgeGroupOptions(parsed.grade, knowledgeGroup)}</select>
             </td>
             <td>
-              <select class="tf-chapter-select" onchange="onTrueFalseChapterChanged('${rowId}')">${optionArrayToSelectOptions(chapterOptions, parsed.chapter, "Chương")}</select>
+              <select class="tf-chapter-select" onchange="onTrueFalseChapterChanged('${rowId}')">${selectCodeNameOptions(chapterOptions, parsed.chapter, "Chương")}</select>
             </td>
             <td>
-              <select class="tf-lesson-select">${optionArrayToSelectOptions(getLessonOptionsForCatalog(parsed.grade, parsed.chapter), parsed.lesson, "Bài")}</select>
+              <select class="tf-lesson-select">${selectCodeNameOptions(lessonOptions, parsed.lesson, "Bài")}</select>
             </td>
             <td><input class="matrix-level-input tf-m1-input" type="number" min="0" value="${exactLevels["1"] || ""}" /></td>
             <td><input class="matrix-level-input tf-m2-input" type="number" min="0" value="${exactLevels["2"] || ""}" /></td>
@@ -2985,8 +3013,8 @@
         });
 
         matrixTaxonomy = {
-          subjects: uniqueSorted(subjects.length ? subjects : ["T"]),
-          grades: uniqueSorted(grades),
+          subjects: ["T"],
+          grades: getCatalogGrades(),
           chapters: uniqueSorted(chapters),
           lessons: uniqueSorted(lessons),
           topics: uniqueSorted(topics),
@@ -3007,10 +3035,11 @@
 
         status.className = "ok-box";
         status.innerHTML =
-          "Đã tải dữ liệu mã và đã nạp mục lục KNTT 10-11-12.<br>" +
-          "Mã Phần I/III đang có trong kho: <b>" + Object.keys(matrixTaxonomy.normalCodes).length + "</b> | " +
-          "Mã nhóm Phần II đang có trong kho: <b>" + Object.keys(matrixTaxonomy.groupCodes).length + "</b><br>" +
-          "Dropdown Khối/Chương/Bài/Dạng đang lấy theo file mục lục bạn cung cấp.";
+          "Đã tải dữ liệu mã và mục lục THPT.<br>" +
+          "Mục lục: <b>" + getCatalogGrades().length + "</b> khối, " +
+          "<b>" + Object.values(curriculumCatalog).reduce((sum, gradeObj) => sum + Object.keys(gradeObj).length, 0) + "</b> nhóm.<br>" +
+          "Mã đang có trong kho - Phần I/III: <b>" + Object.keys(matrixTaxonomy.normalCodes).length + "</b> | " +
+          "Mã nhóm Phần II: <b>" + Object.keys(matrixTaxonomy.groupCodes).length + "</b>";
 
         const normalItems = getNormalItemsFromRowsSafe();
         const trueFalseItems = getTrueFalseItemsFromRowsSafe();
