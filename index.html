@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>TT Thầy Phiên - Thi Online</title>
 
-  <!-- BẢN CODE: STEP 12.3 - MỤC LỤC THPT TỪ FILE EXCEL MỚI, DROPDOWN CÓ TÊN CHƯƠNG/BÀI/DẠNG -->
+  <!-- BẢN CODE: STEP 12.4 - GỘP CỘT MÔN/NHÓM, BỎ CỘT NHÓM RIÊNG -->
 
   <script>
     window.MathJax = {
@@ -790,7 +790,7 @@
         <div class="matrix-format-help">
           <b>Quy ước ID mới:</b><br>
           Phần I/III: <code>T.Khối.Chương.Bài.Dạng.Mức</code>, ví dụ <code>T.10.01.02.03.1</code>.<br>
-          Cột <b>Nhóm</b> lấy từ mục lục Excel, dùng để lọc Chương/Bài/Dạng cho dễ chọn, không nằm trong ID.<br>
+          Cột <b>Môn</b> dùng để chọn nhóm kiến thức trong mục lục Excel, ví dụ Số/Hình học. Giá trị này chỉ lọc Chương/Bài/Dạng, không nằm trong ID.<br>
           Phần II: mã cả câu theo phạm vi <code>T.MIX</code>, <code>T.10.MIX</code>,
           <code>T.10.01.MIX</code>, <code>T.10.01.02.MIX</code>; từng ý vẫn dùng mã đầy đủ
           <code>T.Khối.Chương.Bài.Dạng.Mức</code>.<br>
@@ -828,7 +828,6 @@
               <th>Phần</th>
               <th>Môn</th>
               <th>Khối</th>
-              <th>Nhóm</th>
               <th>Chương</th>
               <th>Bài</th>
               <th>Dạng</th>
@@ -841,7 +840,7 @@
           </thead>
           <tbody id="normalMatrixRowsTable">
             <tr>
-              <td colspan="12">Bấm “Tải dữ liệu mã từ kho câu hỏi”, rồi thêm dòng Phần I/III.</td>
+              <td colspan="11">Bấm “Tải dữ liệu mã từ kho câu hỏi”, rồi thêm dòng Phần I/III.</td>
             </tr>
           </tbody>
         </table>
@@ -859,7 +858,6 @@
               <th>Phạm vi</th>
               <th>Môn</th>
               <th>Khối</th>
-              <th>Nhóm</th>
               <th>Chương</th>
               <th>Bài</th>
               <th>m1</th>
@@ -872,7 +870,7 @@
           </thead>
           <tbody id="trueFalseMatrixRowsTable">
             <tr>
-              <td colspan="12">Bấm “Thêm dòng Phần II”.</td>
+              <td colspan="11">Bấm “Thêm dòng Phần II”.</td>
             </tr>
           </tbody>
         </table>
@@ -2702,7 +2700,7 @@
       if (rows.length === 0) {
         tableBody.innerHTML = `
           <tr>
-            <td colspan="12">Chưa có dòng Phần I/III.</td>
+            <td colspan="11">Chưa có dòng Phần I/III.</td>
           </tr>
         `;
         return;
@@ -2734,13 +2732,10 @@
               </select>
             </td>
             <td>
-              <select class="normal-subject-select">${selectOptions(["T"], parsed.subject || "T", "Môn")}</select>
+              <select class="normal-group-select" onchange="onNormalGroupChanged('${rowId}')">${getKnowledgeGroupOptions(parsed.grade, knowledgeGroup)}</select>
             </td>
             <td>
               <select class="normal-grade-select" onchange="onNormalGradeChanged('${rowId}')">${selectOptions(gradeOptions, parsed.grade, "Khối")}</select>
-            </td>
-            <td>
-              <select class="normal-group-select" onchange="onNormalGroupChanged('${rowId}')">${getKnowledgeGroupOptions(parsed.grade, knowledgeGroup)}</select>
             </td>
             <td>
               <select class="normal-chapter-select" onchange="onNormalChapterChanged('${rowId}')">${selectCodeNameOptions(chapterOptions, parsed.chapter, "Chương")}</select>
@@ -2773,7 +2768,7 @@
       if (rows.length === 0) {
         tableBody.innerHTML = `
           <tr>
-            <td colspan="12">Chưa có dòng Phần II.</td>
+            <td colspan="11">Chưa có dòng Phần II.</td>
           </tr>
         `;
         return;
@@ -2802,13 +2797,10 @@
               </select>
             </td>
             <td>
-              <select class="tf-subject-select">${selectOptions(["T"], parsed.subject || "T", "Môn")}</select>
+              <select class="tf-group-select" onchange="onTrueFalseGroupChanged('${rowId}')">${getKnowledgeGroupOptions(parsed.grade, knowledgeGroup)}</select>
             </td>
             <td>
               <select class="tf-grade-select" onchange="onTrueFalseGradeChanged('${rowId}')">${selectOptions(gradeOptions, parsed.grade, "Khối")}</select>
-            </td>
-            <td>
-              <select class="tf-group-select" onchange="onTrueFalseGroupChanged('${rowId}')">${getKnowledgeGroupOptions(parsed.grade, knowledgeGroup)}</select>
             </td>
             <td>
               <select class="tf-chapter-select" onchange="onTrueFalseChapterChanged('${rowId}')">${selectCodeNameOptions(chapterOptions, parsed.chapter, "Chương")}</select>
@@ -2843,7 +2835,7 @@
       rows.forEach((row, index) => {
         const section = row.querySelector(".normal-part-select").value;
         const questionType = section === "PHẦN I" ? "multipleChoice" : "shortAnswer";
-        const subject = row.querySelector(".normal-subject-select").value;
+        const subject = "T";
         const grade = row.querySelector(".normal-grade-select").value;
         const knowledgeGroup = row.querySelector(".normal-group-select").value;
         const chapter = row.querySelector(".normal-chapter-select").value;
@@ -2880,16 +2872,12 @@
 
       rows.forEach((row, index) => {
         const scope = row.querySelector(".tf-scope-select").value;
-        const subject = row.querySelector(".tf-subject-select").value;
+        const subject = "T";
         const grade = row.querySelector(".tf-grade-select").value;
         const knowledgeGroup = row.querySelector(".tf-group-select").value;
         const chapter = row.querySelector(".tf-chapter-select").value;
         const lesson = row.querySelector(".tf-lesson-select").value;
         const quantity = Number(row.querySelector(".tf-quantity-input").value || 0);
-
-        if (!subject) {
-          throw new Error("Dòng Phần II số " + (index + 1) + " chưa chọn môn.");
-        }
 
         if ((scope === "LC" || scope === "LB" || scope === "LD") && !grade) {
           throw new Error("Dòng Phần II số " + (index + 1) + " cần chọn khối.");
@@ -3035,7 +3023,7 @@
 
         status.className = "ok-box";
         status.innerHTML =
-          "Đã tải dữ liệu mã và mục lục THPT.<br>" +
+          "Đã tải dữ liệu mã và mục lục THPT. Cột Môn đang dùng để chọn Số/Hình học.<br>" +
           "Mục lục: <b>" + getCatalogGrades().length + "</b> khối, " +
           "<b>" + Object.values(curriculumCatalog).reduce((sum, gradeObj) => sum + Object.keys(gradeObj).length, 0) + "</b> nhóm.<br>" +
           "Mã đang có trong kho - Phần I/III: <b>" + Object.keys(matrixTaxonomy.normalCodes).length + "</b> | " +
