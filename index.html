@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>TT Thầy Phiên - Thi Online</title>
 
-  <!-- BẢN CODE: STEP 11.2 - TẠO MA TRẬN BẰNG DROPDOWN, KHÔNG GÕ TAY -->
+  <!-- BẢN CODE: STEP 12.1 - QUY ƯỚC ID MỚI, MA TRẬN I/III VÀ II THEO LK/LC/LB/LD -->
 
   <script>
     window.MathJax = {
@@ -562,6 +562,29 @@
       margin-top: 3px;
     }
 
+    .matrix-subtitle {
+      margin-top: 20px;
+      margin-bottom: 8px;
+      color: #0f172a;
+      font-weight: bold;
+    }
+
+    .matrix-level-input {
+      width: 70px !important;
+      min-width: 70px !important;
+    }
+
+    .matrix-scope-help {
+      font-size: 13px;
+      color: #475569;
+      margin-top: 6px;
+      line-height: 1.5;
+    }
+
+    .matrix-builder-table th {
+      white-space: nowrap;
+    }
+
     .ok-box {
       background: #ecfdf5;
       border: 1px solid #86efac;
@@ -765,12 +788,17 @@
         <h3>Tạo và quản lý ma trận đề</h3>
 
         <div class="matrix-format-help">
-          <b>Cách mới:</b> Giáo viên không cần gõ mã tay. Bấm <b>Tải mã từ kho câu hỏi</b>, sau đó chọn
-          phần, loại câu, mã câu và số lượng bằng danh sách xổ xuống.
+          <b>Quy ước ID mới:</b><br>
+          Phần I/III: <code>T.Khối.Chương.Bài.Dạng.Mức</code>, ví dụ <code>T.10.01.02.03.1</code>.<br>
+          Phần II: mã cả câu theo phạm vi <code>T.MIX</code>, <code>T.10.MIX</code>,
+          <code>T.10.01.MIX</code>, <code>T.10.01.02.MIX</code>; từng ý vẫn dùng mã đầy đủ
+          <code>T.Khối.Chương.Bài.Dạng.Mức</code>.<br>
+          Với Phần II, m1-m4 nếu nhập số thì hiểu là <b>đúng bằng số ý</b> ở mức đó trong mỗi câu đúng/sai.
+          Nếu để trống thì không ràng buộc mức đó.
         </div>
 
         <label>Tên ma trận / tên đề</label>
-        <input id="matrixNameInput" type="text" placeholder="Ví dụ: Đề kiểm tra thử 7 câu" />
+        <input id="matrixNameInput" type="text" placeholder="Ví dụ: Đề kiểm tra thử chương 1" />
 
         <label>Thời gian làm bài, tính bằng phút</label>
         <input id="matrixDurationInput" type="number" value="15" min="1" />
@@ -782,28 +810,66 @@
         </select>
 
         <div class="matrix-builder-toolbar">
-          <button onclick="loadMatrixCodeOptions()">Tải mã từ kho câu hỏi</button>
-          <button onclick="addMatrixRow()">Thêm dòng ma trận</button>
-          <button onclick="fillSampleMatrix()">Điền ma trận mẫu 7 câu</button>
+          <button onclick="loadMatrixCodeOptions()">Tải dữ liệu mã từ kho câu hỏi</button>
+          <button onclick="addNormalMatrixRow()">Thêm dòng Phần I/III</button>
+          <button onclick="addTrueFalseMatrixRow()">Thêm dòng Phần II</button>
+          <button onclick="fillSampleMatrix()">Điền ma trận mẫu</button>
           <button onclick="previewMatrix()">Kiểm tra ma trận</button>
           <button class="success" onclick="saveMatrixToFirebase()">Lưu ma trận vào Firebase</button>
           <button class="secondary" onclick="loadMatricesFromFirebase()">Tải lại danh sách ma trận</button>
           <button class="danger" onclick="clearMatrixForm()">Xóa form</button>
         </div>
 
+        <div class="matrix-subtitle">Phần I và Phần III</div>
         <table class="matrix-builder-table">
           <thead>
             <tr>
               <th>Phần</th>
-              <th>Loại câu</th>
-              <th>Mã câu trong kho</th>
-              <th>Số lượng</th>
+              <th>Môn</th>
+              <th>Khối</th>
+              <th>Chương</th>
+              <th>Bài</th>
+              <th>Dạng</th>
+              <th>m1</th>
+              <th>m2</th>
+              <th>m3</th>
+              <th>m4</th>
               <th>Thao tác</th>
             </tr>
           </thead>
-          <tbody id="matrixRowsTable">
+          <tbody id="normalMatrixRowsTable">
             <tr>
-              <td colspan="5">Bấm “Tải mã từ kho câu hỏi”, rồi bấm “Thêm dòng ma trận”.</td>
+              <td colspan="11">Bấm “Tải dữ liệu mã từ kho câu hỏi”, rồi thêm dòng Phần I/III.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="matrix-subtitle">Phần II - Đúng/Sai</div>
+        <div class="matrix-scope-help">
+          LK = liên khối → T.MIX;
+          LC = liên chương → T.Khối.MIX;
+          LB = liên bài → T.Khối.Chương.MIX;
+          LD = liên dạng → T.Khối.Chương.Bài.MIX.
+        </div>
+        <table class="matrix-builder-table">
+          <thead>
+            <tr>
+              <th>Phạm vi</th>
+              <th>Môn</th>
+              <th>Khối</th>
+              <th>Chương</th>
+              <th>Bài</th>
+              <th>m1</th>
+              <th>m2</th>
+              <th>m3</th>
+              <th>m4</th>
+              <th>Số câu</th>
+              <th>Thao tác</th>
+            </tr>
+          </thead>
+          <tbody id="trueFalseMatrixRowsTable">
+            <tr>
+              <td colspan="11">Bấm “Thêm dòng Phần II”.</td>
             </tr>
           </tbody>
         </table>
@@ -997,6 +1063,15 @@
     let currentExamDurationMinutes = examDurationMinutes;
     let studentVisibleMatrices = [];
     let matrixCodeOptionsByType = { multipleChoice: [], trueFalseGroup: [], shortAnswer: [] };
+    let matrixTaxonomy = {
+      subjects: [],
+      grades: [],
+      chapters: [],
+      lessons: [],
+      topics: [],
+      normalCodes: {},
+      groupCodes: {}
+    };
     let matrixRowCounter = 0;
 
     let timeLeftSeconds = examDurationMinutes * 60;
@@ -1092,88 +1167,83 @@
     };
 
 
-    function getDefaultMatrixItems() {
-      return [
-        {
-          section: "PHẦN I",
-          sectionName: "Trắc nghiệm nhiều phương án lựa chọn",
-          questionType: "multipleChoice",
-          code: "S.12.01.1.1",
-          quantity: 1
-        },
-        {
-          section: "PHẦN I",
-          sectionName: "Trắc nghiệm nhiều phương án lựa chọn",
-          questionType: "multipleChoice",
-          code: "S.12.01.1.2",
-          quantity: 2
-        },
-        {
-          section: "PHẦN I",
-          sectionName: "Trắc nghiệm nhiều phương án lựa chọn",
-          questionType: "multipleChoice",
-          code: "S.12.01.1.3",
-          quantity: 1
-        },
-        {
-          section: "PHẦN II",
-          sectionName: "Trắc nghiệm đúng sai",
-          questionType: "trueFalseGroup",
-          groupCode: "S.MIX",
-          quantity: 1
-        },
-        {
-          section: "PHẦN II",
-          sectionName: "Trắc nghiệm đúng sai",
-          questionType: "trueFalseGroup",
-          groupCode: "S.11.11.1.MIX",
-          quantity: 1
-        },
-        {
-          section: "PHẦN III",
-          sectionName: "Trả lời ngắn",
-          questionType: "shortAnswer",
-          code: "S.12.07.2.3",
-          quantity: 1
-        }
-      ];
-    }
+    function parseKnowledgeCode(code) {
+      const parts = String(code || "").split(".");
 
-    function getSectionNameFromSectionAndType(section, questionType) {
-      if (section === "PHẦN I" || questionType === "multipleChoice") {
-        return "Trắc nghiệm nhiều phương án lựa chọn";
-      }
-
-      if (section === "PHẦN II" || questionType === "trueFalseGroup") {
-        return "Trắc nghiệm đúng sai";
-      }
-
-      if (section === "PHẦN III" || questionType === "shortAnswer") {
-        return "Trả lời ngắn";
-      }
-
-      return "";
-    }
-
-    function getCodeFromMatrixItem(item) {
-      return item.groupCode || item.code || "";
-    }
-
-    function getMatrixItemStorageObject(section, questionType, code, quantity) {
-      const item = {
-        section,
-        sectionName: getSectionNameFromSectionAndType(section, questionType),
-        questionType,
-        quantity: Number(quantity)
+      return {
+        subject: parts[0] || "T",
+        grade: parts[1] || "",
+        chapter: parts[2] || "",
+        lesson: parts[3] || "",
+        topic: parts[4] || "",
+        level: parts[5] || parts[4] || ""
       };
+    }
 
-      if (questionType === "trueFalseGroup") {
-        item.groupCode = code;
-      } else {
-        item.code = code;
+    function buildKnowledgeCode(subject, grade, chapter, lesson, topic, level) {
+      return [
+        subject || "T",
+        grade || "",
+        chapter || "",
+        lesson || "",
+        topic || "",
+        level || ""
+      ].join(".");
+    }
+
+    function parseGroupCode(groupCode) {
+      const parts = String(groupCode || "").split(".");
+
+      return {
+        subject: parts[0] || "T",
+        grade: parts[1] && parts[1] !== "MIX" ? parts[1] : "",
+        chapter: parts[2] && parts[2] !== "MIX" ? parts[2] : "",
+        lesson: parts[3] && parts[3] !== "MIX" ? parts[3] : ""
+      };
+    }
+
+    function buildGroupCode(scope, subject, grade, chapter, lesson) {
+      const baseSubject = subject || "T";
+
+      if (scope === "LK") {
+        return baseSubject + ".MIX";
       }
 
-      return item;
+      if (scope === "LC") {
+        return baseSubject + "." + grade + ".MIX";
+      }
+
+      if (scope === "LB") {
+        return baseSubject + "." + grade + "." + chapter + ".MIX";
+      }
+
+      if (scope === "LD") {
+        return baseSubject + "." + grade + "." + chapter + "." + lesson + ".MIX";
+      }
+
+      return baseSubject + ".MIX";
+    }
+
+    function getScopeFromGroupCode(groupCode) {
+      const parts = String(groupCode || "").split(".");
+
+      if (parts.length === 2 && parts[1] === "MIX") {
+        return "LK";
+      }
+
+      if (parts.length === 3 && parts[2] === "MIX") {
+        return "LC";
+      }
+
+      if (parts.length === 4 && parts[3] === "MIX") {
+        return "LB";
+      }
+
+      if (parts.length === 5 && parts[4] === "MIX") {
+        return "LD";
+      }
+
+      return "LK";
     }
 
     function getQuestionCodeForMatrix(question) {
@@ -1200,20 +1270,47 @@
       return questionType || "";
     }
 
-    function getRecommendedSectionForType(questionType) {
-      if (questionType === "multipleChoice") {
-        return "PHẦN I";
-      }
+    function getCodeFromMatrixItem(item) {
+      return item.groupCode || item.code || "";
+    }
+
+    function getMatrixItemStorageObject(section, questionType, code, quantity) {
+      const item = {
+        section,
+        sectionName: section === "PHẦN I"
+          ? "Trắc nghiệm nhiều phương án lựa chọn"
+          : section === "PHẦN II"
+            ? "Trắc nghiệm đúng sai"
+            : "Trả lời ngắn",
+        questionType,
+        quantity: Number(quantity)
+      };
 
       if (questionType === "trueFalseGroup") {
-        return "PHẦN II";
+        item.groupCode = code;
+      } else {
+        item.code = code;
       }
 
-      if (questionType === "shortAnswer") {
-        return "PHẦN III";
-      }
+      return item;
+    }
 
-      return "PHẦN I";
+    function getDefaultMatrixItems() {
+      return [
+        getMatrixItemStorageObject("PHẦN I", "multipleChoice", "T.12.01.02.03.1", 1),
+        getMatrixItemStorageObject("PHẦN I", "multipleChoice", "T.12.01.02.03.2", 2),
+        getMatrixItemStorageObject("PHẦN I", "multipleChoice", "T.12.01.02.03.3", 1),
+        {
+          section: "PHẦN II",
+          sectionName: "Trắc nghiệm đúng sai",
+          questionType: "trueFalseGroup",
+          scope: "LD",
+          groupCode: "T.12.01.02.MIX",
+          exactLevels: { "3": 1 },
+          quantity: 1
+        },
+        getMatrixItemStorageObject("PHẦN III", "shortAnswer", "T.12.07.01.04.3", 1)
+      ];
     }
 
     function matrixItemsToHtml(items) {
@@ -1221,12 +1318,19 @@
         <ul class="matrix-item-list">
           ${(items || []).map((item) => {
             const code = getCodeFromMatrixItem(item);
+            const exact = item.exactLevels
+              ? Object.keys(item.exactLevels).map((level) => {
+                  return "m" + level + "=" + item.exactLevels[level];
+                }).join(", ")
+              : "";
+
             return `
               <li>
                 ${escapeHtml(item.section)} -
                 ${escapeHtml(getQuestionTypeLabel(item.questionType))} -
                 <b>${escapeHtml(code)}</b>:
                 ${item.quantity} câu
+                ${exact ? " | " + escapeHtml(exact) : ""}
               </li>
             `;
           }).join("")}
@@ -1234,29 +1338,29 @@
       `;
     }
 
-    function getMatrixCodeOptions(questionType) {
-      return matrixCodeOptionsByType[questionType] || [];
+    function uniqueSorted(values) {
+      return Array.from(new Set(values.filter(Boolean))).sort((a, b) => {
+        return String(a).localeCompare(String(b), "vi", {
+          numeric: true,
+          sensitivity: "base"
+        });
+      });
     }
 
-    function getCodeSelectOptions(questionType, selectedCode) {
-      const options = getMatrixCodeOptions(questionType);
+    function selectOptions(values, selected, fallbackLabel) {
+      const options = uniqueSorted(values);
 
       if (options.length === 0) {
-        return `<option value="">Chưa tải mã / chưa có mã phù hợp</option>`;
+        return `<option value="">${escapeHtml(fallbackLabel || "Chưa có dữ liệu")}</option>`;
       }
 
-      return options.map((option) => {
-        const selected = option.code === selectedCode ? "selected" : "";
-        return `
-          <option value="${escapeHtml(option.code)}" ${selected}>
-            ${escapeHtml(option.code)} - hiện có ${option.count} câu
-          </option>
-        `;
+      return options.map((value) => {
+        return `<option value="${escapeHtml(value)}" ${String(value) === String(selected) ? "selected" : ""}>${escapeHtml(value)}</option>`;
       }).join("");
     }
 
-    function renderMatrixRows(items) {
-      const tableBody = document.getElementById("matrixRowsTable");
+    function renderNormalRows(items) {
+      const tableBody = document.getElementById("normalMatrixRowsTable");
 
       if (!tableBody) {
         return;
@@ -1267,7 +1371,7 @@
       if (rows.length === 0) {
         tableBody.innerHTML = `
           <tr>
-            <td colspan="5">Chưa có dòng ma trận. Bấm “Thêm dòng ma trận”.</td>
+            <td colspan="11">Chưa có dòng Phần I/III.</td>
           </tr>
         `;
         return;
@@ -1275,61 +1379,215 @@
 
       tableBody.innerHTML = rows.map((item) => {
         matrixRowCounter++;
-        const rowId = "matrixRow" + matrixRowCounter;
-        const questionType = item.questionType || "multipleChoice";
-        const code = getCodeFromMatrixItem(item);
-        const section = item.section || getRecommendedSectionForType(questionType);
-        const quantity = Number(item.quantity || 1);
+        const rowId = "normalMatrixRow" + matrixRowCounter;
+        const code = item.code || "";
+        const parsed = parseKnowledgeCode(code);
+        const part = item.section || (item.questionType === "shortAnswer" ? "PHẦN III" : "PHẦN I");
+        const levelCounts = { "1": "", "2": "", "3": "", "4": "" };
+
+        if (parsed.level) {
+          levelCounts[parsed.level] = item.quantity || 1;
+        }
 
         return `
           <tr id="${rowId}">
             <td>
-              <select class="matrix-section-select">
-                <option value="PHẦN I" ${section === "PHẦN I" ? "selected" : ""}>PHẦN I</option>
-                <option value="PHẦN II" ${section === "PHẦN II" ? "selected" : ""}>PHẦN II</option>
-                <option value="PHẦN III" ${section === "PHẦN III" ? "selected" : ""}>PHẦN III</option>
+              <select class="normal-part-select">
+                <option value="PHẦN I" ${part === "PHẦN I" ? "selected" : ""}>PHẦN I</option>
+                <option value="PHẦN III" ${part === "PHẦN III" ? "selected" : ""}>PHẦN III</option>
               </select>
             </td>
             <td>
-              <select class="matrix-type-select" onchange="onMatrixTypeChanged('${rowId}')">
-                <option value="multipleChoice" ${questionType === "multipleChoice" ? "selected" : ""}>Trắc nghiệm</option>
-                <option value="trueFalseGroup" ${questionType === "trueFalseGroup" ? "selected" : ""}>Đúng/Sai</option>
-                <option value="shortAnswer" ${questionType === "shortAnswer" ? "selected" : ""}>Trả lời ngắn</option>
-              </select>
+              <select class="normal-subject-select">${selectOptions(matrixTaxonomy.subjects, parsed.subject || "T", "Môn")}</select>
             </td>
             <td>
-              <select class="matrix-code-select">
-                ${getCodeSelectOptions(questionType, code)}
-              </select>
-              <div class="matrix-code-count">Mã lấy từ kho câu hỏi đang bật.</div>
+              <select class="normal-grade-select">${selectOptions(matrixTaxonomy.grades, parsed.grade, "Khối")}</select>
             </td>
             <td>
-              <input class="matrix-quantity-input" type="number" min="1" value="${quantity}" />
+              <select class="normal-chapter-select">${selectOptions(matrixTaxonomy.chapters, parsed.chapter, "Chương")}</select>
             </td>
             <td>
-              <button class="danger" onclick="removeMatrixRow('${rowId}')">Xóa</button>
+              <select class="normal-lesson-select">${selectOptions(matrixTaxonomy.lessons, parsed.lesson, "Bài")}</select>
             </td>
+            <td>
+              <select class="normal-topic-select">${selectOptions(matrixTaxonomy.topics, parsed.topic, "Dạng")}</select>
+            </td>
+            <td><input class="matrix-level-input normal-m1-input" type="number" min="0" value="${levelCounts["1"]}" /></td>
+            <td><input class="matrix-level-input normal-m2-input" type="number" min="0" value="${levelCounts["2"]}" /></td>
+            <td><input class="matrix-level-input normal-m3-input" type="number" min="0" value="${levelCounts["3"]}" /></td>
+            <td><input class="matrix-level-input normal-m4-input" type="number" min="0" value="${levelCounts["4"]}" /></td>
+            <td><button class="danger" onclick="removeMatrixRow('${rowId}')">Xóa</button></td>
           </tr>
         `;
       }).join("");
     }
 
-    function getMatrixItemsFromRows() {
-      const rows = Array.from(document.querySelectorAll("#matrixRowsTable tr[id^='matrixRow']"));
+    function renderTrueFalseRows(items) {
+      const tableBody = document.getElementById("trueFalseMatrixRowsTable");
+
+      if (!tableBody) {
+        return;
+      }
+
+      const rows = Array.isArray(items) ? items : [];
+
+      if (rows.length === 0) {
+        tableBody.innerHTML = `
+          <tr>
+            <td colspan="11">Chưa có dòng Phần II.</td>
+          </tr>
+        `;
+        return;
+      }
+
+      tableBody.innerHTML = rows.map((item) => {
+        matrixRowCounter++;
+        const rowId = "trueFalseMatrixRow" + matrixRowCounter;
+        const groupCode = item.groupCode || "";
+        const parsed = parseGroupCode(groupCode);
+        const scope = item.scope || getScopeFromGroupCode(groupCode);
+        const exactLevels = item.exactLevels || {};
+
+        return `
+          <tr id="${rowId}">
+            <td>
+              <select class="tf-scope-select" onchange="onTrueFalseScopeChanged('${rowId}')">
+                <option value="LK" ${scope === "LK" ? "selected" : ""}>LK</option>
+                <option value="LC" ${scope === "LC" ? "selected" : ""}>LC</option>
+                <option value="LB" ${scope === "LB" ? "selected" : ""}>LB</option>
+                <option value="LD" ${scope === "LD" ? "selected" : ""}>LD</option>
+              </select>
+            </td>
+            <td>
+              <select class="tf-subject-select">${selectOptions(matrixTaxonomy.subjects, parsed.subject || "T", "Môn")}</select>
+            </td>
+            <td>
+              <select class="tf-grade-select">${selectOptions(matrixTaxonomy.grades, parsed.grade, "Khối")}</select>
+            </td>
+            <td>
+              <select class="tf-chapter-select">${selectOptions(matrixTaxonomy.chapters, parsed.chapter, "Chương")}</select>
+            </td>
+            <td>
+              <select class="tf-lesson-select">${selectOptions(matrixTaxonomy.lessons, parsed.lesson, "Bài")}</select>
+            </td>
+            <td><input class="matrix-level-input tf-m1-input" type="number" min="0" value="${exactLevels["1"] || ""}" /></td>
+            <td><input class="matrix-level-input tf-m2-input" type="number" min="0" value="${exactLevels["2"] || ""}" /></td>
+            <td><input class="matrix-level-input tf-m3-input" type="number" min="0" value="${exactLevels["3"] || ""}" /></td>
+            <td><input class="matrix-level-input tf-m4-input" type="number" min="0" value="${exactLevels["4"] || ""}" /></td>
+            <td><input class="matrix-quantity-input tf-quantity-input" type="number" min="1" value="${item.quantity || 1}" /></td>
+            <td><button class="danger" onclick="removeMatrixRow('${rowId}')">Xóa</button></td>
+          </tr>
+        `;
+      }).join("");
+
+      rows.forEach((item, index) => {
+        const tableRows = Array.from(document.querySelectorAll("#trueFalseMatrixRowsTable tr[id^='trueFalseMatrixRow']"));
+        const row = tableRows[index];
+
+        if (row) {
+          updateTrueFalseScopeInputs(row.id);
+        }
+      });
+    }
+
+    function getNormalItemsFromRows() {
+      const rows = Array.from(document.querySelectorAll("#normalMatrixRowsTable tr[id^='normalMatrixRow']"));
       const items = [];
 
       rows.forEach((row, index) => {
-        const section = row.querySelector(".matrix-section-select").value;
-        const questionType = row.querySelector(".matrix-type-select").value;
-        const code = row.querySelector(".matrix-code-select").value;
-        const quantity = Number(row.querySelector(".matrix-quantity-input").value);
+        const section = row.querySelector(".normal-part-select").value;
+        const questionType = section === "PHẦN I" ? "multipleChoice" : "shortAnswer";
+        const subject = row.querySelector(".normal-subject-select").value;
+        const grade = row.querySelector(".normal-grade-select").value;
+        const chapter = row.querySelector(".normal-chapter-select").value;
+        const lesson = row.querySelector(".normal-lesson-select").value;
+        const topic = row.querySelector(".normal-topic-select").value;
 
-        if (!section || !questionType || !code || !Number.isInteger(quantity) || quantity <= 0) {
-          throw new Error("Dòng " + (index + 1) + " đang thiếu dữ liệu hoặc số lượng chưa hợp lệ.");
+        if (!subject || !grade || !chapter || !lesson || !topic) {
+          throw new Error("Dòng Phần I/III số " + (index + 1) + " chưa chọn đủ Môn, Khối, Chương, Bài, Dạng.");
         }
 
-        items.push(getMatrixItemStorageObject(section, questionType, code, quantity));
+        ["1", "2", "3", "4"].forEach((level) => {
+          const input = row.querySelector(".normal-m" + level + "-input");
+          const quantity = Number(input.value || 0);
+
+          if (quantity > 0) {
+            items.push(getMatrixItemStorageObject(
+              section,
+              questionType,
+              buildKnowledgeCode(subject, grade, chapter, lesson, topic, level),
+              quantity
+            ));
+          }
+        });
       });
+
+      return items;
+    }
+
+    function getTrueFalseItemsFromRows() {
+      const rows = Array.from(document.querySelectorAll("#trueFalseMatrixRowsTable tr[id^='trueFalseMatrixRow']"));
+      const items = [];
+
+      rows.forEach((row, index) => {
+        const scope = row.querySelector(".tf-scope-select").value;
+        const subject = row.querySelector(".tf-subject-select").value;
+        const grade = row.querySelector(".tf-grade-select").value;
+        const chapter = row.querySelector(".tf-chapter-select").value;
+        const lesson = row.querySelector(".tf-lesson-select").value;
+        const quantity = Number(row.querySelector(".tf-quantity-input").value || 0);
+
+        if (!subject) {
+          throw new Error("Dòng Phần II số " + (index + 1) + " chưa chọn môn.");
+        }
+
+        if ((scope === "LC" || scope === "LB" || scope === "LD") && !grade) {
+          throw new Error("Dòng Phần II số " + (index + 1) + " cần chọn khối.");
+        }
+
+        if ((scope === "LB" || scope === "LD") && !chapter) {
+          throw new Error("Dòng Phần II số " + (index + 1) + " cần chọn chương.");
+        }
+
+        if (scope === "LD" && !lesson) {
+          throw new Error("Dòng Phần II số " + (index + 1) + " cần chọn bài.");
+        }
+
+        if (!Number.isInteger(quantity) || quantity <= 0) {
+          throw new Error("Dòng Phần II số " + (index + 1) + " có số câu chưa hợp lệ.");
+        }
+
+        const exactLevels = {};
+
+        ["1", "2", "3", "4"].forEach((level) => {
+          const value = Number(row.querySelector(".tf-m" + level + "-input").value || 0);
+
+          if (value > 0) {
+            exactLevels[level] = value;
+          }
+        });
+
+        const item = getMatrixItemStorageObject(
+          "PHẦN II",
+          "trueFalseGroup",
+          buildGroupCode(scope, subject, grade, chapter, lesson),
+          quantity
+        );
+
+        item.scope = scope;
+        item.exactLevels = exactLevels;
+
+        items.push(item);
+      });
+
+      return items;
+    }
+
+    function getMatrixItemsFromRows() {
+      const items = [
+        ...getNormalItemsFromRows(),
+        ...getTrueFalseItemsFromRows()
+      ];
 
       if (items.length === 0) {
         throw new Error("Ma trận đang trống.");
@@ -1343,10 +1601,17 @@
 
       try {
         status.className = "notice";
-        status.innerHTML = "Đang tải danh sách mã từ kho câu hỏi đang bật...";
+        status.innerHTML = "Đang tải dữ liệu mã từ kho câu hỏi đang bật...";
 
         const activeQuestions = await getActiveQuestionsFromFirebase();
-        const mapByType = {
+        const subjects = [];
+        const grades = [];
+        const chapters = [];
+        const lessons = [];
+        const topics = [];
+        const normalCodes = {};
+        const groupCodes = {};
+        const byType = {
           multipleChoice: {},
           trueFalseGroup: {},
           shortAnswer: {}
@@ -1356,79 +1621,146 @@
           const type = question.questionType;
           const code = getQuestionCodeForMatrix(question);
 
-          if (!mapByType[type] || !code) {
+          if (!code) {
             return;
           }
 
-          if (!mapByType[type][code]) {
-            mapByType[type][code] = 0;
+          if (type === "trueFalseGroup") {
+            const groupParsed = parseGroupCode(code);
+            subjects.push(groupParsed.subject);
+            grades.push(groupParsed.grade);
+            chapters.push(groupParsed.chapter);
+            lessons.push(groupParsed.lesson);
+
+            if (!groupCodes[code]) {
+              groupCodes[code] = 0;
+            }
+
+            groupCodes[code]++;
+          } else {
+            const parsed = parseKnowledgeCode(code);
+            subjects.push(parsed.subject);
+            grades.push(parsed.grade);
+            chapters.push(parsed.chapter);
+            lessons.push(parsed.lesson);
+            topics.push(parsed.topic);
+
+            if (!normalCodes[code]) {
+              normalCodes[code] = 0;
+            }
+
+            normalCodes[code]++;
           }
 
-          mapByType[type][code]++;
+          if (byType[type]) {
+            if (!byType[type][code]) {
+              byType[type][code] = 0;
+            }
+
+            byType[type][code]++;
+          }
         });
 
+        matrixTaxonomy = {
+          subjects: uniqueSorted(subjects.length ? subjects : ["T"]),
+          grades: uniqueSorted(grades),
+          chapters: uniqueSorted(chapters),
+          lessons: uniqueSorted(lessons),
+          topics: uniqueSorted(topics),
+          normalCodes,
+          groupCodes
+        };
+
         ["multipleChoice", "trueFalseGroup", "shortAnswer"].forEach((type) => {
-          matrixCodeOptionsByType[type] = Object.keys(mapByType[type])
+          matrixCodeOptionsByType[type] = Object.keys(byType[type])
             .sort((a, b) => a.localeCompare(b, "vi", { numeric: true, sensitivity: "base" }))
             .map((code) => {
               return {
                 code,
-                count: mapByType[type][code]
+                count: byType[type][code]
               };
             });
         });
 
         status.className = "ok-box";
         status.innerHTML =
-          "Đã tải mã từ kho câu hỏi.<br>" +
-          "Trắc nghiệm: <b>" + matrixCodeOptionsByType.multipleChoice.length + "</b> mã<br>" +
-          "Đúng/Sai: <b>" + matrixCodeOptionsByType.trueFalseGroup.length + "</b> mã<br>" +
-          "Trả lời ngắn: <b>" + matrixCodeOptionsByType.shortAnswer.length + "</b> mã";
+          "Đã tải dữ liệu mã.<br>" +
+          "Môn: <b>" + matrixTaxonomy.subjects.length + "</b> | " +
+          "Khối: <b>" + matrixTaxonomy.grades.length + "</b> | " +
+          "Chương: <b>" + matrixTaxonomy.chapters.length + "</b> | " +
+          "Bài: <b>" + matrixTaxonomy.lessons.length + "</b> | " +
+          "Dạng: <b>" + matrixTaxonomy.topics.length + "</b><br>" +
+          "Mã Phần I/III: <b>" + Object.keys(matrixTaxonomy.normalCodes).length + "</b> | " +
+          "Mã nhóm Phần II: <b>" + Object.keys(matrixTaxonomy.groupCodes).length + "</b>";
 
-        const currentRows = document.querySelectorAll("#matrixRowsTable tr[id^='matrixRow']");
-        if (currentRows.length === 0) {
-          renderMatrixRows([]);
-        } else {
-          renderMatrixRows(getMatrixItemsFromRows());
-        }
+        const normalItems = getNormalItemsFromRowsSafe();
+        const trueFalseItems = getTrueFalseItemsFromRowsSafe();
+        renderNormalRows(normalItems);
+        renderTrueFalseRows(trueFalseItems);
       } catch (error) {
-        console.error("Lỗi tải mã ma trận:", error);
+        console.error("Lỗi tải dữ liệu mã:", error);
         status.className = "error-box";
-        status.innerHTML = "Không tải được mã từ kho câu hỏi Firebase.";
+        status.innerHTML = "Không tải được dữ liệu mã từ kho câu hỏi Firebase.";
       }
     };
 
-    window.addMatrixRow = function(defaultItem) {
-      const rows = Array.from(document.querySelectorAll("#matrixRowsTable tr[id^='matrixRow']"));
-      const items = [];
+    function getNormalItemsFromRowsSafe() {
+      try {
+        return getNormalItemsFromRows();
+      } catch (error) {
+        return [];
+      }
+    }
 
-      rows.forEach((row) => {
-        try {
-          const section = row.querySelector(".matrix-section-select").value;
-          const questionType = row.querySelector(".matrix-type-select").value;
-          const code = row.querySelector(".matrix-code-select").value;
-          const quantity = Number(row.querySelector(".matrix-quantity-input").value || 1);
+    function getTrueFalseItemsFromRowsSafe() {
+      try {
+        return getTrueFalseItemsFromRows();
+      } catch (error) {
+        return [];
+      }
+    }
 
-          items.push(getMatrixItemStorageObject(section, questionType, code, quantity));
-        } catch (error) {
-          // Ignore incomplete row while adding a new row.
-        }
-      });
+    window.addNormalMatrixRow = function(defaultItem) {
+      const items = getNormalItemsFromRowsSafe();
 
       if (defaultItem) {
         items.push(defaultItem);
       } else {
-        const questionType = "multipleChoice";
-        const firstCodeOption = getMatrixCodeOptions(questionType)[0];
+        const subject = matrixTaxonomy.subjects[0] || "T";
+        const grade = matrixTaxonomy.grades[0] || "";
+        const chapter = matrixTaxonomy.chapters[0] || "";
+        const lesson = matrixTaxonomy.lessons[0] || "";
+        const topic = matrixTaxonomy.topics[0] || "";
         items.push(getMatrixItemStorageObject(
           "PHẦN I",
-          questionType,
-          firstCodeOption ? firstCodeOption.code : "",
+          "multipleChoice",
+          buildKnowledgeCode(subject, grade, chapter, lesson, topic, "1"),
           1
         ));
       }
 
-      renderMatrixRows(items);
+      renderNormalRows(items);
+    };
+
+    window.addTrueFalseMatrixRow = function(defaultItem) {
+      const items = getTrueFalseItemsFromRowsSafe();
+
+      if (defaultItem) {
+        items.push(defaultItem);
+      } else {
+        const subject = matrixTaxonomy.subjects[0] || "T";
+        items.push({
+          section: "PHẦN II",
+          sectionName: "Trắc nghiệm đúng sai",
+          questionType: "trueFalseGroup",
+          scope: "LK",
+          groupCode: buildGroupCode("LK", subject, "", "", ""),
+          exactLevels: {},
+          quantity: 1
+        });
+      }
+
+      renderTrueFalseRows(items);
     };
 
     window.removeMatrixRow = function(rowId) {
@@ -1438,42 +1770,47 @@
         row.remove();
       }
 
-      const remainingRows = document.querySelectorAll("#matrixRowsTable tr[id^='matrixRow']");
-      if (remainingRows.length === 0) {
-        renderMatrixRows([]);
+      if (document.querySelectorAll("#normalMatrixRowsTable tr[id^='normalMatrixRow']").length === 0) {
+        renderNormalRows([]);
+      }
+
+      if (document.querySelectorAll("#trueFalseMatrixRowsTable tr[id^='trueFalseMatrixRow']").length === 0) {
+        renderTrueFalseRows([]);
       }
     };
 
-    window.onMatrixTypeChanged = function(rowId) {
+    window.onTrueFalseScopeChanged = function(rowId) {
+      updateTrueFalseScopeInputs(rowId);
+    };
+
+    function updateTrueFalseScopeInputs(rowId) {
       const row = document.getElementById(rowId);
 
       if (!row) {
         return;
       }
 
-      const questionType = row.querySelector(".matrix-type-select").value;
-      const sectionSelect = row.querySelector(".matrix-section-select");
-      const codeSelect = row.querySelector(".matrix-code-select");
-      const firstCodeOption = getMatrixCodeOptions(questionType)[0];
+      const scope = row.querySelector(".tf-scope-select").value;
+      const gradeSelect = row.querySelector(".tf-grade-select");
+      const chapterSelect = row.querySelector(".tf-chapter-select");
+      const lessonSelect = row.querySelector(".tf-lesson-select");
 
-      sectionSelect.value = getRecommendedSectionForType(questionType);
-      codeSelect.innerHTML = getCodeSelectOptions(questionType, firstCodeOption ? firstCodeOption.code : "");
-    };
+      gradeSelect.disabled = scope === "LK";
+      chapterSelect.disabled = scope === "LK" || scope === "LC";
+      lessonSelect.disabled = scope === "LK" || scope === "LC" || scope === "LB";
+    }
 
     window.fillSampleMatrix = async function() {
-      document.getElementById("matrixNameInput").value = "Đề theo ma trận mẫu 7 câu";
+      document.getElementById("matrixNameInput").value = "Đề theo quy ước ID mới";
       document.getElementById("matrixDurationInput").value = "15";
       document.getElementById("matrixStatusInput").value = "open";
 
-      if (
-        matrixCodeOptionsByType.multipleChoice.length === 0 &&
-        matrixCodeOptionsByType.trueFalseGroup.length === 0 &&
-        matrixCodeOptionsByType.shortAnswer.length === 0
-      ) {
+      if (matrixTaxonomy.subjects.length === 0) {
         await loadMatrixCodeOptions();
       }
 
-      renderMatrixRows(getDefaultMatrixItems());
+      renderNormalRows(getDefaultMatrixItems().filter((item) => item.questionType !== "trueFalseGroup"));
+      renderTrueFalseRows(getDefaultMatrixItems().filter((item) => item.questionType === "trueFalseGroup"));
       previewMatrix();
     };
 
@@ -1498,7 +1835,8 @@
       document.getElementById("matrixNameInput").value = "";
       document.getElementById("matrixDurationInput").value = "15";
       document.getElementById("matrixStatusInput").value = "open";
-      renderMatrixRows([]);
+      renderNormalRows([]);
+      renderTrueFalseRows([]);
       document.getElementById("matrixSaveStatus").className = "notice";
       document.getElementById("matrixSaveStatus").innerHTML = "Chưa có ma trận.";
     };
@@ -1541,6 +1879,7 @@
           status: matrixStatus,
           isOpen: matrixStatus === "open",
           items,
+          matrixVersion: "ID_RULE_V2",
           createdAt: serverTimestamp(),
           updatedAt: serverTimestamp()
         });
@@ -1644,11 +1983,7 @@
 
     window.loadMatrixIntoForm = async function(matrixFirebaseId) {
       try {
-        if (
-          matrixCodeOptionsByType.multipleChoice.length === 0 &&
-          matrixCodeOptionsByType.trueFalseGroup.length === 0 &&
-          matrixCodeOptionsByType.shortAnswer.length === 0
-        ) {
+        if (matrixTaxonomy.subjects.length === 0) {
           await loadMatrixCodeOptions();
         }
 
@@ -1663,7 +1998,8 @@
         document.getElementById("matrixNameInput").value = (matrix.name || "") + " - bản chỉnh";
         document.getElementById("matrixDurationInput").value = matrix.durationMinutes || 15;
         document.getElementById("matrixStatusInput").value = matrix.status === "open" || matrix.isOpen === true ? "open" : "closed";
-        renderMatrixRows(matrix.items || []);
+        renderNormalRows((matrix.items || []).filter((item) => item.questionType !== "trueFalseGroup"));
+        renderTrueFalseRows((matrix.items || []).filter((item) => item.questionType === "trueFalseGroup"));
         previewMatrix();
       } catch (error) {
         console.error("Không tải được ma trận vào form:", error);
@@ -1862,13 +2198,49 @@
       return copied;
     }
 
+    function getTrueFalseLevelPattern(question) {
+      const pattern = { "1": 0, "2": 0, "3": 0, "4": 0 };
+      const statements = Array.isArray(question.statements) ? question.statements : [];
+
+      statements.forEach((statement) => {
+        const code = statement.code || "";
+        const parts = String(code).split(".");
+        const level = statement.levelCode || parts[parts.length - 1] || "";
+
+        if (pattern[level] !== undefined) {
+          pattern[level]++;
+        }
+      });
+
+      return pattern;
+    }
+
+    function trueFalseMatchesExactLevels(question, exactLevels) {
+      if (!exactLevels || Object.keys(exactLevels).length === 0) {
+        return true;
+      }
+
+      const pattern = getTrueFalseLevelPattern(question);
+
+      return Object.keys(exactLevels).every((level) => {
+        return Number(pattern[level] || 0) === Number(exactLevels[level] || 0);
+      });
+    }
+
     function questionMatchesMatrixItem(question, item) {
       if (question.questionType !== item.questionType) {
         return false;
       }
 
       if (item.questionType === "trueFalseGroup") {
-        return String(question.groupCode || question.code || "") === String(item.groupCode || item.code || "");
+        const sameGroup =
+          String(question.groupCode || question.code || "") === String(item.groupCode || item.code || "");
+
+        if (!sameGroup) {
+          return false;
+        }
+
+        return trueFalseMatchesExactLevels(question, item.exactLevels);
       }
 
       return String(question.code || "") === String(item.code || "");
@@ -1876,7 +2248,13 @@
 
     function getMatrixItemLabel(item) {
       const code = item.groupCode || item.code || "";
-      return item.section + " - " + item.questionType + " - " + code;
+      const exact = item.exactLevels
+        ? Object.keys(item.exactLevels).map((level) => {
+            return "m" + level + "=" + item.exactLevels[level];
+          }).join(", ")
+        : "";
+
+      return item.section + " - " + item.questionType + " - " + code + (exact ? " - " + exact : "");
     }
 
     async function loadMatrixQuestionsFromFirebase() {
