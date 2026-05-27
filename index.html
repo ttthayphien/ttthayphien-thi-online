@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- BẢN CODE: STEP 12.12 - SỬA CSS FORMULA-IMG PNG KHÔNG BỊ PHÓNG TO -->
+<!-- BẢN CODE: STEP 12.14 - INDEX CHUẨN THẬT: TEXT + MATHJAX/LATEX + ẢNH CHO HÌNH/BẢNG -->
 <html lang="vi">
 <head>
   <meta charset="UTF-8" />
@@ -917,6 +917,130 @@
         grid-template-columns: 1fr;
         align-items: start;
       }
+    }
+
+
+  
+    /* STEP 12.13: Với câu đúng/sai hybrid, nội dung đã nằm trong contentHtml,
+       không render lặp từng ý nữa; chỉ hiển thị bảng chọn Đúng/Sai gọn. */
+    .tf-answer-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0 8px;
+      margin-top: 10px;
+    }
+
+    .tf-answer-table th {
+      text-align: left;
+      font-size: 14px;
+      color: #475569;
+      padding: 4px 8px;
+    }
+
+    .tf-answer-table td {
+      background: #f8fafc;
+      border-top: 1px solid #e2e8f0;
+      border-bottom: 1px solid #e2e8f0;
+      padding: 10px 8px;
+      vertical-align: middle;
+    }
+
+    .tf-answer-table td:first-child {
+      border-left: 1px solid #e2e8f0;
+      border-radius: 10px 0 0 10px;
+      font-weight: bold;
+      width: 70px;
+    }
+
+    .tf-answer-table td:last-child {
+      border-right: 1px solid #e2e8f0;
+      border-radius: 0 10px 10px 0;
+    }
+
+    .tf-choice-inline {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-right: 18px;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .tf-statement {
+      display: block !important;
+    }
+
+    .tf-statement label {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-right: 18px;
+    }
+
+    .tf-content .hybrid-content {
+      border: none !important;
+      padding: 0 !important;
+      margin: 0 0 8px !important;
+      background: transparent !important;
+    }
+
+    .hybrid-content img.formula-img {
+      display: inline !important;
+      max-height: 1.35em !important;
+      width: auto !important;
+      max-width: none !important;
+      vertical-align: -0.25em !important;
+      margin: 0 2px !important;
+    }
+
+    .hybrid-content img.diagram-img {
+      display: block !important;
+      max-width: 100% !important;
+      height: auto !important;
+      margin: 10px auto !important;
+    }
+
+
+  
+    /* STEP 12.14: chuẩn hiển thị thật - text + MathJax/LaTeX, chỉ hình/bảng là ảnh */
+    .hybrid-content {
+      font-size: 18px;
+      line-height: 1.65;
+    }
+
+    .hybrid-content .diagram-img,
+    .hybrid-content img.diagram-img {
+      display: block !important;
+      max-width: 100% !important;
+      height: auto !important;
+      margin: 12px auto !important;
+      vertical-align: middle !important;
+    }
+
+    .hybrid-content .option-line {
+      font-size: 18px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px 24px;
+      align-items: baseline;
+    }
+
+    .hybrid-content mjx-container {
+      font-size: 108% !important;
+    }
+
+    .question-card .hybrid-content {
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      background: #ffffff;
+      padding: 14px 16px;
+    }
+
+    .result-review-card .hybrid-content,
+    .solution-box .hybrid-content {
+      border: none !important;
+      background: transparent !important;
+      padding: 0 !important;
     }
 
 
@@ -2562,10 +2686,13 @@
 
     function rerenderMath() {
       if (window.MathJax && window.MathJax.typesetPromise) {
-        window.MathJax.typesetPromise();
+        window.MathJax.typesetPromise().catch((error) => {
+          console.warn("MathJax render error:", error);
+        });
       }
     }
 
+    
     function escapeHtml(text) {
       if (text === undefined || text === null) {
         return "";
@@ -4262,8 +4389,63 @@
       `;
     }
 
+    function renderTrueFalseAnswerTable(question, questionNumber) {
+      const statements = Array.isArray(question.statements) && question.statements.length
+        ? question.statements
+        : [{ label: "a" }, { label: "b" }, { label: "c" }, { label: "d" }];
+
+      return `
+        <div class="answer-area-title">Chọn Đúng/Sai cho từng ý:</div>
+        <table class="tf-answer-table">
+          <thead>
+            <tr>
+              <th>Ý</th>
+              <th>Lựa chọn</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${statements.map((statement) => {
+              const label = statement.label || "";
+              return `
+                <tr>
+                  <td>${escapeHtml(label)})</td>
+                  <td>
+                    <label class="tf-choice-inline">
+                      <input
+                        type="radio"
+                        name="q${questionNumber}_${label}"
+                        value="Đúng"
+                        onchange="chooseTrueFalseAnswer('${questionNumber}', '${label}', 'Đúng')"
+                      />
+                      Đúng
+                    </label>
+                    <label class="tf-choice-inline">
+                      <input
+                        type="radio"
+                        name="q${questionNumber}_${label}"
+                        value="Sai"
+                        onchange="chooseTrueFalseAnswer('${questionNumber}', '${label}', 'Sai')"
+                      />
+                      Sai
+                    </label>
+                  </td>
+                </tr>
+              `;
+            }).join("")}
+          </tbody>
+        </table>
+      `;
+    }
+
     function renderTrueFalseGroup(question, questionNumber) {
       const statements = Array.isArray(question.statements) ? question.statements : [];
+
+      if (hasQuestionImage(question) || hasHybridHtml(question)) {
+        return `
+          ${renderQuestionHeader(question, questionNumber)}
+          ${renderTrueFalseAnswerTable(question, questionNumber)}
+        `;
+      }
 
       return `
         ${renderQuestionHeader(question, questionNumber)}
@@ -4285,7 +4467,6 @@
                 />
                 Đúng
               </label>
-              &nbsp;&nbsp;
               <label>
                 <input
                   type="radio"
