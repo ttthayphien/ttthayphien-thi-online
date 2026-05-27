@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!-- BẢN CODE: STEP 12.12 - SỬA CSS FORMULA-IMG PNG KHÔNG BỊ PHÓNG TO -->
 <html lang="vi">
 <head>
   <meta charset="UTF-8" />
@@ -868,6 +869,56 @@
       display: block;
       margin: 10px auto;
     }
+
+  
+    /* STEP 12.12: formula-img là công thức, kể cả khi src là PNG sắc nét.
+       Không được áp rule PNG hình lớn cho công thức. */
+    .hybrid-content img.formula-img {
+      display: inline !important;
+      max-height: 1.42em !important;
+      width: auto !important;
+      max-width: none !important;
+      vertical-align: -0.28em !important;
+      margin: 0 2px !important;
+    }
+
+    .hybrid-content img.diagram-img {
+      display: block !important;
+      max-width: 100% !important;
+      height: auto !important;
+      margin: 10px auto !important;
+      vertical-align: middle !important;
+    }
+
+    .hybrid-content p:has(img.formula-img):not(:has(img.diagram-img)) {
+      text-align: left !important;
+    }
+
+    .hybrid-content p:has(img.diagram-img) {
+      text-align: center !important;
+    }
+
+    .tf-content .hybrid-content {
+      border: none;
+      padding: 0;
+      margin: 0;
+      background: transparent;
+    }
+
+    .tf-statement {
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      align-items: center;
+      gap: 14px;
+    }
+
+    @media (max-width: 720px) {
+      .tf-statement {
+        grid-template-columns: 1fr;
+        align-items: start;
+      }
+    }
+
 
   </style>
 </head>
