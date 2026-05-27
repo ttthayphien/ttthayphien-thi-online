@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>TRUNG TÂM THẦY PHIÊN</title>
 
-  <!-- BẢN CODE: STEP 12.10 - SỬA HIỂN THỊ HYBRID, THU NHỎ CÔNG THỨC GIF -->
+  <!-- BẢN CODE: STEP 12.11 - HỖ TRỢ FORMULA ẢNH SẮC NÉT class=formula-img -->
 
   <script>
     window.MathJax = {
@@ -851,6 +851,23 @@
       margin: 0 auto 6px;
     }
 
+
+  
+    /* STEP 12.11: JSON sharp gắn class formula-img cho công thức, diagram-img cho hình/bảng */
+    .hybrid-content img.formula-img {
+      max-height: 1.85em !important;
+      width: auto !important;
+      vertical-align: -0.35em;
+      margin: 0 2px;
+      display: inline-block !important;
+    }
+
+    .hybrid-content img.diagram-img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      margin: 10px auto;
+    }
 
   </style>
 </head>
