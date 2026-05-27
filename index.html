@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>TRUNG TÂM THẦY PHIÊN</title>
 
-  <!-- BẢN CODE: STEP 12.9 - HIỂN THỊ CÂU HỎI HYBRID contentHtml/solutionHtml -->
+  <!-- BẢN CODE: STEP 12.10 - SỬA HIỂN THỊ HYBRID, THU NHỎ CÔNG THỨC GIF -->
 
   <script>
     window.MathJax = {
@@ -775,6 +775,83 @@
         grid-template-columns: repeat(2, 1fr);
       }
     }
+  
+    /* STEP 12.10: sửa hiển thị câu hỏi hybrid từ Word */
+    .hybrid-content {
+      font-size: 18px;
+      line-height: 1.55;
+      background: white;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 14px 16px;
+      margin: 12px 0;
+      overflow-x: auto;
+    }
+
+    .hybrid-content p {
+      margin: 8px 0;
+    }
+
+    .hybrid-content img {
+      max-width: 100%;
+      height: auto;
+      vertical-align: middle;
+      margin: 2px 3px;
+    }
+
+    /* Công thức do Word/LibreOffice xuất ra GIF phải nằm cùng dòng, không được phóng to như hình vẽ */
+    .hybrid-content img[src*="data:image/gif"],
+    .hybrid-content img[src$=".gif"] {
+      max-height: 1.65em !important;
+      width: auto !important;
+      vertical-align: -0.28em;
+      margin: 0 2px;
+    }
+
+    /* Hình/bảng chính thường là PNG/JPG thì vẫn cho hiển thị lớn, căn giữa */
+    .hybrid-content img[src*="data:image/png"],
+    .hybrid-content img[src*="data:image/jpeg"],
+    .hybrid-content img[src$=".png"],
+    .hybrid-content img[src$=".jpg"],
+    .hybrid-content img[src$=".jpeg"] {
+      display: inline-block;
+    }
+
+    .hybrid-content p:has(img[src*="data:image/png"]),
+    .hybrid-content p:has(img[src$=".png"]) {
+      text-align: center;
+    }
+
+    .solution-box .hybrid-content {
+      border: none;
+      padding: 0;
+      margin: 8px 0 0;
+      background: transparent;
+    }
+
+    .image-mode-choice-row {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(80px, 1fr));
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .image-mode-choice-row label {
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      padding: 10px 8px;
+      text-align: center;
+      background: #f8fafc;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .image-mode-choice-row input {
+      display: block;
+      margin: 0 auto 6px;
+    }
+
+
   </style>
 </head>
 
