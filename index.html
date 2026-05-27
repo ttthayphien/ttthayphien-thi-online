@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>TRUNG TÂM THẦY PHIÊN</title>
 
-  <!-- BẢN CODE: STEP 12.8 - THÊM CHỨC NĂNG DỌN KHO FIREBASE -->
+  <!-- BẢN CODE: STEP 12.9 - HIỂN THỊ CÂU HỎI HYBRID contentHtml/solutionHtml -->
 
   <script>
     window.MathJax = {
@@ -2434,6 +2434,56 @@
         .replaceAll("'", "&#039;");
     }
 
+    function sanitizeHtml(html) {
+      if (html === undefined || html === null) {
+        return "";
+      }
+
+      const template = document.createElement("template");
+      template.innerHTML = String(html);
+
+      template.content.querySelectorAll("script, iframe, object, embed, link, meta").forEach((element) => {
+        element.remove();
+      });
+
+      template.content.querySelectorAll("*").forEach((element) => {
+        Array.from(element.attributes).forEach((attribute) => {
+          const name = attribute.name.toLowerCase();
+          const value = attribute.value || "";
+
+          if (name.startsWith("on")) {
+            element.removeAttribute(attribute.name);
+          }
+
+          if ((name === "href" || name === "src") && value.trim().toLowerCase().startsWith("javascript:")) {
+            element.removeAttribute(attribute.name);
+          }
+        });
+      });
+
+      return template.innerHTML;
+    }
+
+    function getQuestionHtml(question) {
+      return question.contentHtml || question.questionHtml || question.html || "";
+    }
+
+    function getStatementHtml(statement) {
+      return statement.contentHtml || statement.html || "";
+    }
+
+    function getSolutionHtml(question) {
+      return question.solutionHtml || question.solution || "";
+    }
+
+    function hasHybridHtml(question) {
+      return Boolean(getQuestionHtml(question));
+    }
+
+    function renderHybridHtml(html) {
+      return `<div class="hybrid-content">${sanitizeHtml(html)}</div>`;
+    }
+
     function normalizeAnswer(text) {
       if (text === undefined || text === null) {
         return "";
@@ -3999,6 +4049,13 @@
         return html;
       }
 
+      const questionHtml = getQuestionHtml(question);
+
+      if (questionHtml) {
+        html += renderHybridHtml(questionHtml);
+        return html;
+      }
+
       html += `
         <div class="question-title">
           Câu ${questionNumber}: ${escapeHtml(question.content || "")}
@@ -4021,7 +4078,7 @@
     }
 
     function renderMultipleChoice(question, questionNumber) {
-      if (hasQuestionImage(question)) {
+      if (hasQuestionImage(question) || hasHybridHtml(question)) {
         return `
           ${renderQuestionHeader(question, questionNumber)}
           <div class="answer-area-title">Chọn đáp án:</div>
@@ -4063,49 +4120,16 @@
     function renderTrueFalseGroup(question, questionNumber) {
       const statements = Array.isArray(question.statements) ? question.statements : [];
 
-      if (hasQuestionImage(question)) {
-        return `
-          ${renderQuestionHeader(question, questionNumber)}
-          <div class="answer-area-title">Chọn Đúng/Sai cho từng ý:</div>
-          ${statements.map((statement) => {
-            const label = statement.label || "";
-            return `
-              <div class="tf-statement">
-                <div class="tf-content"><b>${escapeHtml(label)})</b></div>
-                <label>
-                  <input
-                    type="radio"
-                    name="q${questionNumber}_${label}"
-                    value="Đúng"
-                    onchange="chooseTrueFalseAnswer('${questionNumber}', '${label}', 'Đúng')"
-                  />
-                  Đúng
-                </label>
-                &nbsp;&nbsp;
-                <label>
-                  <input
-                    type="radio"
-                    name="q${questionNumber}_${label}"
-                    value="Sai"
-                    onchange="chooseTrueFalseAnswer('${questionNumber}', '${label}', 'Sai')"
-                  />
-                  Sai
-                </label>
-              </div>
-            `;
-          }).join("")}
-        `;
-      }
-
       return `
         ${renderQuestionHeader(question, questionNumber)}
+        <div class="answer-area-title">Chọn Đúng/Sai cho từng ý:</div>
         ${statements.map((statement) => {
           const label = statement.label || "";
+          const statementHtml = getStatementHtml(statement);
           return `
             <div class="tf-statement">
               <div class="tf-content">
-                <b>${escapeHtml(label)})</b>
-                ${escapeHtml(statement.content || "")}
+                ${statementHtml ? renderHybridHtml(statementHtml) : `<b>${escapeHtml(label)})</b> ${escapeHtml(statement.content || "")}`}
               </div>
               <label>
                 <input
@@ -4243,13 +4267,13 @@
 
         if (question.questionType === "multipleChoice") {
           totalUnits++;
-          if (answer === question.correctAnswer) {
+          if (answer === (question.correctAnswer || question.correctAnswerRaw)) {
             correctUnits++;
           }
         } else if (question.questionType === "shortAnswer") {
           totalUnits++;
           const studentAnswer = normalizeAnswer(answer);
-          const correctAnswer = normalizeAnswer(question.correctAnswer);
+          const correctAnswer = normalizeAnswer(question.correctAnswer || question.correctAnswerRaw);
           const acceptedAnswers = String(question.acceptedAnswers || "")
             .split(";")
             .map(normalizeAnswer)
@@ -4295,6 +4319,7 @@
         studentText: "Chưa trả lời",
         correctText: "",
         solutionText: question.solution || "",
+        solutionHtml: getSolutionHtml(question),
         solutionImageUrl: question.solutionImageUrl || "",
         imageUrl: hasQuestionImage(question) ? question.questionImageUrl : ""
       };
@@ -4302,7 +4327,7 @@
       if (question.questionType === "multipleChoice") {
         detail.totalUnits = 1;
         detail.studentText = answer || "Chưa chọn";
-        detail.correctText = question.correctAnswer || "";
+        detail.correctText = question.correctAnswer || question.correctAnswerRaw || "";
 
         if (answer && answer === question.correctAnswer) {
           detail.correctUnits = 1;
@@ -4318,7 +4343,7 @@
           .filter(Boolean);
 
         detail.studentText = answer || "Chưa nhập";
-        detail.correctText = question.correctAnswer || "";
+        detail.correctText = question.correctAnswer || question.correctAnswerRaw || "";
 
         if (studentAnswer && (studentAnswer === correctAnswer || acceptedAnswers.includes(studentAnswer))) {
           detail.correctUnits = 1;
@@ -4397,6 +4422,15 @@
           `
           : "";
 
+        const solutionHtmlContent = detail.solutionHtml
+          ? `
+            <div class="solution-box">
+              <b>Lời giải:</b><br>
+              ${renderHybridHtml(detail.solutionHtml)}
+            </div>
+          `
+          : "";
+
         const solutionTextHtml = detail.solutionText
           ? `
             <div class="solution-box">
@@ -4406,7 +4440,7 @@
           `
           : "";
 
-        const solutionHtml = solutionImageHtml || solutionTextHtml || `
+        const solutionHtml = solutionImageHtml || solutionHtmlContent || solutionTextHtml || `
           <div class="solution-box">
             <b>Lời giải:</b><br>
             Chưa có lời giải trong dữ liệu câu hỏi.
