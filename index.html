@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>TRUNG TÂM THẦY PHIÊN</title>
 
-  <!-- BẢN CODE: STEP 12.7 - ĐỔI TIÊU ĐỀ, SLOGAN, THÊM MENU WEBSITE TRUNG TÂM -->
+  <!-- BẢN CODE: STEP 12.8 - THÊM CHỨC NĂNG DỌN KHO FIREBASE -->
 
   <script>
     window.MathJax = {
@@ -946,6 +946,7 @@
         <button onclick="showAdminSection('importQuestions')">Nhập câu hỏi vào kho</button>
         <button onclick="showAdminSection('firebaseQuestionBank')">Kho câu hỏi Firebase</button>
         <button onclick="showAdminSection('studentResults')">Kết quả học sinh</button>
+        <button class="danger" onclick="showAdminSection('cleanupData')">Dọn dữ liệu test</button>
         <button class="secondary" onclick="backToStudentLogin()">Về trang học sinh</button>
       </div>
 
@@ -963,6 +964,43 @@
         <div class="admin-card">
           <h3>Kết quả học sinh</h3>
           <p>Kết quả thật được đọc từ Firebase.</p>
+        </div>
+      </div>
+
+      <div id="cleanupData" class="admin-section hidden">
+        <h3>Dọn dữ liệu Firebase</h3>
+
+        <div class="error-box">
+          <b>Cảnh báo:</b> Các nút dưới đây sẽ xóa dữ liệu thật trong Firebase. Sau khi xóa sẽ không khôi phục được bằng website này.
+          Nên chỉ dùng khi cần dọn kho test hoặc chuẩn bị nhập kho mới.
+        </div>
+
+        <div class="admin-grid">
+          <div class="admin-card">
+            <h3>Kho câu hỏi</h3>
+            <p>Xóa toàn bộ document trong collection <b>questions</b>.</p>
+            <button class="danger" onclick="deleteFirebaseCollectionWithConfirm('questions', 'kho câu hỏi')">Xóa toàn bộ kho câu hỏi</button>
+          </div>
+
+          <div class="admin-card">
+            <h3>Ma trận đề</h3>
+            <p>Xóa toàn bộ document trong collection <b>examMatrices</b>.</p>
+            <button class="danger" onclick="deleteFirebaseCollectionWithConfirm('examMatrices', 'ma trận đề')">Xóa toàn bộ ma trận</button>
+          </div>
+
+          <div class="admin-card">
+            <h3>Kết quả học sinh</h3>
+            <p>Xóa toàn bộ document trong collection <b>studentResults</b>.</p>
+            <button class="danger" onclick="deleteFirebaseCollectionWithConfirm('studentResults', 'kết quả học sinh')">Xóa toàn bộ kết quả</button>
+          </div>
+        </div>
+
+        <div style="margin-top: 14px;">
+          <button class="danger" onclick="deleteAllTestDataWithConfirm()">Xóa cả 3 mục: câu hỏi + ma trận + kết quả</button>
+        </div>
+
+        <div id="cleanupStatus" class="notice" style="margin-top: 14px;">
+          Chưa thực hiện thao tác dọn dữ liệu.
         </div>
       </div>
 
@@ -1198,6 +1236,7 @@
       orderBy,
       doc,
       updateDoc,
+      deleteDoc,
       serverTimestamp
     } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 
@@ -4514,6 +4553,7 @@
       document.getElementById("importQuestions").classList.add("hidden");
       document.getElementById("firebaseQuestionBank").classList.add("hidden");
       document.getElementById("studentResults").classList.add("hidden");
+      document.getElementById("cleanupData").classList.add("hidden");
 
       document.getElementById(sectionId).classList.remove("hidden");
 
@@ -4528,6 +4568,126 @@
       if (sectionId === "matrixManagement") {
         loadMatrixCodeOptions();
         loadMatricesFromFirebase();
+      }
+    };
+
+    async function deleteFirebaseCollection(collectionName, label) {
+      const status = document.getElementById("cleanupStatus");
+      const snapshot = await getDocs(collection(db, collectionName));
+      let deletedCount = 0;
+
+      for (const documentSnapshot of snapshot.docs) {
+        await deleteDoc(doc(db, collectionName, documentSnapshot.id));
+        deletedCount++;
+        if (status) {
+          status.className = "notice";
+          status.innerHTML = "Đang xóa " + escapeHtml(label) + ": " + deletedCount + "/" + snapshot.size + " document...";
+        }
+      }
+
+      return deletedCount;
+    }
+
+    window.deleteFirebaseCollectionWithConfirm = async function(collectionName, label) {
+      const status = document.getElementById("cleanupStatus");
+      const confirmation = prompt(
+        "Bạn sắp xóa toàn bộ " + label + " trong Firebase.\n" +
+        "Thao tác này không khôi phục được.\n\n" +
+        "Nhập DELETE để xác nhận:"
+      );
+
+      if (confirmation !== "DELETE") {
+        if (status) {
+          status.className = "notice";
+          status.innerHTML = "Đã hủy thao tác xóa " + escapeHtml(label) + ".";
+        }
+        return;
+      }
+
+      try {
+        if (status) {
+          status.className = "notice";
+          status.innerHTML = "Đang xóa " + escapeHtml(label) + "...";
+        }
+
+        const deletedCount = await deleteFirebaseCollection(collectionName, label);
+
+        if (status) {
+          status.className = "ok-box";
+          status.innerHTML = "Đã xóa xong " + escapeHtml(label) + ": <b>" + deletedCount + "</b> document.";
+        }
+
+        if (collectionName === "questions") {
+          await loadQuestionBankFromFirebase();
+          await loadMatrixCodeOptions();
+        }
+
+        if (collectionName === "examMatrices") {
+          await loadMatricesFromFirebase();
+          await loadOpenMatricesForStudent();
+        }
+
+        if (collectionName === "studentResults") {
+          await loadStudentResults();
+        }
+      } catch (error) {
+        console.error("Lỗi xóa collection:", collectionName, error);
+        if (status) {
+          status.className = "error-box";
+          status.innerHTML = "Không xóa được " + escapeHtml(label) + ". Hãy kiểm tra quyền Firestore hoặc thử lại.";
+        }
+      }
+    };
+
+    window.deleteAllTestDataWithConfirm = async function() {
+      const status = document.getElementById("cleanupStatus");
+      const confirmation = prompt(
+        "Bạn sắp xóa CẢ 3 MỤC trong Firebase:\n" +
+        "- questions: kho câu hỏi\n" +
+        "- examMatrices: ma trận đề\n" +
+        "- studentResults: kết quả học sinh\n\n" +
+        "Thao tác này không khôi phục được.\n" +
+        "Nhập DELETE ALL để xác nhận:"
+      );
+
+      if (confirmation !== "DELETE ALL") {
+        if (status) {
+          status.className = "notice";
+          status.innerHTML = "Đã hủy thao tác xóa toàn bộ dữ liệu test.";
+        }
+        return;
+      }
+
+      try {
+        if (status) {
+          status.className = "notice";
+          status.innerHTML = "Đang xóa toàn bộ dữ liệu test...";
+        }
+
+        const deletedQuestions = await deleteFirebaseCollection("questions", "kho câu hỏi");
+        const deletedMatrices = await deleteFirebaseCollection("examMatrices", "ma trận đề");
+        const deletedResults = await deleteFirebaseCollection("studentResults", "kết quả học sinh");
+
+        if (status) {
+          status.className = "ok-box";
+          status.innerHTML =
+            "Đã xóa xong dữ liệu test:<br>" +
+            "- Kho câu hỏi: <b>" + deletedQuestions + "</b> document<br>" +
+            "- Ma trận đề: <b>" + deletedMatrices + "</b> document<br>" +
+            "- Kết quả học sinh: <b>" + deletedResults + "</b> document";
+        }
+
+        await loadQuestionBankFromFirebase();
+        await loadMatrixCodeOptions();
+        await loadMatricesFromFirebase();
+        await loadOpenMatricesForStudent();
+        await loadStudentResults();
+      } catch (error) {
+        console.error("Lỗi xóa toàn bộ dữ liệu test:", error);
+        if (status) {
+          status.className = "error-box";
+          status.innerHTML = "Không xóa được toàn bộ dữ liệu test. Hãy kiểm tra quyền Firestore hoặc thử lại.";
+        }
       }
     };
 
